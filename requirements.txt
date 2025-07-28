@@ -1,0 +1,11 @@
+# Core Deep Learning
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Data Processing
+numpy>=1.21.0
+tqdm>=4.60.0
+
+# Optional but helpful
+scikit-learn>=1.1.0    # If you add evaluation later
+matplotlib>=3.5.0      # For plotting results
