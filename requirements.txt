@@ -1,0 +1,15 @@
+# requirements.txt
+torch>=2.0.0
+transformers>=4.30.0
+datasets>=2.12.0
+accelerate>=0.20.0
+peft>=0.4.0
+sentence-transformers>=2.2.2
+pypdf>=3.8.0
+docx2txt>=0.8
+pytesseract>=0.3.10
+PyMuPDF>=1.22.0
+scikit-learn>=1.2.0
+numpy>=1.24.0
+tqdm>=4.65.0
+pyyaml>=6.0
