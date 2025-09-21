@@ -1,0 +1,940 @@
+[
+  {
+    "question": "What is your cancellation policy for flights?",
+    "answer": "Customers can cancel their flight within 24 hours of booking for a full refund, as long as the flight departure is more than seven days away.",
+    "supporting_passages": [
+      "Customers can cancel their flight within 24 hours of booking for a full refund, as long as the flight departure is more than seven days away."
+    ]
+  },
+  {
+    "question": "What are your business hours?",
+    "answer": "Our customer service is available from 9 AM to 5 PM, Monday through Friday.",
+    "supporting_passages": [
+      "Our customer service is available from 9 AM to 5 PM, Monday through Friday."
+    ]
+  },
+  {
+    "question": "How can I reset my password?",
+    "answer": "You can reset your password by clicking on the 'Forgot Password' link on the login page and following the instructions.",
+    "supporting_passages": [
+      "You can reset your password by clicking on the 'Forgot Password' link on the login page and following the instructions."
+    ]
+  },
+  {
+    "question": "What is the warranty period for the new laptop model?",
+    "answer": "The new laptop model comes with a standard one-year warranty covering manufacturing defects.",
+    "supporting_passages": [
+      "The new laptop model comes with a standard one-year warranty covering manufacturing defects."
+    ]
+  },
+  {
+    "question": "Do you offer international shipping?",
+    "answer": "Yes, we offer international shipping to over 50 countries with varying shipping rates and delivery times.",
+    "supporting_passages": [
+      "Yes, we offer international shipping to over 50 countries with varying shipping rates and delivery times."
+    ]
+  },
+  {
+    "question": "What is your policy on returns?",
+    "answer": "We accept returns of unused items within 30 days of purchase, provided they are in their original packaging.",
+    "supporting_passages": [
+      "We accept returns of unused items within 30 days of purchase, provided they are in their original packaging."
+    ]
+  },
+  {
+    "question": "How much does a standard membership cost?",
+    "answer": "A standard membership is priced at $19.99 per month, which includes access to all basic features.",
+    "supporting_passages": [
+      "A standard membership is priced at $19.99 per month, which includes access to all basic features."
+    ]
+  },
+  {
+    "question": "Can I upgrade my account at any time?",
+    "answer": "Yes, you can upgrade your account to a premium plan at any time through your account settings.",
+    "supporting_passages": [
+      "Yes, you can upgrade your account to a premium plan at any time through your account settings."
+    ]
+  },
+  {
+    "question": "Is customer support available 24/7?",
+    "answer": "Our premium support line is available 24/7, while standard support is available during business hours.",
+    "supporting_passages": [
+      "Our premium support line is available 24/7, while standard support is available during business hours."
+    ]
+  },
+  {
+    "question": "What payment methods do you accept?",
+    "answer": "We accept major credit cards including Visa, Mastercard, American Express, and Discover.",
+    "supporting_passages": [
+      "We accept major credit cards including Visa, Mastercard, American Express, and Discover."
+    ]
+  },
+  {
+    "question": "How can I track my order?",
+    "answer": "A tracking number is sent to your email after your order is shipped, which you can use to track your package.",
+    "supporting_passages": [
+      "A tracking number is sent to your email after your order is shipped, which you can use to track your package."
+    ]
+  },
+  {
+    "question": "What is the estimated delivery time for domestic orders?",
+    "answer": "Domestic orders are typically delivered within 3-5 business days.",
+    "supporting_passages": [
+      "Domestic orders are typically delivered within 3-5 business days."
+    ]
+  },
+  {
+    "question": "How do I contact customer support?",
+    "answer": "You can contact customer support via email at support@example.com or by phone at (555) 123-4567.",
+    "supporting_passages": [
+      "You can contact customer support via email at support@example.com or by phone at (555) 123-4567."
+    ]
+  },
+  {
+    "question": "What is the process for a refund?",
+    "answer": "To request a refund, please fill out the online refund request form on our website within the eligible return period.",
+    "supporting_passages": [
+      "To request a refund, please fill out the online refund request form on our website within the eligible return period."
+    ]
+  },
+  {
+    "question": "Are your products cruelty-free?",
+    "answer": "All of our products are certified as cruelty-free and are not tested on animals.",
+    "supporting_passages": [
+      "All of our products are certified as cruelty-free and are not tested on animals."
+    ]
+  },
+  {
+    "question": "Can I change my shipping address after placing an order?",
+    "answer": "You can change your shipping address within one hour of placing the order by contacting our support team.",
+    "supporting_passages": [
+      "You can change your shipping address within one hour of placing the order by contacting our support team."
+    ]
+  },
+  {
+    "question": "What kind of data do you collect?",
+    "answer": "We collect user data such as name, email address, and browsing history to improve our services.",
+    "supporting_passages": [
+      "We collect user data such as name, email address, and browsing history to improve our services."
+    ]
+  },
+  {
+    "question": "Is my personal information secure?",
+    "answer": "Yes, we use advanced encryption and security protocols to protect all personal information.",
+    "supporting_passages": [
+      "Yes, we use advanced encryption and security protocols to protect all personal information."
+    ]
+  },
+  {
+    "question": "What is the maximum file size for uploads?",
+    "answer": "The maximum file size for uploads is 2GB for all users.",
+    "supporting_passages": [
+      "The maximum file size for uploads is 2GB for all users."
+    ]
+  },
+  {
+    "question": "Do you have a public API?",
+    "answer": "Yes, we have a public API for developers. Documentation is available on our developer portal.",
+    "supporting_passages": [
+      "Yes, we have a public API for developers. Documentation is available on our developer portal."
+    ]
+  },
+  {
+    "question": "How do I unsubscribe from your newsletter?",
+    "answer": "You can unsubscribe from our newsletter by clicking the 'Unsubscribe' link at the bottom of any email.",
+    "supporting_passages": [
+      "You can unsubscribe from our newsletter by clicking the 'Unsubscribe' link at the bottom of any email."
+    ]
+  },
+  {
+    "question": "Can I use your service for commercial purposes?",
+    "answer": "Our standard license allows for personal use, while a commercial license is required for business use.",
+    "supporting_passages": [
+      "Our standard license allows for personal use, while a commercial license is required for business use."
+    ]
+  },
+  {
+    "question": "What is your policy on data privacy?",
+    "answer": "Our data privacy policy is detailed in our Privacy Policy document, available on our website.",
+    "supporting_passages": [
+      "Our data privacy policy is detailed in our Privacy Policy document, available on our website."
+    ]
+  },
+  {
+    "question": "How do I change my billing information?",
+    "answer": "You can update your billing information directly in your account settings under the 'Billing' section.",
+    "supporting_passages": [
+      "You can update your billing information directly in your account settings under the 'Billing' section."
+    ]
+  },
+  {
+    "question": "Do you offer a free trial?",
+    "answer": "Yes, we offer a 14-day free trial for new users to test our premium features.",
+    "supporting_passages": [
+      "Yes, we offer a 14-day free trial for new users to test our premium features."
+    ]
+  },
+  {
+    "question": "Where can I find user testimonials?",
+    "answer": "User testimonials are available on the 'Reviews' page of our website.",
+    "supporting_passages": [
+      "User testimonials are available on the 'Reviews' page of our website."
+    ]
+  },
+  {
+    "question": "What browsers are supported?",
+    "answer": "We support all major modern browsers, including Chrome, Firefox, Safari, and Edge.",
+    "supporting_passages": [
+      "We support all major modern browsers, including Chrome, Firefox, Safari, and Edge."
+    ]
+  },
+  {
+    "question": "Is it possible to receive a physical copy of my invoice?",
+    "answer": "All invoices are sent electronically; a physical copy is not available.",
+    "supporting_passages": [
+      "All invoices are sent electronically; a physical copy is not available."
+    ]
+  },
+  {
+    "question": "How do I report a bug?",
+    "answer": "To report a bug, please use the 'Report a Bug' feature within the application or contact our technical support.",
+    "supporting_passages": [
+      "To report a bug, please use the 'Report a Bug' feature within the application or contact our technical support."
+    ]
+  },
+  {
+    "question": "Can I share my account with another person?",
+    "answer": "Account sharing is a violation of our terms of service and can lead to account suspension.",
+    "supporting_passages": [
+      "Account sharing is a violation of our terms of service and can lead to account suspension."
+    ]
+  },
+  {
+    "question": "What is the refund policy for digital goods?",
+    "answer": "We do not offer refunds for digital goods, as they are non-returnable once downloaded.",
+    "supporting_passages": [
+      "We do not offer refunds for digital goods, as they are non-returnable once downloaded."
+    ]
+  },
+  {
+    "question": "How do I cancel my subscription?",
+    "answer": "You can cancel your subscription at any time through your account settings. Cancellation will be effective at the end of the current billing cycle.",
+    "supporting_passages": [
+      "You can cancel your subscription at any time through your account settings. Cancellation will be effective at the end of the current billing cycle."
+    ]
+  },
+  {
+    "question": "What is the process for a security vulnerability report?",
+    "answer": "Please email security@example.com with a detailed report of any potential security vulnerabilities.",
+    "supporting_passages": [
+      "Please email security@example.com with a detailed report of any potential security vulnerabilities."
+    ]
+  },
+  {
+    "question": "What kind of cookies do you use?",
+    "answer": "We use essential, performance, and marketing cookies to enhance user experience.",
+    "supporting_passages": [
+      "We use essential, performance, and marketing cookies to enhance user experience."
+    ]
+  },
+  {
+    "question": "Are there any hidden fees?",
+    "answer": "The total cost displayed at checkout includes all taxes and fees; there are no hidden charges.",
+    "supporting_passages": [
+      "The total cost displayed at checkout includes all taxes and fees; there are no hidden charges."
+    ]
+  },
+  {
+    "question": "How do I delete my account?",
+    "answer": "To delete your account, navigate to the 'Account' section in your profile settings and select 'Delete Account'.",
+    "supporting_passages": [
+      "To delete your account, navigate to the 'Account' section in your profile settings and select 'Delete Account'."
+    ]
+  },
+  {
+    "question": "Is your product compatible with Mac?",
+    "answer": "Yes, our product is fully compatible with macOS 10.15 and later versions.",
+    "supporting_passages": [
+      "Yes, our product is fully compatible with macOS 10.15 and later versions."
+    ]
+  },
+  {
+    "question": "What is the policy for late payments?",
+    "answer": "A late fee of 5% will be applied to payments that are more than 15 days overdue.",
+    "supporting_passages": [
+      "A late fee of 5% will be applied to payments that are more than 15 days overdue."
+    ]
+  },
+  {
+    "question": "Do you offer any discounts for students?",
+    "answer": "Yes, we offer a 20% discount for all verified students. You can apply for this discount on our website.",
+    "supporting_passages": [
+      "Yes, we offer a 20% discount for all verified students. You can apply for this discount on our website."
+    ]
+  },
+  {
+    "question": "What is the standard delivery time for large items?",
+    "answer": "For large items, the delivery time is between 7 and 10 business days.",
+    "supporting_passages": [
+      "For large items, the delivery time is between 7 and 10 business days."
+    ]
+  },
+  {
+    "question": "Can I get a custom quote for a business plan?",
+    "answer": "Yes, please contact our sales team to get a custom quote tailored to your business needs.",
+    "supporting_passages": [
+      "Yes, please contact our sales team to get a custom quote tailored to your business needs."
+    ]
+  },
+  {
+    "question": "Is it possible to use your service offline?",
+    "answer": "Certain features are available offline, but an internet connection is required for syncing data and updates.",
+    "supporting_passages": [
+      "Certain features are available offline, but an internet connection is required for syncing data and updates."
+    ]
+  },
+  {
+    "question": "What is the policy for replacing a damaged product?",
+    "answer": "We will replace any product that arrives damaged if a claim is submitted within 48 hours of delivery.",
+    "supporting_passages": [
+      "We will replace any product that arrives damaged if a claim is submitted within 48 hours of delivery."
+    ]
+  },
+  {
+    "question": "How do I change my username?",
+    "answer": "You can change your username once every 90 days from the 'Profile' section in your settings.",
+    "supporting_passages": [
+      "You can change your username once every 90 days from the 'Profile' section in your settings."
+    ]
+  },
+  {
+    "question": "What are the requirements to sign up?",
+    "answer": "You must be at least 18 years old and have a valid email address to sign up.",
+    "supporting_passages": [
+      "You must be at least 18 years old and have a valid email address to sign up."
+    ]
+  },
+  {
+    "question": "Do you have a loyalty program?",
+    "answer": "Yes, our loyalty program rewards members with points for every purchase, which can be redeemed for discounts.",
+    "supporting_passages": [
+      "Yes, our loyalty program rewards members with points for every purchase, which can be redeemed for discounts."
+    ]
+  },
+  {
+    "question": "How do I report abuse?",
+    "answer": "To report abuse, please email our moderation team at abuse@example.com with the user's details and a description of the issue.",
+    "supporting_passages": [
+      "To report abuse, please email our moderation team at abuse@example.com with the user's details and a description of the issue."
+    ]
+  },
+  {
+    "question": "Is my information ever shared with third parties?",
+    "answer": "We do not share your personal information with third parties without your explicit consent.",
+    "supporting_passages": [
+      "We do not share your personal information with third parties without your explicit consent."
+    ]
+  },
+  {
+    "question": "What is your refund policy?",
+    "answer": "Customers may cancel within 24 hours for a full refund.",
+    "supporting_passages": [
+      "Customers may cancel within 24 hours for a full refund."
+    ]
+  },
+  {
+    "question": "How do I upgrade my plan?",
+    "answer": "You can upgrade your plan by visiting the 'Subscription' page in your user dashboard and selecting a new plan.",
+    "supporting_passages": [
+      "You can upgrade your plan by visiting the 'Subscription' page in your user dashboard and selecting a new plan."
+    ]
+  },
+  {
+    "question": "What is the procedure for returns?",
+    "answer": "To initiate a return, please visit the returns portal on our website and follow the provided steps.",
+    "supporting_passages": [
+      "To initiate a return, please visit the returns portal on our website and follow the provided steps."
+    ]
+  },
+  {
+    "question": "What is the cost of shipping?",
+    "answer": "Standard shipping is a flat rate of $5.99, but it is free for all orders over $75.",
+    "supporting_passages": [
+      "Standard shipping is a flat rate of $5.99, but it is free for all orders over $75."
+    ]
+  },
+  {
+    "question": "Can I use your software on multiple devices?",
+    "answer": "Yes, a single user license allows you to use the software on up to two devices simultaneously.",
+    "supporting_passages": [
+      "Yes, a single user license allows you to use the software on up to two devices simultaneously."
+    ]
+  },
+  {
+    "question": "How do I access the tutorial videos?",
+    "answer": "Tutorial videos are located in the 'Help Center' section of the website.",
+    "supporting_passages": [
+      "Tutorial videos are located in the 'Help Center' section of the website."
+    ]
+  },
+  {
+    "question": "What is the policy for exchanges?",
+    "answer": "We offer free exchanges for different sizes or colors within 60 days of purchase.",
+    "supporting_passages": [
+      "We offer free exchanges for different sizes or colors within 60 days of purchase."
+    ]
+  },
+  {
+    "question": "Do you provide technical support?",
+    "answer": "Yes, our technical support team is available via phone and email during business hours.",
+    "supporting_passages": [
+      "Yes, our technical support team is available via phone and email during business hours."
+    ]
+  },
+  {
+    "question": "What is the process for a price match guarantee?",
+    "answer": "We will match a competitor's price if the item is identical and in stock. Simply show us a link to the product page.",
+    "supporting_passages": [
+      "We will match a competitor's price if the item is identical and in stock. Simply show us a link to the product page."
+    ]
+  },
+  {
+    "question": "Is there a limit on how many files I can store?",
+    "answer": "Our basic plan includes 10GB of storage. Unlimited storage is available with a premium subscription.",
+    "supporting_passages": [
+      "Our basic plan includes 10GB of storage. Unlimited storage is available with a premium subscription."
+    ]
+  },
+  {
+    "question": "Can I use a gift card for my purchase?",
+    "answer": "Yes, you can redeem gift cards at checkout by entering the gift card code in the designated field.",
+    "supporting_passages": [
+      "Yes, you can redeem gift cards at checkout by entering the gift card code in the designated field."
+    ]
+  },
+  {
+    "question": "What is your policy on data retention?",
+    "answer": "We retain user data for 90 days after account deactivation before it is permanently deleted.",
+    "supporting_passages": [
+      "We retain user data for 90 days after account deactivation before it is permanently deleted."
+    ]
+  },
+  {
+    "question": "How do I manage my notification settings?",
+    "answer": "You can manage all your notification settings in the 'Notifications' section of your profile.",
+    "supporting_passages": [
+      "You can manage all your notification settings in the 'Notifications' section of your profile."
+    ]
+  },
+  {
+    "question": "What is the policy for lost packages?",
+    "answer": "If a package is confirmed as lost by the carrier, we will ship a replacement free of charge.",
+    "supporting_passages": [
+      "If a package is confirmed as lost by the carrier, we will ship a replacement free of charge."
+    ]
+  },
+  {
+    "question": "Is there a mobile app?",
+    "answer": "Yes, our mobile app is available for download on both the Apple App Store and Google Play Store.",
+    "supporting_passages": [
+      "Yes, our mobile app is available for download on both the Apple App Store and Google Play Store."
+    ]
+  },
+  {
+    "question": "How do I report a violation of terms?",
+    "answer": "You can report a violation of our terms of service by sending a detailed email to legal@example.com.",
+    "supporting_passages": [
+      "You can report a violation of our terms of service by sending a detailed email to legal@example.com."
+    ]
+  },
+  {
+    "question": "Can I pay with cryptocurrency?",
+    "answer": "Currently, we only accept payments in traditional currency (USD, EUR, GBP), but we are exploring cryptocurrency options.",
+    "supporting_passages": [
+      "Currently, we only accept payments in traditional currency (USD, EUR, GBP), but we are exploring cryptocurrency options."
+    ]
+  },
+  {
+    "question": "What is the minimum system requirement for your software?",
+    "answer": "The minimum system requirements include a dual-core processor, 4GB of RAM, and 500MB of free disk space.",
+    "supporting_passages": [
+      "The minimum system requirements include a dual-core processor, 4GB of RAM, and 500MB of free disk space."
+    ]
+  },
+  {
+    "question": "How long does a refund take to process?",
+    "answer": "Refunds are processed within 5-7 business days of approval.",
+    "supporting_passages": [
+      "Refunds are processed within 5-7 business days of approval."
+    ]
+  },
+  {
+    "question": "Is it possible to pause my subscription?",
+    "answer": "Yes, you can pause your subscription for a period of up to 3 months once every year.",
+    "supporting_passages": [
+      "Yes, you can pause your subscription for a period of up to 3 months once every year."
+    ]
+  },
+  {
+    "question": "What is the policy on user-generated content?",
+    "answer": "User-generated content must not contain copyrighted material, hate speech, or explicit imagery.",
+    "supporting_passages": [
+      "User-generated content must not contain copyrighted material, hate speech, or explicit imagery."
+    ]
+  },
+  {
+    "question": "Do you have an affiliate program?",
+    "answer": "Yes, our affiliate program allows you to earn a commission for every new customer you refer.",
+    "supporting_passages": [
+      "Yes, our affiliate program allows you to earn a commission for every new customer you refer."
+    ]
+  },
+  {
+    "question": "How do I update my profile information?",
+    "answer": "You can update your profile information, including your name and address, from the 'Profile' section of your account.",
+    "supporting_passages": [
+      "You can update your profile information, including your name and address, from the 'Profile' section of your account."
+    ]
+  },
+  {
+    "question": "What is your policy on shipping to P.O. boxes?",
+    "answer": "We are unable to ship to P.O. boxes; a physical street address is required for all deliveries.",
+    "supporting_passages": [
+      "We are unable to ship to P.O. boxes; a physical street address is required for all deliveries."
+    ]
+  },
+  {
+    "question": "How do I report a bug on the mobile app?",
+    "answer": "Bugs on the mobile app can be reported through the 'Feedback' section within the app's settings.",
+    "supporting_passages": [
+      "Bugs on the mobile app can be reported through the 'Feedback' section within the app's settings."
+    ]
+  },
+  {
+    "question": "What is the difference between the Basic and Pro plans?",
+    "answer": "The Pro plan includes unlimited storage and priority support, which are not available on the Basic plan.",
+    "supporting_passages": [
+      "The Pro plan includes unlimited storage and priority support, which are not available on the Basic plan."
+    ]
+  },
+  {
+    "question": "Can I use your services in multiple countries?",
+    "answer": "Our services are available globally, but some features may be restricted in certain regions due to local laws.",
+    "supporting_passages": [
+      "Our services are available globally, but some features may be restricted in certain regions due to local laws."
+    ]
+  },
+  {
+    "question": "How do I get technical support for my issue?",
+    "answer": "Technical support is available by submitting a support ticket through our online portal.",
+    "supporting_passages": [
+      "Technical support is available by submitting a support ticket through our online portal."
+    ]
+  },
+  {
+    "question": "Do you offer any discounts for non-profit organizations?",
+    "answer": "Yes, we offer a 50% discount on all plans for registered non-profit organizations.",
+    "supporting_passages": [
+      "Yes, we offer a 50% discount on all plans for registered non-profit organizations."
+    ]
+  },
+  {
+    "question": "What happens if a product is out of stock?",
+    "answer": "You can sign up for a 'back in stock' notification on the product page, and we will email you when it becomes available.",
+    "supporting_passages": [
+      "You can sign up for a 'back in stock' notification on the product page, and we will email you when it becomes available."
+    ]
+  },
+  {
+    "question": "Is it possible to get a refund after the 30-day period?",
+    "answer": "Refunds are not available after the standard 30-day return window has closed.",
+    "supporting_passages": [
+      "Refunds are not available after the standard 30-day return window has closed."
+    ]
+  },
+  {
+    "question": "What is the policy for user feedback?",
+    "answer": "We welcome all user feedback and suggestions, which can be submitted through our dedicated feedback form.",
+    "supporting_passages": [
+      "We welcome all user feedback and suggestions, which can be submitted through our dedicated feedback form."
+    ]
+  },
+  {
+    "question": "How long do you keep my account data after deactivation?",
+    "answer": "Your account data is kept for 90 days after deactivation before it is permanently deleted from our servers.",
+    "supporting_passages": [
+      "Your account data is kept for 90 days after deactivation before it is permanently deleted from our servers."
+    ]
+  },
+  {
+    "question": "Can I use your images for commercial use?",
+    "answer": "Our image assets are provided under a royalty-free license, which permits commercial use.",
+    "supporting_passages": [
+      "Our image assets are provided under a royalty-free license, which permits commercial use."
+    ]
+  },
+  {
+    "question": "What is the estimated delivery time for international orders?",
+    "answer": "International orders typically arrive within 7-14 business days, depending on the destination country.",
+    "supporting_passages": [
+      "International orders typically arrive within 7-14 business days, depending on the destination country."
+    ]
+  },
+  {
+    "question": "What is your policy for a lost password?",
+    "answer": "If you lose your password, use the 'Forgot Password' link to reset it securely via your email.",
+    "supporting_passages": [
+      "If you lose your password, use the 'Forgot Password' link to reset it securely via your email."
+    ]
+  },
+  {
+    "question": "Can I change my registered email address?",
+    "answer": "You can change your registered email address by contacting our support team with proof of identity.",
+    "supporting_passages": [
+      "You can change your registered email address by contacting our support team with proof of identity."
+    ]
+  },
+  {
+    "question": "Do you offer any API support?",
+    "answer": "Our API has dedicated support documentation and a developer forum to assist with integration.",
+    "supporting_passages": [
+      "Our API has dedicated support documentation and a developer forum to assist with integration."
+    ]
+  },
+  {
+    "question": "What is the return policy for sale items?",
+    "answer": "All sale items are considered final sale and are not eligible for returns or exchanges.",
+    "supporting_passages": [
+      "All sale items are considered final sale and are not eligible for returns or exchanges."
+    ]
+  },
+  {
+    "question": "Can I get a refund for a gift card?",
+    "answer": "Gift cards are non-refundable and cannot be exchanged for cash.",
+    "supporting_passages": [
+      "Gift cards are non-refundable and cannot be exchanged for cash."
+    ]
+  },
+  {
+    "question": "What is the policy for shipping large items?",
+    "answer": "Large items are shipped via freight, and an additional shipping fee will be applied at checkout.",
+    "supporting_passages": [
+      "Large items are shipped via freight, and an additional shipping fee will be applied at checkout."
+    ]
+  },
+  {
+    "question": "How do I report a security issue?",
+    "answer": "Please report any security issues to our dedicated security team at security@example.com.",
+    "supporting_passages": [
+      "Please report any security issues to our dedicated security team at security@example.com."
+    ]
+  },
+  {
+    "question": "What is your policy on unauthorized charges?",
+    "answer": "If you notice an unauthorized charge, please contact us immediately so we can investigate the issue.",
+    "supporting_passages": [
+      "If you notice an unauthorized charge, please contact us immediately so we can investigate the issue."
+    ]
+  },
+  {
+    "question": "Can I purchase a gift card for a friend?",
+    "answer": "Yes, you can purchase and send a digital gift card to a friend from our website.",
+    "supporting_passages": [
+      "Yes, you can purchase and send a digital gift card to a friend from our website."
+    ]
+  },
+  {
+    "question": "What is the policy for a damaged shipment?",
+    "answer": "If your shipment arrives damaged, please take photos and contact us within 24 hours to arrange a replacement.",
+    "supporting_passages": [
+      "If your shipment arrives damaged, please take photos and contact us within 24 hours to arrange a replacement."
+    ]
+  },
+  {
+    "question": "Do you offer any enterprise solutions?",
+    "answer": "Yes, we have enterprise solutions available with custom pricing and dedicated support. Please contact our sales team for more information.",
+    "supporting_passages": [
+      "Yes, we have enterprise solutions available with custom pricing and dedicated support. Please contact our sales team for more information."
+    ]
+  },
+  {
+    "question": "How do I report a problem with the website?",
+    "answer": "You can report a problem with the website by using our online feedback form or by emailing support@example.com.",
+    "supporting_passages": [
+      "You can report a problem with the website by using our online feedback form or by emailing support@example.com."
+    ]
+  },
+  {
+    "question": "What are your server uptime guarantees?",
+    "answer": "We guarantee a server uptime of 99.9% as part of our service level agreement.",
+    "supporting_passages": [
+      "We guarantee a server uptime of 99.9% as part of our service level agreement."
+    ]
+  },
+  {
+    "question": "How do I get a copy of my data?",
+    "answer": "You can request a copy of your personal data by submitting a data request form from your account settings.",
+    "supporting_passages": [
+      "You can request a copy of your personal data by submitting a data request form from your account settings."
+    ]
+  },
+  {
+    "question": "What is the cancellation policy for subscriptions?",
+    "answer": "Subscriptions can be canceled at any time, but no refunds will be issued for the remainder of the billing cycle.",
+    "supporting_passages": [
+      "Subscriptions can be canceled at any time, but no refunds will be issued for the remainder of the billing cycle."
+    ]
+  },
+  {
+    "question": "How do I change my subscription plan?",
+    "answer": "You can change your subscription plan by logging into your account and selecting a new plan from the 'Subscription' tab.",
+    "supporting_passages": [
+      "You can change your subscription plan by logging into your account and selecting a new plan from the 'Subscription' tab."
+    ]
+  },
+  {
+    "question": "What is the refund policy for unused credits?",
+    "answer": "Unused credits are non-refundable and will expire at the end of the billing cycle.",
+    "supporting_passages": [
+      "Unused credits are non-refundable and will expire at the end of the billing cycle."
+    ]
+  },
+  {
+    "question": "Do you have a public roadmap?",
+    "answer": "Yes, our product roadmap is publicly available on our website, where you can also suggest new features.",
+    "supporting_passages": [
+      "Yes, our product roadmap is publicly available on our website, where you can also suggest new features."
+    ]
+  },
+  {
+    "question": "How do I report a violation of my copyright?",
+    "answer": "To report a copyright violation, please send a DMCA notice to our legal team at legal@example.com.",
+    "supporting_passages": [
+      "To report a copyright violation, please send a DMCA notice to our legal team at legal@example.com."
+    ]
+  },
+  {
+    "question": "Can I use a VPN with your service?",
+    "answer": "The use of a VPN is permitted, but it may affect performance and is not supported by our technical team.",
+    "supporting_passages": [
+      "The use of a VPN is permitted, but it may affect performance and is not supported by our technical team."
+    ]
+  },
+  {
+    "question": "What is the policy for bulk orders?",
+    "answer": "Bulk orders are eligible for a volume discount. Please contact our sales team for a custom quote.",
+    "supporting_passages": [
+      "Bulk orders are eligible for a volume discount. Please contact our sales team for a custom quote."
+    ]
+  },
+  {
+    "question": "How do I change my payment method?",
+    "answer": "You can change your payment method by going to the 'Billing' section in your account settings.",
+    "supporting_passages": [
+      "You can change your payment method by going to the 'Billing' section in your account settings."
+    ]
+  },
+  {
+    "question": "What is your policy on data security?",
+    "answer": "We use industry-standard security measures, including end-to-end encryption, to protect your data.",
+    "supporting_passages": [
+      "We use industry-standard security measures, including end-to-end encryption, to protect your data."
+    ]
+  },
+  {
+    "question": "How do I get a receipt for my payment?",
+    "answer": "A digital receipt for each payment is automatically sent to your registered email address.",
+    "supporting_passages": [
+      "A digital receipt for each payment is automatically sent to your registered email address."
+    ]
+  },
+  {
+    "question": "What is the process for a product exchange?",
+    "answer": "Exchanges are handled on a case-by-case basis. Please contact customer support with your order number.",
+    "supporting_passages": [
+      "Exchanges are handled on a case-by-case basis. Please contact customer support with your order number."
+    ]
+  },
+  {
+    "question": "Are there any age restrictions for your service?",
+    "answer": "Our service is intended for users who are 13 years of age or older.",
+    "supporting_passages": [
+      "Our service is intended for users who are 13 years of age or older."
+    ]
+  },
+  {
+    "question": "What is the refund policy for a canceled plan?",
+    "answer": "You will be refunded for any unused portion of your plan on a prorated basis.",
+    "supporting_passages": [
+      "You will be refunded for any unused portion of your plan on a prorated basis."
+    ]
+  },
+  {
+    "question": "Do you offer any training or tutorials?",
+    "answer": "Yes, we have a comprehensive library of tutorial videos and guides to help you get started with our service.",
+    "supporting_passages": [
+      "Yes, we have a comprehensive library of tutorial videos and guides to help you get started with our service."
+    ]
+  },
+  {
+    "question": "How do I get a tax-exempt status for my purchase?",
+    "answer": "To get a tax-exempt status, please submit your tax-exempt certificate to our billing department before making a purchase.",
+    "supporting_passages": [
+      "To get a tax-exempt status, please submit your tax-exempt certificate to our billing department before making a purchase."
+    ]
+  },
+  {
+    "question": "What is the maximum number of users per account?",
+    "answer": "The maximum number of users per account is 5 for the Standard plan and unlimited for the Enterprise plan.",
+    "supporting_passages": [
+      "The maximum number of users per account is 5 for the Standard plan and unlimited for the Enterprise plan."
+    ]
+  },
+  {
+    "question": "Can I use your service for a personal project?",
+    "answer": "Yes, our basic plan is designed for personal projects and is free to use.",
+    "supporting_passages": [
+      "Yes, our basic plan is designed for personal projects and is free to use."
+    ]
+  },
+  {
+    "question": "What is the policy on content moderation?",
+    "answer": "All user-generated content is subject to moderation to ensure it complies with our terms of service.",
+    "supporting_passages": [
+      "All user-generated content is subject to moderation to ensure it complies with our terms of service."
+    ]
+  },
+  {
+    "question": "How do I report spam?",
+    "answer": "To report spam, please forward the spam email to spam@example.com with the subject 'SPAM REPORT'.",
+    "supporting_passages": [
+      "To report spam, please forward the spam email to spam@example.com with the subject 'SPAM REPORT'."
+    ]
+  },
+  {
+    "question": "What is the policy for a damaged item?",
+    "answer": "If you receive a damaged item, please contact our customer support with your order number and photos of the damage.",
+    "supporting_passages": [
+      "If you receive a damaged item, please contact our customer support with your order number and photos of the damage."
+    ]
+  },
+  {
+    "question": "How do I recover my deleted account?",
+    "answer": "Once an account is deleted, it cannot be recovered. You will need to create a new account.",
+    "supporting_passages": [
+      "Once an account is deleted, it cannot be recovered. You will need to create a new account."
+    ]
+  },
+  {
+    "question": "What is the policy on security updates?",
+    "answer": "We release security updates regularly and recommend that all users update their software as soon as a new version is available.",
+    "supporting_passages": [
+      "We release security updates regularly and recommend that all users update their software as soon as a new version is available."
+    ]
+  },
+  {
+    "question": "Can I use my own domain with your service?",
+    "answer": "Yes, you can use a custom domain with our service by upgrading to the Premium plan.",
+    "supporting_passages": [
+      "Yes, you can use a custom domain with our service by upgrading to the Premium plan."
+    ]
+  },
+  {
+    "question": "What is the process for submitting a feature request?",
+    "answer": "You can submit a feature request on our public roadmap page. We review all submissions regularly.",
+    "supporting_passages": [
+      "You can submit a feature request on our public roadmap page. We review all submissions regularly."
+    ]
+  },
+  {
+    "question": "How long are customer support tickets kept?",
+    "answer": "Customer support tickets and their contents are retained for 1 year for training and quality assurance purposes.",
+    "supporting_passages": [
+      "Customer support tickets and their contents are retained for 1 year for training and quality assurance purposes."
+    ]
+  },
+  {
+    "question": "What is the policy for a failed payment?",
+    "answer": "If a payment fails, we will attempt to charge your card again in 3 days. If it fails again, your account will be suspended.",
+    "supporting_passages": [
+      "If a payment fails, we will attempt to charge your card again in 3 days. If it fails again, your account will be suspended."
+    ]
+  },
+  {
+    "question": "Do you offer any promotions?",
+    "answer": "We offer a 10% discount to all first-time customers. The discount is automatically applied at checkout.",
+    "supporting_passages": [
+      "We offer a 10% discount to all first-time customers. The discount is automatically applied at checkout."
+    ]
+  },
+  {
+    "question": "How do I get an invoice for my subscription?",
+    "answer": "You can download all your past invoices from the 'Billing History' section of your account.",
+    "supporting_passages": [
+      "You can download all your past invoices from the 'Billing History' section of your account."
+    ]
+  },
+  {
+    "question": "What is the policy on account suspension?",
+    "answer": "Accounts are suspended for serious violations of our terms of service, such as fraudulent activity.",
+    "supporting_passages": [
+      "Accounts are suspended for serious violations of our terms of service, such as fraudulent activity."
+    ]
+  },
+  {
+    "question": "What is your policy for a product defect?",
+    "answer": "If a product is found to have a manufacturing defect, we will replace it free of charge within the warranty period.",
+    "supporting_passages": [
+      "If a product is found to have a manufacturing defect, we will replace it free of charge within the warranty period."
+    ]
+  },
+  {
+    "question": "How do I report an issue with the product?",
+    "answer": "You can report an issue with the product by opening a support ticket and providing a detailed description of the problem.",
+    "supporting_passages": [
+      "You can report an issue with the product by opening a support ticket and providing a detailed description of the problem."
+    ]
+  },
+  {
+    "question": "Can I use your service with my existing software?",
+    "answer": "Our service is designed to integrate with a wide range of third-party applications. See our documentation for a full list.",
+    "supporting_passages": [
+      "Our service is designed to integrate with a wide range of third-party applications. See our documentation for a full list."
+    ]
+  },
+  {
+    "question": "How do I get a certificate of completion?",
+    "answer": "A certificate of completion is automatically issued to your email after you finish the entire course.",
+    "supporting_passages": [
+      "A certificate of completion is automatically issued to your email after you finish the entire course."
+    ]
+  },
+  {
+    "question": "What is the policy on a late delivery?",
+    "answer": "If a package is delivered more than 5 days past the estimated delivery date, you are eligible for a partial refund on the shipping cost.",
+    "supporting_passages": [
+      "If a package is delivered more than 5 days past the estimated delivery date, you are eligible for a partial refund on the shipping cost."
+    ]
+  },
+  {
+    "question": "How do I get a new password if I forgot mine?",
+    "answer": "To get a new password, click the 'Forgot Password' link on the login page and enter your email address to receive a reset link.",
+    "supporting_passages": [
+      "To get a new password, click the 'Forgot Password' link on the login page and enter your email address to receive a reset link."
+    ]
+  },
+  {
+    "question": "What is the policy for a duplicate payment?",
+    "answer": "If a duplicate payment is made, we will automatically issue a refund for the extra charge within 3 business days.",
+    "supporting_passages": [
+      "If a duplicate payment is made, we will automatically issue a refund for the extra charge within 3 business days."
+    ]
+  },
+  {
+    "question": "Do you offer any technical support?",
+    "answer": "Yes, we offer technical support through our ticketing system and live chat during business hours.",
+    "supporting_passages": [
+      "Yes, we offer technical support through our ticketing system and live chat during business hours."
+    ]
+  }
+]
