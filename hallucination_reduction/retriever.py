@@ -2,7 +2,7 @@
 import faiss
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-class FaissRetriever:
+class SimpleRetriever:
     """
     Simple FAISS retriever over TF-IDF embeddings of passages.
     """

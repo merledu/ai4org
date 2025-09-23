@@ -1,6 +1,6 @@
 # hallucination_reduction/discriminator_training_utils.py
 
-from discriminator import train_discriminator_minibatch
+from .discriminator import train_discriminator_minibatch
 
 def train_all_discriminators(
     fact_disc, fact_tok,

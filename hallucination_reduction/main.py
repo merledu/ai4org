@@ -4,14 +4,14 @@ import os
 import torch
 import copy
 
-from data_utils import load_dataset
-from retriever import SimpleRetriever
-from generator import load_generator, generate_answer, train_generator_minibatch
-from discriminator import load_discriminator
-from discriminator_training_utils import train_all_discriminators
-from evaluation import evaluate_old_vs_new_generator
-from rl_utils import reinforce_train_step
-from config import (
+from .data_utils import load_dataset
+from .retriever import SimpleRetriever
+from .generator import load_generator, generate_answer, train_generator_minibatch
+from .discriminator import load_discriminator
+from .discriminator_training_utils import train_all_discriminators
+from .evaluation import evaluate_old_vs_new_generator
+from .rl_utils import reinforce_train_step
+from .config import (
     DEVICE, SFT_EPOCHS, SFT_BATCH, SFT_LR,
     DISC_EPOCHS, DISC_BATCH, DISC_LR,
     RL_EPOCHS, GEN_LR, SAVE_DIR

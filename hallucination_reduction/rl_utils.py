@@ -2,7 +2,7 @@
 import torch
 import torch.nn.functional as F
 import numpy as np
-from discriminator import discriminator_predict_text
+from .discriminator import discriminator_predict_text
 
 HARD_PENALTY_IF_FACT_LT = 0.4
 FACT_WEIGHT = 0.8
