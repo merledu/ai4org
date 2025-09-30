@@ -1,8 +1,11 @@
-import random
-import json
 from dataclasses import dataclass
-from typing import List
+from typing import List, Tuple
+import random
 
+
+# -------------------------
+# Data structures & dummy private corpus (augment a bit)
+# -------------------------
 @dataclass
 class QAPair:
     question: str
@@ -34,44 +37,14 @@ def build_dummy_corpus_and_qa():
                "Use professional, concise, and empathetic language.",
                [passages[4]]),
     ]
+    # Small augmentation: produce paraphrases (template-based)
     augmented = []
     for qa in base_qa:
         augmented.append(qa)
+        # paraphrase question (simple)
         q1 = qa.question.replace("Can a customer", "Is it possible for a customer")
         q2 = qa.question + " (please advise)"
         a1 = qa.answer
         augmented.append(QAPair(q1, a1, qa.supporting_passages))
         augmented.append(QAPair(q2, a1, qa.supporting_passages))
     return passages, augmented
-
-def load_dataset(path: str):
-    """
-    Load a real QA dataset from a JSON file at `path`.
-    JSON format:
-    [
-      {
-        "question": "...",
-        "answer": "...",
-        "supporting_passages": ["...", "..."]
-      },
-      ...
-    ]
-    """
-    with open(path, "r") as f:
-        data = json.load(f)
-
-    passages = []
-    qa_pairs = []
-    for item in data:
-        passages.extend(item.get("supporting_passages", []))
-        qa_pairs.append(
-            QAPair(
-                question=item["question"],
-                answer=item["answer"],
-                supporting_passages=item.get("supporting_passages", []),
-            )
-        )
-
-    # Deduplicate passages
-    passages = list(set(passages))
-    return passages, qa_pairs

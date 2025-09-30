@@ -1,16 +1,12 @@
 import torch
-from torch.utils.data import DataLoader
-import torch.nn.functional as F
 from transformers import AutoTokenizer, AutoModelForCausalLM
+from torch import optim
+from torch.utils.data import DataLoader
+from typing import List
+import numpy as np
 
-# Absolute imports from your package
-from .retriever import build_rag_prompt
-from .data_utils import QAPair
-from .config import DEVICE, GEN_MODEL, MAX_GEN_TOKENS, MIN_GEN_TOKENS
+from .config import DEVICE, MAX_GEN_TOKENS, MIN_GEN_TOKENS, SFT_EPOCHS, SFT_BATCH, SFT_LR,GEN_MODEL
 
-# ====================================================
-# Load Generator
-# ====================================================
 def load_generator(model_name=GEN_MODEL, device=DEVICE):
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     if tokenizer.pad_token is None:
@@ -19,94 +15,55 @@ def load_generator(model_name=GEN_MODEL, device=DEVICE):
     model.eval()
     return tokenizer, model
 
+def build_rag_prompt(question: str, retrieved_docs: List[str]) -> str:
+    prompt = "### Context:\n"
+    for i, doc in enumerate(retrieved_docs, 1):
+        prompt += f"[{i}] {doc}\n"
+    prompt += "\n### Question:\n" + question + "\n### Answer:\n"
+    return prompt
 
-# ====================================================
-# Generate Answer
-# ====================================================
-
-
-# hallucination_reduction/generator.py
-
-def generate_answer(generator, tokenizer, retrieved_docs, question, device):
-    """
-    Generate answer with minimal fact-checking.
-    `retrieved_docs` is a list of (doc, score) tuples.
-    """
-    # Extract only the document text
-    docs_only = [doc for doc, _ in retrieved_docs]
-
-    # Build RAG prompt
-    prompt = build_rag_prompt(question, retrieved_docs)
+def generate_answer(generator, tokenizer, prompt: str, max_new_tokens=MAX_GEN_TOKENS, min_new_tokens=MIN_GEN_TOKENS,
+                    device=DEVICE, num_return_sequences=1, temperature=0.8):
     inputs = tokenizer(prompt, return_tensors="pt", truncation=True).to(device)
-
-    outputs = generator.generate(
+    # Ensure min_new_tokens to avoid empty output collapse
+    out = generator.generate(
         **inputs,
-        max_new_tokens=MAX_GEN_TOKENS,
-        min_new_tokens=MIN_GEN_TOKENS,
+        max_new_tokens=max_new_tokens,
+        min_new_tokens=min_new_tokens,
         do_sample=True,
         top_k=50,
-        top_p=0.95,
-        temperature=0.7,
+        temperature=temperature,
+        num_return_sequences=num_return_sequences,
         pad_token_id=tokenizer.eos_token_id
     )
-
-    answer = tokenizer.decode(outputs[0][inputs['input_ids'].shape[1]:], skip_special_tokens=True).strip()
-
-    # Minimal fact check: return exact passage if fully contained
-    answer_lower = answer.lower()
-    for doc in docs_only:
-        if doc.lower() in answer_lower:
-            return doc
-
-    # Fallback: pick the retrieved passage with highest word overlap
-    overlap_scores = [
-        len(set(answer_lower.split()) & set(doc.lower().split())) / max(1, len(doc.split()))
-        for doc in docs_only
-    ]
-    best_idx = overlap_scores.index(max(overlap_scores))
-    if max(overlap_scores) > 0.2:  # minimal overlap threshold
-        return docs_only[best_idx]
-
-    # Otherwise, return the generated text
-    return answer
+    texts = []
+    for seq in out:
+        texts.append(tokenizer.decode(seq[inputs['input_ids'].shape[1]:], skip_special_tokens=True).strip())
+    return texts
 
 
-
-# ====================================================
-# Supervised Fine-Tuning (SFT)
-# ====================================================
-def train_generator_minibatch(generator, tokenizer, qa_pairs,
-                              epochs=3, batch_size=2, lr=3e-5, device="cpu"):
+def sft_finetune_generator(generator, tokenizer, qa_pairs, device=DEVICE, epochs=SFT_EPOCHS, batch_size=SFT_BATCH, lr=SFT_LR):
+    # Create input sequences: prompt + gold answer
+    inputs = []
+    for qa in qa_pairs:
+        prompt = build_rag_prompt(qa.question, qa.supporting_passages)
+        inputs.append(prompt + qa.answer)
+    enc = tokenizer(inputs, truncation=True, padding=True, return_tensors="pt")
+    dataset = torch.utils.data.TensorDataset(enc["input_ids"], enc["attention_mask"])
+    dl = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+    optimizer = optim.AdamW(generator.parameters(), lr=lr)
     generator.train()
-    optimizer = torch.optim.AdamW(generator.parameters(), lr=lr)
-
     for epoch in range(epochs):
-        total_loss = 0.0
-        for i in range(0, len(qa_pairs), batch_size):
-            batch = qa_pairs[i:i+batch_size]
-            texts = [f"Question: {qa.question}\nAnswer: {qa.answer}" for qa in batch]
-
-            # Tokenize once for both input and labels
-            encodings = tokenizer(
-                texts,
-                return_tensors="pt",
-                padding=True,
-                truncation=True,
-                max_length=256
-            ).to(device)
-
-            # For GPT-style causal LM, just pass labels=input_ids
-            outputs = generator(**encodings, labels=encodings["input_ids"])
+        epoch_losses = []
+        for ids, masks in dl:
+            ids = ids.to(device); masks = masks.to(device)
+            outputs = generator(input_ids=ids, attention_mask=masks, labels=ids)
             loss = outputs.loss
-
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
-
-            total_loss += loss.item()
-
-        avg_loss = total_loss / max(1, len(qa_pairs) // batch_size)
-        print(f"SFT Epoch {epoch+1}/{epochs}, loss={avg_loss:.4f}")
-
+            epoch_losses.append(loss.item())
+        print(f"SFT epoch {epoch+1}/{epochs}, loss={np.mean(epoch_losses):.4f}")
     generator.eval()
     return generator
+

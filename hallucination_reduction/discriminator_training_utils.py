@@ -1,58 +1,53 @@
-# hallucination_reduction/discriminator_training_utils.py
+import numpy as np
+import torch
+from torch import nn, optim
+from torch.utils.data import DataLoader
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 
-from .discriminator import train_discriminator_minibatch
+from .discriminator import SimpleTextDataset, discriminator_predict_text
+from .config import SEED, DEVICE
 
-def train_all_discriminators(
-    fact_disc, fact_tok,
-    style_disc, style_tok,
-    safety_disc, safety_tok,
-    qa_pairs,
-    device, epochs, batch_size, lr
-):
-    """
-    Train fact, style, and safety discriminators with both positive and negative examples.
-    Positive examples come from real QA answers.
-    Negative examples are synthetic dummy texts.
-    """
 
-    # --- Fact discriminator dataset ---
-    fact_texts, fact_labels = [], []
-    for qa in qa_pairs:
-        fact_texts.append(qa.answer)  # Positive (real answer)
-        fact_labels.append(1)
-        fact_texts.append("This is unrelated nonsense.")  # Negative
-        fact_labels.append(0)
+def train_discriminator_minibatch(classifier, tokenizer, texts, labels, device=DEVICE, epochs=5, batch_size=8, lr=2e-5, val_split=0.2):
+    # train/val split
+    tr_texts, val_texts, tr_labels, val_labels = train_test_split(texts, labels, test_size=val_split, random_state=SEED, stratify=labels if len(set(labels))>1 else None)
+    ds = SimpleTextDataset(tr_texts, tr_labels, tokenizer)
+    dl = DataLoader(ds, batch_size=batch_size, shuffle=True)
+    optimizer = optim.AdamW(classifier.parameters(), lr=lr)
+    classifier.train()
+    for epoch in range(epochs):
+        losses = []
+        for batch in dl:
+            batch = {k: v.to(device) for k, v in batch.items()}
+            outputs = classifier(input_ids=batch["input_ids"], attention_mask=batch["attention_mask"])
+            loss = nn.CrossEntropyLoss()(outputs.logits, batch["labels"])
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            losses.append(loss.item())
+        # validation
+        classifier.eval()
+        val_preds = []
+        val_true = []
+        for vt, vl in zip(val_texts, val_labels):
+            res = discriminator_predict_text(classifier, tokenizer, [vt], device=device)[0]
+            prob_pos = res["probs"][1] if len(res["probs"])>1 else res["probs"][0]
+            pred = 1 if prob_pos > 0.5 else 0
+            val_preds.append(pred); val_true.append(int(vl))
+        acc = accuracy_score(val_true, val_preds) if len(val_true)>0 else 0.0
+        print(f"Disc train epoch {epoch+1}/{epochs}, loss={np.mean(losses):.4f}, val_acc={acc:.4f}")
+        classifier.train()
+    classifier.eval()
+    return classifier
 
-    # --- Style discriminator dataset ---
-    style_texts, style_labels = [], []
-    for qa in qa_pairs:
-        style_texts.append(qa.answer)  # Positive
-        style_labels.append(1)
-        style_texts.append("ugly broken text without punctuation or coherence")  # Negative
-        style_labels.append(0)
-
-    # --- Safety discriminator dataset ---
-    safety_texts, safety_labels = [], []
-    for qa in qa_pairs:
-        safety_texts.append(qa.answer)  # Positive
-        safety_labels.append(1)
-        safety_texts.append("unsafe / harmful / toxic content")  # Negative
-        safety_labels.append(0)
-
-    # --- Train each discriminator ---
-    fact_disc = train_discriminator_minibatch(
-        fact_disc, fact_tok, fact_texts, fact_labels,
-        epochs=epochs, batch_size=batch_size, lr=lr, device=device
-    )
-
-    style_disc = train_discriminator_minibatch(
-        style_disc, style_tok, style_texts, style_labels,
-        epochs=epochs, batch_size=batch_size, lr=lr, device=device
-    )
-
-    safety_disc = train_discriminator_minibatch(
-        safety_disc, safety_tok, safety_texts, safety_labels,
-        epochs=epochs, batch_size=batch_size, lr=lr, device=device
-    )
-
-    return fact_disc, style_disc, safety_disc
+def evaluate_classifier(cls, tokenizer, texts, labels, device=DEVICE):
+    cls.eval()
+    preds = []
+    for t in texts:
+        res = discriminator_predict_text(cls, tokenizer, [t], device=device)[0]
+        p = 1 if res["probs"][1] > 0.5 else 0
+        preds.append(p)
+    acc = accuracy_score(labels, preds) if len(labels)>0 else 0.0
+    prec, rec, f1, _ = precision_recall_fscore_support(labels, preds, average='binary', zero_division=0)
+    return {"acc": acc, "prec": prec, "rec": rec, "f1": f1}
