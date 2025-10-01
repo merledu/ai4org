@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import List, Tuple
 import random
-
+import json
 
 # -------------------------
 # Data structures & dummy private corpus (augment a bit)
@@ -13,30 +13,23 @@ class QAPair:
     supporting_passages: List[str]
 
 def build_dummy_corpus_and_qa():
-    passages = [
-        "Our cancellation policy: Customers may cancel within 24 hours for a full refund.",
-        "Data retention rules: We keep logs for 90 days and anonymize them after that.",
-        "Access control: Only managers can approve employee role changes.",
-        "Security policy: All devices must have disk encryption enabled.",
-        "Tone guideline: Use professional, concise, and empathetic language in responses.",
-    ]
+    # Load passages from file
+    with open("data/processed/corpus.txt", "r", encoding="utf-8") as f:
+        passages = [line.strip() for line in f if line.strip()]
+
+    # Load base QA dataset from file
+    with open("data/qa/qa.json", "r", encoding="utf-8") as f:
+        raw_qas = json.load(f)
+
     base_qa = [
-        QAPair("Can a customer get a refund if they cancel after 12 hours?",
-               "Yes — customers may cancel within 24 hours for a full refund.",
-               [passages[0]]),
-        QAPair("How long do we retain logs?",
-               "We retain logs for 90 days and then anonymize them.",
-               [passages[1]]),
-        QAPair("Who can approve role changes for employees?",
-               "Only managers can approve employee role changes.",
-               [passages[2]]),
-        QAPair("Do we require disk encryption on devices?",
-               "Yes, all devices must have disk encryption enabled.",
-               [passages[3]]),
-        QAPair("What tone should customer-facing replies use?",
-               "Use professional, concise, and empathetic language.",
-               [passages[4]]),
+        QAPair(
+            qa["question"],
+            qa["answer"],
+            qa["supporting_passages"]
+        )
+        for qa in raw_qas
     ]
+
     # Small augmentation: produce paraphrases (template-based)
     augmented = []
     for qa in base_qa:
@@ -47,4 +40,5 @@ def build_dummy_corpus_and_qa():
         a1 = qa.answer
         augmented.append(QAPair(q1, a1, qa.supporting_passages))
         augmented.append(QAPair(q2, a1, qa.supporting_passages))
+
     return passages, augmented
