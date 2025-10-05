@@ -1,7 +1,7 @@
 import os
+import torch
 import random
 import numpy as np
-import torch
 
 # -------------------------
 # Reproducibility
@@ -17,15 +17,19 @@ if torch.cuda.is_available():
 # Device configuration
 # -------------------------
 if torch.cuda.is_available():
-    n_gpus = torch.cuda.device_count()
-    if n_gpus > 1:
-        DEVICE = "cuda"  # DataParallel / ROCm uses 'cuda' name
-        print(f"✅ {n_gpus} GPUs detected. Using all via DataParallel (generator).")
+    N_GPUS = torch.cuda.device_count()
+    if N_GPUS > 1:
+        DEVICE = "cuda"
+        MULTI_GPU = True
+        print(f"✅ {N_GPUS} GPUs detected. Using all via device_map='auto'.")
     else:
         DEVICE = "cuda"
+        MULTI_GPU = False
         print("✅ Single GPU detected. Using cuda:0")
 else:
     DEVICE = "cpu"
+    MULTI_GPU = False
+    N_GPUS = 0
     print("⚠️ No GPU detected. Using CPU.")
 
 # -------------------------
@@ -33,16 +37,24 @@ else:
 # -------------------------
 GEN_MODEL = os.environ.get("GEN_MODEL", "gpt2")
 DISC_MODEL = os.environ.get("DISC_MODEL", "distilbert-base-uncased")
+SAVE_DIR = "./saved_models_improved"
+os.makedirs(SAVE_DIR, exist_ok=True)
+GEN_MODEL_PATH = os.path.join(SAVE_DIR, "generator_final.pt")
+
+# -------------------------
+# Corpus
+# -------------------------
+CORPUS_PATH = "./data/processed/corpus.txt"
 
 # -------------------------
 # Hyperparameters
 # -------------------------
 SFT_EPOCHS = 8
-SFT_BATCH = 1       # keep small for safety; increase to fill GPU
+SFT_BATCH = 1
 SFT_LR = 3e-5
 
 DISC_EPOCHS = 10
-DISC_BATCH = 8      # larger batch to keep GPU utilization up
+DISC_BATCH = 8
 DISC_LR = 2e-5
 
 MC_ROLLOUTS = 6
@@ -62,12 +74,8 @@ SAFETY_WEIGHT = 0.05
 HARD_PENALTY_IF_FACT_LT = 0.4  # subtract if p_fact < 0.5
 
 # -------------------------
-# Output / Save directory
+# Backend tuning
 # -------------------------
-SAVE_DIR = "./saved_models_improved"
-os.makedirs(SAVE_DIR, exist_ok=True)
-
-# Enable backend tuning (ROCm/PyTorch will use appropriate backend)
 try:
     torch.backends.cudnn.benchmark = True
 except Exception:

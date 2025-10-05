@@ -1,8 +1,22 @@
 import os
+import sys
+import time
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+
+# -------------------------
+# Import config
+# -------------------------
+import hallucination_reduction.config as cfg
+
+# -------------------------
+# Reproducibility
+# -------------------------
+torch.manual_seed(42)
+if torch.cuda.is_available():
+    torch.cuda.manual_seed_all(42)
 
 # -------------------------
 # Device setup
@@ -22,15 +36,15 @@ else:
 # -------------------------
 # Model & tokenizer loading
 # -------------------------
-GEN_MODEL = "gpt2"
-SAVE_PATH = "./saved_models_improved/generator_final.pt"
+GEN_MODEL = cfg.GEN_MODEL
+SAVE_PATH = os.path.join(cfg.SAVE_DIR, "generator_final.pt")
 CORPUS_PATH = "./data/processed/corpus.txt"
 
 print(f"Loading model/tokenizer: {GEN_MODEL} ...")
 tokenizer = AutoTokenizer.from_pretrained(GEN_MODEL)
 model = AutoModelForCausalLM.from_pretrained(GEN_MODEL, device_map="auto")
 
-# Safely load fine-tuned weights
+# Load fine-tuned weights if available
 if os.path.exists(SAVE_PATH):
     print(f"✅ Loading fine-tuned weights from {SAVE_PATH}")
     state_dict = torch.load(SAVE_PATH, map_location="cpu")
@@ -40,7 +54,7 @@ if os.path.exists(SAVE_PATH):
 else:
     print("⚠️ No fine-tuned weights found, using base GPT-2 model.")
 
-print(f"Model ready. Representative model device: {next(model.parameters()).device}")
+print(f"Model ready. Representative device: {next(model.parameters()).device}")
 
 # -------------------------
 # Corpus loading
@@ -54,12 +68,12 @@ with open(CORPUS_PATH, "r", encoding="utf-8") as f:
 print(f"✅ Loaded {len(passages)} passages from corpus.")
 
 # -------------------------
-# TF-IDF for retrieval
+# TF-IDF vectorization
 # -------------------------
 vectorizer = TfidfVectorizer(stop_words="english")
 passage_vecs = vectorizer.fit_transform(passages)
 
-def retrieve_context(query, top_k=3):
+def retrieve_context(query, top_k=cfg.TOP_K):
     query_vec = vectorizer.transform([query])
     sims = cosine_similarity(query_vec, passage_vecs).flatten()
     top_ids = sims.argsort()[-top_k:][::-1]
@@ -68,7 +82,7 @@ def retrieve_context(query, top_k=3):
 # -------------------------
 # Answer generation
 # -------------------------
-def generate_answer(question, context):
+def generate_answer(question, context, stream=True, delay=0.02):
     prompt = f"Context:\n{context}\n\nQuestion: {question}\nAnswer:"
     inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=512)
     inputs = {k: v.to(model.device) for k, v in inputs.items()}
@@ -76,7 +90,7 @@ def generate_answer(question, context):
     with torch.no_grad():
         outputs = model.generate(
             **inputs,
-            max_new_tokens=100,
+            max_new_tokens=cfg.MAX_GEN_TOKENS,
             temperature=0.7,
             top_p=0.9,
             do_sample=True,
@@ -86,10 +100,20 @@ def generate_answer(question, context):
     decoded = tokenizer.decode(outputs[0], skip_special_tokens=True)
     if "Answer:" in decoded:
         decoded = decoded.split("Answer:")[-1].strip()
+
+    if stream:
+        for char in decoded:
+            sys.stdout.write(char)
+            sys.stdout.flush()
+            time.sleep(delay)
+        print()
+    else:
+        print(decoded)
+
     return decoded
 
 # -------------------------
-# Interactive RAG
+# Interactive RAG session
 # -------------------------
 print("\nInteractive enhanced multi-GPU-aware RAG 🧩")
 print("Type a question (or 'exit' to quit):\n")
@@ -107,7 +131,6 @@ while True:
         print(f"[{i+1}] (sim={sim:.2f}) {p}")
 
     print("\n--- 🧠 Answer ---")
-    answer = generate_answer(question, combined_ctx)
-    print(answer)
+    generate_answer(question, combined_ctx, stream=True)
 
     print("\n" + "-"*60 + "\n")
