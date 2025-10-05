@@ -9,9 +9,11 @@ from .discriminator import discriminator_predict_text
 from .evaluation import overlap_fact_check
 from .generator import build_rag_prompt, generate_answer
 from .config import (
-    DEVICE, FACT_WEIGHT, STYLE_WEIGHT, SAFETY_WEIGHT,
+     FACT_WEIGHT, STYLE_WEIGHT, SAFETY_WEIGHT,
     HARD_PENALTY_IF_FACT_LT, MC_ROLLOUTS, GEN_LR, GEN_BATCH_SIZE, RL_EPOCHS, TOP_K, MAX_GEN_TOKENS, MIN_GEN_TOKENS, SAVE_DIR
 )
+
+DEVICE="cuda"
 
 def compute_reward(generated_answer: str, retrieved_docs: List[str], supporting_passages: List[str],
                    fact_disc, style_disc, safety_disc,

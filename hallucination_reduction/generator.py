@@ -5,13 +5,14 @@ from torch.utils.data import DataLoader
 from typing import List
 import numpy as np
 
-from .config import DEVICE, MAX_GEN_TOKENS, MIN_GEN_TOKENS, SFT_EPOCHS, SFT_BATCH, SFT_LR,GEN_MODEL
+from .config import MAX_GEN_TOKENS, MIN_GEN_TOKENS, SFT_EPOCHS, SFT_BATCH, SFT_LR,GEN_MODEL
 
+DEVICE="cuda"
 def load_generator(model_name=GEN_MODEL, device=DEVICE):
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
-    model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
+    model = AutoModelForCausalLM.from_pretrained(model_name,device_map="auto")
     model.eval()
     return tokenizer, model
 
@@ -66,4 +67,3 @@ def sft_finetune_generator(generator, tokenizer, qa_pairs, device=DEVICE, epochs
         print(f"SFT epoch {epoch+1}/{epochs}, loss={np.mean(epoch_losses):.4f}")
     generator.eval()
     return generator
-

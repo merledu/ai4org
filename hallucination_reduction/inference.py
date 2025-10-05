@@ -1,127 +1,113 @@
+import os
 import torch
-import time
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-print("Device:", DEVICE)
+# -------------------------
+# Device setup
+# -------------------------
+if torch.cuda.is_available():
+    n_gpus = torch.cuda.device_count()
+    if n_gpus > 1:
+        DEVICE = "cuda"
+        print(f"✅ {n_gpus} GPUs detected. Using all via device_map='auto'.")
+    else:
+        DEVICE = "cuda"
+        print("✅ Single GPU detected. Using cuda:0")
+else:
+    DEVICE = "cpu"
+    print("⚠️ No GPU detected. Using CPU.")
 
 # -------------------------
-# Dummy corpus
+# Model & tokenizer loading
 # -------------------------
-passages = [
-    "Our cancellation policy: Customers may cancel within 24 hours for a full refund.",
-    "Data retention rules: We keep logs for 90 days and anonymize them after that.",
-    "Access control: Only managers can approve employee role changes.",
-    "Security policy: All devices must have disk encryption enabled.",
-    "Tone guideline: Use professional, concise, and empathetic language in responses.",
-]
+GEN_MODEL = "gpt2"
+SAVE_PATH = "./saved_models_improved/generator_final.pt"
+CORPUS_PATH = "./data/processed/corpus.txt"
+
+print(f"Loading model/tokenizer: {GEN_MODEL} ...")
+tokenizer = AutoTokenizer.from_pretrained(GEN_MODEL)
+model = AutoModelForCausalLM.from_pretrained(GEN_MODEL, device_map="auto")
+
+# Safely load fine-tuned weights
+if os.path.exists(SAVE_PATH):
+    print(f"✅ Loading fine-tuned weights from {SAVE_PATH}")
+    state_dict = torch.load(SAVE_PATH, map_location="cpu")
+    missing, unexpected = model.load_state_dict(state_dict, strict=False)
+    if missing or unexpected:
+        print(f"⚠️ Mismatch in keys — missing: {len(missing)}, unexpected: {len(unexpected)}")
+else:
+    print("⚠️ No fine-tuned weights found, using base GPT-2 model.")
+
+print(f"Model ready. Representative model device: {next(model.parameters()).device}")
 
 # -------------------------
-# Simple TF-IDF retriever
+# Corpus loading
 # -------------------------
-class SimpleRetriever:
-    def __init__(self, passages):
-        self.passages = passages
-        self.vectorizer = TfidfVectorizer().fit(passages)
-        self.vectors = self.vectorizer.transform(passages)
+if not os.path.exists(CORPUS_PATH):
+    raise FileNotFoundError(f"Corpus file not found: {CORPUS_PATH}")
 
-    def retrieve(self, query, k=3):
-        qv = self.vectorizer.transform([query])
-        sims = cosine_similarity(qv, self.vectors)[0]
-        idxs = sims.argsort()[-k:][::-1]
-        return [(self.passages[i], sims[i]) for i in idxs]
+with open(CORPUS_PATH, "r", encoding="utf-8") as f:
+    passages = [p.strip() for p in f.readlines() if p.strip()]
 
-retriever = SimpleRetriever(passages)
+print(f"✅ Loaded {len(passages)} passages from corpus.")
 
 # -------------------------
-# Load generator
+# TF-IDF for retrieval
 # -------------------------
-GEN_MODEL_NAME = "gpt2"
-GEN_MODEL_PATH = "./saved_models_improved/generator_final.pt"  # adjust path
+vectorizer = TfidfVectorizer(stop_words="english")
+passage_vecs = vectorizer.fit_transform(passages)
 
-tokenizer = AutoTokenizer.from_pretrained(GEN_MODEL_NAME)
-if tokenizer.pad_token is None:
-    tokenizer.pad_token = tokenizer.eos_token
-generator = AutoModelForCausalLM.from_pretrained(GEN_MODEL_NAME).to(DEVICE)
-generator.load_state_dict(torch.load(GEN_MODEL_PATH, map_location=DEVICE))
-generator.eval()
-
-# -------------------------
-# RAG prompt builder
-# -------------------------
-def build_rag_prompt(question, retrieved_docs):
-    prompt = "### Context:\n"
-    for i, (doc, _) in enumerate(retrieved_docs, 1):
-        prompt += f"[{i}] {doc}\n"
-    prompt += "\n### Question:\n" + question + "\n### Answer:\n"
-    return prompt
+def retrieve_context(query, top_k=3):
+    query_vec = vectorizer.transform([query])
+    sims = cosine_similarity(query_vec, passage_vecs).flatten()
+    top_ids = sims.argsort()[-top_k:][::-1]
+    return [(passages[i], float(sims[i])) for i in top_ids]
 
 # -------------------------
-# Generate answer
+# Answer generation
 # -------------------------
-def generate_answer(prompt, max_new_tokens=64, min_new_tokens=5):
-    inputs = tokenizer(prompt, return_tensors="pt").to(DEVICE)
-    out = generator.generate(
-        **inputs,
-        max_new_tokens=max_new_tokens,
-        min_new_tokens=min_new_tokens,
-        do_sample=True,
-        top_k=50,
-        temperature=0.8,
-        num_return_sequences=1,
-        pad_token_id=tokenizer.eos_token_id
-    )
-    text = tokenizer.decode(out[0][inputs['input_ids'].shape[1]:], skip_special_tokens=True).strip()
-    return text
+def generate_answer(question, context):
+    prompt = f"Context:\n{context}\n\nQuestion: {question}\nAnswer:"
+    inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=512)
+    inputs = {k: v.to(model.device) for k, v in inputs.items()}
 
-# -------------------------
-# Light overlap-based fact check
-# -------------------------
-def overlap_fact_check(answer, supporting_passages):
-    answer_tokens = set(answer.lower().split())
-    scores = []
-    for p in supporting_passages:
-        passage_tokens = set(p.lower().split())
-        if len(passage_tokens) > 0:
-            scores.append(len(answer_tokens & passage_tokens) / len(passage_tokens))
-    return float(sum(scores)/len(scores)) if scores else 0.0
+    with torch.no_grad():
+        outputs = model.generate(
+            **inputs,
+            max_new_tokens=100,
+            temperature=0.7,
+            top_p=0.9,
+            do_sample=True,
+            pad_token_id=tokenizer.eos_token_id,
+        )
+
+    decoded = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    if "Answer:" in decoded:
+        decoded = decoded.split("Answer:")[-1].strip()
+    return decoded
 
 # -------------------------
-# Typing effect function
+# Interactive RAG
 # -------------------------
-def type_out(text, delay=0.03):
-    for char in text:
-        print(char, end="", flush=True)
-        time.sleep(delay)
-    print()
+print("\nInteractive enhanced multi-GPU-aware RAG 🧩")
+print("Type a question (or 'exit' to quit):\n")
 
-# -------------------------
-# Real-time loop with highlighted context
-# -------------------------
-def answer_question(question):
-    retrieved = retriever.retrieve(question)
-    prompt = build_rag_prompt(question, retrieved)
-    answer = generate_answer(prompt)
-
-    overlap_score = overlap_fact_check(answer, [doc for doc, _ in retrieved])
-
-    print("\n--- Answer ---")
-    type_out(answer)  # simulate typing
-
-    print("\n--- Context Used ---")
-    for i, (doc, sim) in enumerate(retrieved, 1):
-        print(f"[{i}] ({sim:.2f}) {doc}")
-
-    print("\n--- Minimal Fact Check ---")
-    print(f"Context overlap: {overlap_score:.2f}")
-    if overlap_score < 0.2:
-        print("⚠️ Warning: Answer may be hallucinated (low overlap with context)")
-
-print("Interactive enhanced fast mode: Type a question (or 'exit' to quit):")
 while True:
-    q = input("\n> ")
-    if q.strip().lower() == "exit":
+    question = input("> ").strip()
+    if question.lower() in ["exit", "quit"]:
         break
-    answer_question(q)
+
+    retrieved = retrieve_context(question)
+    combined_ctx = "\n".join([f"[{i+1}] (sim={sim:.2f}) {p}" for i, (p, sim) in enumerate(retrieved)])
+
+    print("\n--- 📚 Context Used ---")
+    for i, (p, sim) in enumerate(retrieved):
+        print(f"[{i+1}] (sim={sim:.2f}) {p}")
+
+    print("\n--- 🧠 Answer ---")
+    answer = generate_answer(question, combined_ctx)
+    print(answer)
+
+    print("\n" + "-"*60 + "\n")
