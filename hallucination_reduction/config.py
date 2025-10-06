@@ -63,7 +63,7 @@ GEN_LR = 1e-5
 MAX_GEN_TOKENS = 64
 MIN_GEN_TOKENS = 5
 TOP_K = 3
-RL_EPOCHS = 10
+RL_EPOCHS = 6
 
 # -------------------------
 # Reward weights

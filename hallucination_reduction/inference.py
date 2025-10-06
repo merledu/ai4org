@@ -1,136 +1,133 @@
 import os
-import sys
-import time
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
-from sklearn.feature_extraction.text import TfidfVectorizer
+from transformers import AutoTokenizer, AutoModelForCausalLM, AutoModel
 from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
 
-# -------------------------
-# Import config
-# -------------------------
-import hallucination_reduction.config as cfg
+CORPUS_PATH = "data/processed/corpus.txt"
+EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"  # lightweight and accurate
 
-# -------------------------
-# Reproducibility
-# -------------------------
-torch.manual_seed(42)
-if torch.cuda.is_available():
-    torch.cuda.manual_seed_all(42)
+# -----------------------------
+# 1. Load or encode corpus
+# -----------------------------
+def load_corpus(corpus_path=CORPUS_PATH):
+    if not os.path.exists(corpus_path):
+        raise FileNotFoundError(f"❌ Corpus file not found: {corpus_path}")
 
-# -------------------------
-# Device setup
-# -------------------------
-if torch.cuda.is_available():
-    n_gpus = torch.cuda.device_count()
-    if n_gpus > 1:
-        DEVICE = "cuda"
-        print(f"✅ {n_gpus} GPUs detected. Using all via device_map='auto'.")
+    with open(corpus_path, "r", encoding="utf-8") as f:
+        docs = [line.strip() for line in f if line.strip()]
+    print(f"📚 Loaded {len(docs)} documents from corpus.")
+    return docs
+
+
+def build_embeddings(docs, embed_model_name=EMBED_MODEL, device="cpu"):
+    from sentence_transformers import SentenceTransformer
+    embedder = SentenceTransformer(embed_model_name, device=device)
+    print("🔹 Encoding corpus embeddings...")
+    corpus_embeddings = embedder.encode(docs, convert_to_numpy=True, show_progress_bar=True)
+    return embedder, corpus_embeddings
+
+
+def retrieve_relevant_chunks(query, embedder, corpus_embeddings, docs, top_k=3):
+    query_emb = embedder.encode([query], convert_to_numpy=True)
+    sims = cosine_similarity(query_emb, corpus_embeddings)[0]
+    top_indices = sims.argsort()[-top_k:][::-1]
+    top_docs = [docs[i] for i in top_indices]
+    return top_docs
+
+
+# -----------------------------
+# 2. Load fine-tuned model
+# -----------------------------
+def find_best_model(weights_dir="./saved_models_improved"):
+    if not os.path.exists(weights_dir):
+        print(f"⚠️ Weights directory not found: {weights_dir}")
+        return None
+
+    files = os.listdir(weights_dir)
+    candidates = [f for f in files if f.startswith("generator") and f.endswith(".pt")]
+    if not candidates:
+        print("⚠️ No generator checkpoints found.")
+        return None
+
+    if "generator_final.pt" in candidates:
+        return os.path.join(weights_dir, "generator_final.pt")
+    if any("best" in f for f in candidates):
+        return os.path.join(weights_dir, sorted([f for f in candidates if "best" in f])[0])
+
+    epoch_files = [f for f in candidates if "epoch" in f]
+    if epoch_files:
+        latest = sorted(epoch_files, key=lambda x: int(x.split("_")[-1].split(".")[0]))[-1]
+        return os.path.join(weights_dir, latest)
+
+    return os.path.join(weights_dir, candidates[0])
+
+
+def load_model(model_name="gpt2", weights_dir="./saved_models_improved"):
+    print(f"🔹 Loading base model/tokenizer: {model_name}")
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForCausalLM.from_pretrained(model_name)
+
+    weights_path = find_best_model(weights_dir)
+    if weights_path and os.path.exists(weights_path):
+        print(f"✅ Loading fine-tuned weights from: {weights_path}")
+        state_dict = torch.load(weights_path, map_location="cpu")
+        model.load_state_dict(state_dict, strict=False)
     else:
-        DEVICE = "cuda"
-        print("✅ Single GPU detected. Using cuda:0")
-else:
-    DEVICE = "cpu"
-    print("⚠️ No GPU detected. Using CPU.")
+        print("⚠️ No fine-tuned weights found. Using base model only.")
 
-# -------------------------
-# Model & tokenizer loading
-# -------------------------
-GEN_MODEL = cfg.GEN_MODEL
-SAVE_PATH = os.path.join(cfg.SAVE_DIR, "generator_final.pt")
-CORPUS_PATH = "./data/processed/corpus.txt"
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    model.to(device)
+    model.eval()
+    print(f"✅ Model ready. Type: CAUSAL, Device: {device}")
+    return model, tokenizer, device
 
-print(f"Loading model/tokenizer: {GEN_MODEL} ...")
-tokenizer = AutoTokenizer.from_pretrained(GEN_MODEL)
-model = AutoModelForCausalLM.from_pretrained(GEN_MODEL, device_map="auto")
 
-# Load fine-tuned weights if available
-if os.path.exists(SAVE_PATH):
-    print(f"✅ Loading fine-tuned weights from {SAVE_PATH}")
-    state_dict = torch.load(SAVE_PATH, map_location="cpu")
-    missing, unexpected = model.load_state_dict(state_dict, strict=False)
-    if missing or unexpected:
-        print(f"⚠️ Mismatch in keys — missing: {len(missing)}, unexpected: {len(unexpected)}")
-else:
-    print("⚠️ No fine-tuned weights found, using base GPT-2 model.")
-
-print(f"Model ready. Representative device: {next(model.parameters()).device}")
-
-# -------------------------
-# Corpus loading
-# -------------------------
-if not os.path.exists(CORPUS_PATH):
-    raise FileNotFoundError(f"Corpus file not found: {CORPUS_PATH}")
-
-with open(CORPUS_PATH, "r", encoding="utf-8") as f:
-    passages = [p.strip() for p in f.readlines() if p.strip()]
-
-print(f"✅ Loaded {len(passages)} passages from corpus.")
-
-# -------------------------
-# TF-IDF vectorization
-# -------------------------
-vectorizer = TfidfVectorizer(stop_words="english")
-passage_vecs = vectorizer.fit_transform(passages)
-
-def retrieve_context(query, top_k=cfg.TOP_K):
-    query_vec = vectorizer.transform([query])
-    sims = cosine_similarity(query_vec, passage_vecs).flatten()
-    top_ids = sims.argsort()[-top_k:][::-1]
-    return [(passages[i], float(sims[i])) for i in top_ids]
-
-# -------------------------
-# Answer generation
-# -------------------------
-def generate_answer(question, context, stream=True, delay=0.02):
-    prompt = f"Context:\n{context}\n\nQuestion: {question}\nAnswer:"
-    inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=512)
-    inputs = {k: v.to(model.device) for k, v in inputs.items()}
+# -----------------------------
+# 3. Generate with retrieved context
+# -----------------------------
+def generate_answer(model, tokenizer, device, question, retrieved_docs, max_length=256):
+    context = "\n".join(retrieved_docs)
+    prompt = f"Context:\n{context}\n\nQ: {question}\nA:"
+    inputs = tokenizer(prompt, return_tensors="pt", truncation=True).to(device)
 
     with torch.no_grad():
         outputs = model.generate(
             **inputs,
-            max_new_tokens=cfg.MAX_GEN_TOKENS,
-            temperature=0.7,
+            max_length=max_length,
+            pad_token_id=tokenizer.eos_token_id,
+            temperature=0.3,
             top_p=0.9,
             do_sample=True,
-            pad_token_id=tokenizer.eos_token_id,
         )
+    answer = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    return answer.split("A:")[-1].strip()
 
-    decoded = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    if "Answer:" in decoded:
-        decoded = decoded.split("Answer:")[-1].strip()
 
-    if stream:
-        for char in decoded:
-            sys.stdout.write(char)
-            sys.stdout.flush()
-            time.sleep(delay)
-        print()
-    else:
-        print(decoded)
+# -----------------------------
+# 4. Interactive RAG chat
+# -----------------------------
+def main():
+    model, tokenizer, device = load_model()
+    docs = load_corpus()
+    embedder, corpus_embeddings = build_embeddings(docs, device=device)
 
-    return decoded
+    print("\n💬 RAG-Enhanced Chat Mode Started — type 'exit' to quit.\n")
 
-# -------------------------
-# Interactive RAG session
-# -------------------------
-print("\nInteractive enhanced multi-GPU-aware RAG 🧩")
-print("Type a question (or 'exit' to quit):\n")
+    while True:
+        question = input("❓ You: ").strip()
+        if question.lower() in {"exit", "quit"}:
+            print("👋 Exiting chat. Goodbye!")
+            break
 
-while True:
-    question = input("> ").strip()
-    if question.lower() in ["exit", "quit"]:
-        break
+        retrieved_docs = retrieve_relevant_chunks(question, embedder, corpus_embeddings, docs)
+        print(f"\n🔎 Retrieved {len(retrieved_docs)} relevant context chunks.")
+        for i, doc in enumerate(retrieved_docs, 1):
+            print(f"   [{i}] {doc[:100]}...")
 
-    retrieved = retrieve_context(question)
-    combined_ctx = "\n".join([f"[{i+1}] (sim={sim:.2f}) {p}" for i, (p, sim) in enumerate(retrieved)])
+        answer = generate_answer(model, tokenizer, device, question, retrieved_docs)
+        print(f"\n🤖 Bot: {answer}\n")
 
-    print("\n--- 📚 Context Used ---")
-    for i, (p, sim) in enumerate(retrieved):
-        print(f"[{i+1}] (sim={sim:.2f}) {p}")
 
-    print("\n--- 🧠 Answer ---")
-    generate_answer(question, combined_ctx, stream=True)
-
-    print("\n" + "-"*60 + "\n")
+if __name__ == "__main__":
+    main()
