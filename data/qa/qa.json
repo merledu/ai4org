@@ -1,142 +1,1521 @@
 [
-    {
-        "question": "Can a customer get a refund if they cancel after 12 hours?",
-        "answer": "Yes — customers may cancel within 24 hours for a full refund.",
-        "supporting_passages": [
-            "Our cancellation policy: Customers may cancel within 24 hours for a full refund. After that, refund requests are handled on a case-by-case basis."
-        ]
-    },
-    {
-        "question": "How long do we retain logs?",
-        "answer": "We retain logs for 90 days and then anonymize them.",
-        "supporting_passages": [
-            "Data retention rules: We keep system logs for 90 days and anonymize them afterward to protect user privacy."
-        ]
-    },
-    {
-        "question": "Who can approve role changes for employees?",
-        "answer": "Only managers can approve employee role changes.",
-        "supporting_passages": [
-            "Access control: Only managers can approve employee role or permission changes."
-        ]
-    },
-    {
-        "question": "Do we require disk encryption on devices?",
-        "answer": "Yes, all devices must have disk encryption enabled.",
-        "supporting_passages": [
-            "Security policy: All devices must have full disk encryption enabled to safeguard sensitive company data."
-        ]
-    },
-    {
-        "question": "What tone should customer-facing replies use?",
-        "answer": "Use professional, concise, and empathetic language.",
-        "supporting_passages": [
-            "Tone guideline: Use professional, concise, and empathetic language when replying to customers."
-        ]
-    },
-    {
-        "question": "When are customer support hours?",
-        "answer": "Customer support is available 24/7 via chat and email.",
-        "supporting_passages": [
-            "Support availability: Customer support operates 24/7 through chat and email to ensure constant assistance."
-        ]
-    },
-    {
-        "question": "Are temporary employees allowed remote access?",
-        "answer": "Yes, but only through secure VPN with limited access rights.",
-        "supporting_passages": [
-            "Remote access policy: Temporary employees may access systems only via secure VPN connections with restricted rights."
-        ]
-    },
-    {
-        "question": "How should employees report suspicious emails?",
-        "answer": "Employees should report suspicious emails to the IT security team using the 'Report Phishing' button.",
-        "supporting_passages": [
-            "Phishing alert policy: Report suspicious emails using the 'Report Phishing' button to notify IT security immediately."
-        ]
-    },
-    {
-        "question": "What is the password policy for internal accounts?",
-        "answer": "Passwords must be at least 12 characters long and include uppercase, lowercase, numbers, and symbols.",
-        "supporting_passages": [
-            "Password standards: Internal passwords must be at least 12 characters long and include uppercase, lowercase, numbers, and special symbols."
-        ]
-    },
-    {
-        "question": "How often must employees complete compliance training?",
-        "answer": "Compliance training must be completed annually by all employees.",
-        "supporting_passages": [
-            "Training policy: All employees must complete compliance and cybersecurity training annually."
-        ]
-    },
-    {
-        "question": "Can employees use personal email for work-related communication?",
-        "answer": "No, all work-related communication must occur via the company email domain.",
-        "supporting_passages": [
-            "Email usage policy: Employees must use official company email accounts for all work-related communications."
-        ]
-    },
-    {
-        "question": "What is the retention period for customer data?",
-        "answer": "Customer data is retained for 5 years unless deletion is requested earlier.",
-        "supporting_passages": [
-            "Customer data retention: Personal data is stored securely for 5 years or until a deletion request is submitted."
-        ]
-    },
-    {
-        "question": "Are employees allowed to install unapproved software?",
-        "answer": "No, only software approved by the IT department may be installed on company devices.",
-        "supporting_passages": [
-            "Software installation rule: Only IT-approved applications may be installed on company-managed devices."
-        ]
-    },
-    {
-        "question": "How often are system backups performed?",
-        "answer": "Full system backups are performed daily and incremental backups every hour.",
-        "supporting_passages": [
-            "Backup process: Full backups occur daily, and incremental backups run hourly to ensure data recovery readiness."
-        ]
-    },
-    {
-        "question": "Can users reset their passwords without contacting support?",
-        "answer": "Yes, users can reset passwords using the self-service portal if multi-factor authentication is enabled.",
-        "supporting_passages": [
-            "Password reset policy: Users can reset passwords via the self-service portal if multi-factor authentication is enabled."
-        ]
-    },
-    {
-        "question": "How do we handle customer complaints?",
-        "answer": "All customer complaints are logged and reviewed within 48 hours by the quality assurance team.",
-        "supporting_passages": [
-            "Customer complaint handling: All complaints are logged, reviewed, and resolved within 48 hours by the QA team."
-        ]
-    },
-    {
-        "question": "What data protection laws does the company comply with?",
-        "answer": "We comply with GDPR, CCPA, and other relevant regional data protection laws.",
-        "supporting_passages": [
-            "Compliance framework: The company follows GDPR, CCPA, and other relevant data protection laws."
-        ]
-    },
-    {
-        "question": "Are personal mobile devices allowed for work?",
-        "answer": "Yes, under the BYOD policy with mobile device management (MDM) enabled.",
-        "supporting_passages": [
-            "BYOD policy: Employees may use personal devices for work if enrolled in Mobile Device Management (MDM)."
-        ]
-    },
-    {
-        "question": "Who can access financial transaction records?",
-        "answer": "Only authorized finance and audit personnel have access to transaction records.",
-        "supporting_passages": [
-            "Financial data policy: Only authorized finance and audit personnel have access to transaction records."
-        ]
-    },
-    {
-        "question": "How should internal documents be shared?",
-        "answer": "Internal documents must be shared only through secure, company-approved file-sharing systems.",
-        "supporting_passages": [
-            "Document sharing policy: Internal documents must be shared only through secure, company-approved systems such as SharePoint or encrypted email."
-        ]
-    }
-]
+  {
+    "question": "Who can access financial transaction records? [finance and transactions #7b8719]",
+    "answer": "Customer data is retained for as per legal requirements unless deletion is requested earlier and legally permitted.",
+    "supporting_passages": [
+      "Financial access: Strict role-based access controls protect transaction records."
+    ]
+  },
+  {
+    "question": "What is the bank's AML screening process? [compliance aml kyc #8a7ba3]",
+    "answer": "Customers can upload updated identity documents through the secure portal or at a branch for KYC updates.",
+    "supporting_passages": [
+      "KYC rules: Acceptable documents include passports, national IDs, and utility bills for address verification."
+    ]
+  },
+  {
+    "question": "How do I open a business account online? [account management #1ab9a3]",
+    "answer": "Contact customer support or use the online portal to close your business account; any remaining balance will be returned after identity verification.",
+    "supporting_passages": [
+      "Opening accounts: Online opening requires identity documents and proof of address, and is subject to approval under KYC policies."
+    ]
+  },
+  {
+    "question": "What is the backup schedule for critical systems? [it and data retention #fc1875]",
+    "answer": "Employees can request data deletion by contacting Data Protection or using the privacy portal, subject to legal retention obligations.",
+    "supporting_passages": [
+      "Backups: Encryption and access controls apply to all backup storage."
+    ]
+  },
+  {
+    "question": "How are complaints escalated? [customer support and refunds #8dac59]",
+    "answer": "Use professional, concise, and empathetic language for all customer-facing replies.",
+    "supporting_passages": [
+      "Support: Escalation procedures detail timelines and ownership for complaint resolution."
+    ]
+  },
+  {
+    "question": "How long does student loan approval take? [loans and mortgages #918dbd]",
+    "answer": "Prepayment rules vary by product; many personal loans allow partial prepayment but may include penalties — check your loan agreement.",
+    "supporting_passages": [
+      "Approval timelines vary: consumer loans may be quicker while mortgages require property valuation and underwriting."
+    ]
+  },
+  {
+    "question": "What is the interest rate structure for mortgage loans? [loans and mortgages #624fd3]",
+    "answer": "Typical approval for auto loans takes 3-5 business days after submission of complete documents.",
+    "supporting_passages": [
+      "Approval timelines vary: consumer loans may be quicker while mortgages require property valuation and underwriting."
+    ]
+  },
+  {
+    "question": "How long do ACH transfers take? [payments and cards #279a48]",
+    "answer": "ACH transfers typically settle in same-day when eligible business days.",
+    "supporting_passages": [
+      "Payments: ACH processing timelines vary; banks commonly use 1-3 business days for settlement."
+    ]
+  },
+  {
+    "question": "How do customers submit identity updates for KYC? [compliance aml kyc #da2ad6]",
+    "answer": "Customers can upload updated identity documents through the secure portal or at a branch for KYC updates.",
+    "supporting_passages": [
+      "AML: Automated screening combined with manual review helps the bank meet regulatory obligations."
+    ]
+  },
+  {
+    "question": "What internal approvals are required for wire transfers above $100,000? [finance and transactions #d51985]",
+    "answer": "Only authorized finance and audit personnel have access to transaction records.",
+    "supporting_passages": [
+      "Retention: Financial records retention aligns with regulatory requirements."
+    ]
+  },
+  {
+    "question": "How do I open a checking account online? [account management #d16339]",
+    "answer": "The minimum balance for our savings account is $250. If you fall below this, fees may apply.",
+    "supporting_passages": [
+      "Opening accounts: Online opening requires identity documents and proof of address, and is subject to approval under KYC policies."
+    ]
+  },
+  {
+    "question": "Can employees use personal email for work-related communication? [hr and internal #e16a98]",
+    "answer": "No — all work-related communication must use the official company email domain.",
+    "supporting_passages": [
+      "HR approvals: Role changes require manager sign-off and HR processing."
+    ]
+  },
+  {
+    "question": "What is the backup schedule for critical systems? [it and data retention #51827b]",
+    "answer": "Third-party access to production data is restricted and requires contractual safeguards and least-privilege access.",
+    "supporting_passages": [
+      "Backups: Encryption and access controls apply to all backup storage."
+    ]
+  },
+  {
+    "question": "What is the password policy for internal accounts? [hr and internal #309a51]",
+    "answer": "Compliance training must be completed annually by all employees.",
+    "supporting_passages": [
+      "HR approvals: Role changes require manager sign-off and HR processing."
+    ]
+  },
+  {
+    "question": "What documents are required to apply for a personal loan? [loans and mortgages #5fb4b1]",
+    "answer": "Typical approval for auto loans takes 1-2 weeks after submission of complete documents.",
+    "supporting_passages": [
+      "Approval timelines vary: consumer loans may be quicker while mortgages require property valuation and underwriting."
+    ]
+  },
+  {
+    "question": "Are temporary employees allowed remote access? [hr and internal #8460fb]",
+    "answer": "Compliance training must be completed annually by all employees.",
+    "supporting_passages": [
+      "Training: Annual compliance and cybersecurity training is mandatory for all staff."
+    ]
+  },
+  {
+    "question": "How do I apply for a mortgage refinance? [loans and mortgages #34227e]",
+    "answer": "Prepayment rules vary by product; many small business loans allow partial prepayment but may include penalties — check your loan agreement.",
+    "supporting_passages": [
+      "Approval timelines vary: consumer loans may be quicker while mortgages require property valuation and underwriting."
+    ]
+  },
+  {
+    "question": "How can I close my joint account? [account management #2432c2]",
+    "answer": "Direct debits will be transferred to the new account if you set up a transfer; otherwise they may fail and you must notify the payees.",
+    "supporting_passages": [
+      "Opening accounts: Online opening requires identity documents and proof of address, and is subject to approval under KYC policies."
+    ]
+  },
+  {
+    "question": "How long does small business loan approval take? [loans and mortgages #2944c8]",
+    "answer": "Typical approval for mortgage loans takes 3-5 business days after submission of complete documents.",
+    "supporting_passages": [
+      "Loan documentation: ID, income verification and collateral documents are required for loan processing."
+    ]
+  },
+  {
+    "question": "What is the minimum balance for a joint account? [account management #627634]",
+    "answer": "To open a savings account online, complete KYC (identity verification), provide proof of address, and accept terms.",
+    "supporting_passages": [
+      "Account management: To close an account, customers must submit a closure request via the portal or contact support. Remaining balances are processed after KYC."
+    ]
+  },
+  {
+    "question": "What internal approvals are required for wire transfers above $100,000? [finance and transactions #55a496]",
+    "answer": "Wire transfers above $100,000 require dual approval from authorized signatories and compliance checks.",
+    "supporting_passages": [
+      "Retention: Financial records retention aligns with regulatory requirements."
+    ]
+  },
+  {
+    "question": "How do customers submit identity updates for KYC? [compliance aml kyc #30f983]",
+    "answer": "Yes — the bank complies with applicable data protection laws and stores KYC data securely.",
+    "supporting_passages": [
+      "AML: Automated screening combined with manual review helps the bank meet regulatory obligations."
+    ]
+  },
+  {
+    "question": "What is the minimum balance for a student account? [account management #909382]",
+    "answer": "The minimum balance for our checking account is $100. If you fall below this, fees may apply.",
+    "supporting_passages": [
+      "Account management: To close an account, customers must submit a closure request via the portal or contact support. Remaining balances are processed after KYC."
+    ]
+  },
+  {
+    "question": "What is the daily ATM withdrawal limit? [payments and cards #0fe6c3]",
+    "answer": "International wire fees depend on destination and intermediary banks; refer to the fee schedule for exact amounts.",
+    "supporting_passages": [
+      "Payments: ACH processing timelines vary; banks commonly use 1-3 business days for settlement."
+    ]
+  },
+  {
+    "question": "What is the backup schedule for critical systems? [it and data retention #fc1875]",
+    "answer": "Employees can request data deletion by contacting Data Protection or using the privacy portal, subject to legal retention obligations.",
+    "supporting_passages": [
+      "Retention policy: Logs are retained for a period to support security and compliance, after which they are anonymized."
+    ]
+  },
+  {
+    "question": "What is the minimum balance for a student account? [account management #6a125c]",
+    "answer": "To open a business account online, complete KYC (identity verification), provide proof of address, and accept terms.",
+    "supporting_passages": [
+      "Opening accounts: Online opening requires identity documents and proof of address, and is subject to approval under KYC policies."
+    ]
+  },
+  {
+    "question": "What internal approvals are required for wire transfers above $50,000? [finance and transactions #7f0770]",
+    "answer": "Large cash deposits require branch verification, identification, and may be reported per regulatory rules.",
+    "supporting_passages": [
+      "Financial access: Strict role-based access controls protect transaction records."
+    ]
+  },
+  {
+    "question": "How long are system logs retained? [it and data retention #b6f98c]",
+    "answer": "Employees can request data deletion by contacting Data Protection or using the privacy portal, subject to legal retention obligations.",
+    "supporting_passages": [
+      "Retention policy: Logs are retained for a period to support security and compliance, after which they are anonymized."
+    ]
+  },
+  {
+    "question": "How do I apply for a mortgage refinance? [loans and mortgages #dd657c]",
+    "answer": "Prepayment rules vary by product; many student loans allow partial prepayment but may include penalties — check your loan agreement.",
+    "supporting_passages": [
+      "Approval timelines vary: consumer loans may be quicker while mortgages require property valuation and underwriting."
+    ]
+  },
+  {
+    "question": "What is the backup schedule for critical systems? [it and data retention #0aaa76]",
+    "answer": "Critical systems have daily full backups and hourly incremental backups; retention policies vary by service.",
+    "supporting_passages": [
+      "Backups: Encryption and access controls apply to all backup storage."
+    ]
+  },
+  {
+    "question": "Can I prepay my small business loan without penalty? [loans and mortgages #074ef3]",
+    "answer": "To refinance, submit a refinance application, property valuation, and current loan statements; the bank will evaluate eligibility.",
+    "supporting_passages": [
+      "Approval timelines vary: consumer loans may be quicker while mortgages require property valuation and underwriting."
+    ]
+  },
+  {
+    "question": "What internal approvals are required for wire transfers above $50,000? [finance and transactions #be2267]",
+    "answer": "Customer data is retained for 5 years unless deletion is requested earlier and legally permitted.",
+    "supporting_passages": [
+      "Retention: Financial records retention aligns with regulatory requirements."
+    ]
+  },
+  {
+    "question": "What happens to direct debits if I close my student account? [account management #ef288b]",
+    "answer": "Contact customer support or use the online portal to close your savings account; any remaining balance will be returned after identity verification.",
+    "supporting_passages": [
+      "Account management: To close an account, customers must submit a closure request via the portal or contact support. Remaining balances are processed after KYC."
+    ]
+  },
+  {
+    "question": "How do customers submit identity updates for KYC? [compliance aml kyc #30f983]",
+    "answer": "Yes — the bank complies with applicable data protection laws and stores KYC data securely.",
+    "supporting_passages": [
+      "AML: Automated screening combined with manual review helps the bank meet regulatory obligations."
+    ]
+  },
+  {
+    "question": "How long do ACH transfers take? [payments and cards #b33ca6]",
+    "answer": "ACH transfers typically settle in 2-4 business days.",
+    "supporting_passages": [
+      "Fees: Wire and FX fees vary by corridor and correspondent banks."
+    ]
+  },
+  {
+    "question": "Does the bank comply with local data protection laws for KYC data? [compliance aml kyc #7640f5]",
+    "answer": "Customers can upload updated identity documents through the secure portal or at a branch for KYC updates.",
+    "supporting_passages": [
+      "AML: Automated screening combined with manual review helps the bank meet regulatory obligations."
+    ]
+  },
+  {
+    "question": "What tone should customer-facing replies use? [customer support and refunds #9e4912]",
+    "answer": "Yes — customers may cancel within 24 hours for a full refund; cancellations after 12 hours are handled case-by-case.",
+    "supporting_passages": [
+      "Support: Escalation procedures detail timelines and ownership for complaint resolution."
+    ]
+  },
+  {
+    "question": "What is the password policy for internal accounts? [hr and internal #43c55a]",
+    "answer": "Passwords must be at least 12 characters long and include uppercase, lowercase, numbers, and symbols.",
+    "supporting_passages": [
+      "HR approvals: Role changes require manager sign-off and HR processing."
+    ]
+  },
+  {
+    "question": "How do customers submit identity updates for KYC? [compliance aml kyc #00d949]",
+    "answer": "We accept government-issued photo ID, proof of address, and in some cases tax documentation for KYC.",
+    "supporting_passages": [
+      "KYC rules: Acceptable documents include passports, national IDs, and utility bills for address verification."
+    ]
+  },
+  {
+    "question": "How long do you keep KYC records? [compliance aml kyc #2888a2]",
+    "answer": "AML screening includes sanctions list checks, transaction monitoring, and manual review of flagged activity.",
+    "supporting_passages": [
+      "KYC rules: Acceptable documents include passports, national IDs, and utility bills for address verification."
+    ]
+  },
+  {
+    "question": "Are third-party vendors allowed to access production data? [it and data retention #d4e889]",
+    "answer": "System logs are retained for 180 days and then anonymized or archived offsite.",
+    "supporting_passages": [
+      "Backups: Encryption and access controls apply to all backup storage."
+    ]
+  },
+  {
+    "question": "How long do ACH transfers take? [payments and cards #b54555]",
+    "answer": "International wire fees depend on destination and intermediary banks; refer to the fee schedule for exact amounts.",
+    "supporting_passages": [
+      "Payments: ACH processing timelines vary; banks commonly use 1-3 business days for settlement."
+    ]
+  },
+  {
+    "question": "What is the bank's AML screening process? [compliance aml kyc #e6197f]",
+    "answer": "KYC records are retained according to regulatory requirements; typically for 7 years from account opening.",
+    "supporting_passages": [
+      "KYC rules: Acceptable documents include passports, national IDs, and utility bills for address verification."
+    ]
+  },
+  {
+    "question": "What is the retention period for customer data? [finance and transactions #5d562d]",
+    "answer": "Customer data is retained for as per legal requirements unless deletion is requested earlier and legally permitted.",
+    "supporting_passages": [
+      "Retention: Financial records retention aligns with regulatory requirements."
+    ]
+  },
+  {
+    "question": "What KYC documents are accepted for new accounts? [compliance aml kyc #39df78]",
+    "answer": "Customers can upload updated identity documents through the secure portal or at a branch for KYC updates.",
+    "supporting_passages": [
+      "KYC rules: Acceptable documents include passports, national IDs, and utility bills for address verification."
+    ]
+  },
+  {
+    "question": "What documents are required to apply for a student loan? [loans and mortgages #b0ed19]",
+    "answer": "Typical approval for personal loans takes 1-2 weeks after submission of complete documents.",
+    "supporting_passages": [
+      "Approval timelines vary: consumer loans may be quicker while mortgages require property valuation and underwriting."
+    ]
+  },
+  {
+    "question": "What internal approvals are required for wire transfers above $50,000? [finance and transactions #ce87d8]",
+    "answer": "Customer data is retained for as per legal requirements unless deletion is requested earlier and legally permitted.",
+    "supporting_passages": [
+      "Financial access: Strict role-based access controls protect transaction records."
+    ]
+  },
+  {
+    "question": "What is the password policy for internal accounts? [hr and internal #11b017]",
+    "answer": "Temporary employees may access systems only via secure VPN with restricted rights.",
+    "supporting_passages": [
+      "HR approvals: Role changes require manager sign-off and HR processing."
+    ]
+  },
+  {
+    "question": "How are complaints escalated? [customer support and refunds #f94793]",
+    "answer": "Yes — we assist customers with chargebacks following card network rules and provide documentation for disputes.",
+    "supporting_passages": [
+      "Refunds: Full refunds are granted within 24 hours; after that refunds require review."
+    ]
+  },
+  {
+    "question": "Do you offer chargeback support for disputed payments? [customer support and refunds #a8a09e]",
+    "answer": "Business account support is available during 9am-6pm local time and via emergency channels outside those hours.",
+    "supporting_passages": [
+      "Support: Escalation procedures detail timelines and ownership for complaint resolution."
+    ]
+  },
+  {
+    "question": "How are complaints escalated? [customer support and refunds #427c86]",
+    "answer": "Yes — customers may cancel within 24 hours for a full refund; cancellations after 12 hours are handled case-by-case.",
+    "supporting_passages": [
+      "Refunds: Full refunds are granted within 24 hours; after that refunds require review."
+    ]
+  },
+  {
+    "question": "Can employees use personal email for work-related communication? [hr and internal #e16a98]",
+    "answer": "No — all work-related communication must use the official company email domain.",
+    "supporting_passages": [
+      "Training: Annual compliance and cybersecurity training is mandatory for all staff."
+    ]
+  },
+  {
+    "question": "What internal approvals are required for wire transfers above $10,000? [finance and transactions #b7157f]",
+    "answer": "Full system backups for financial systems are performed daily with hourly incremental backups.",
+    "supporting_passages": [
+      "Financial access: Strict role-based access controls protect transaction records."
+    ]
+  },
+  {
+    "question": "Do you encrypt backups at rest? [it and data retention #61feb5]",
+    "answer": "Third-party access to production data is restricted and requires contractual safeguards and least-privilege access.",
+    "supporting_passages": [
+      "Retention policy: Logs are retained for a period to support security and compliance, after which they are anonymized."
+    ]
+  },
+  {
+    "question": "How do you secure mobile banking sessions? [fraud and security #b3feb4]",
+    "answer": "Immediately contact support to block your card and dispute transactions; we will investigate and may provisionally credit your account.",
+    "supporting_passages": [
+      "Fraud response: Block cards immediately and open an investigation; provisional credits might be provided pending outcome."
+    ]
+  },
+  {
+    "question": "How often must employees complete compliance training? [hr and internal #bcf378]",
+    "answer": "Passwords must be at least 12 characters long and include uppercase, lowercase, numbers, and symbols.",
+    "supporting_passages": [
+      "HR approvals: Role changes require manager sign-off and HR processing."
+    ]
+  },
+  {
+    "question": "What is the bank's AML screening process? [compliance aml kyc #290182]",
+    "answer": "KYC records are retained according to regulatory requirements; typically for 5 years from account opening.",
+    "supporting_passages": [
+      "AML: Automated screening combined with manual review helps the bank meet regulatory obligations."
+    ]
+  },
+  {
+    "question": "How do I dispute a card transaction? [payments and cards #8176b1]",
+    "answer": "The default daily ATM withdrawal limit is $1,000; customers can request temporary increases subject to approval.",
+    "supporting_passages": [
+      "Payments: ACH processing timelines vary; banks commonly use 1-3 business days for settlement."
+    ]
+  },
+  {
+    "question": "What are customer support hours for business accounts? [customer support and refunds #e254f6]",
+    "answer": "Yes — we assist customers with chargebacks following card network rules and provide documentation for disputes.",
+    "supporting_passages": [
+      "Refunds: Full refunds are granted within 24 hours; after that refunds require review."
+    ]
+  },
+  {
+    "question": "What is the minimum balance for a business account? [account management #e16a24]",
+    "answer": "Yes — you can link multiple joint accounts to a single profile through the online banking portal.",
+    "supporting_passages": [
+      "Opening accounts: Online opening requires identity documents and proof of address, and is subject to approval under KYC policies."
+    ]
+  },
+  {
+    "question": "What is the backup schedule for critical systems? [it and data retention #fc1875]",
+    "answer": "Employees can request data deletion by contacting Data Protection or using the privacy portal, subject to legal retention obligations.",
+    "supporting_passages": [
+      "Retention policy: Logs are retained for a period to support security and compliance, after which they are anonymized."
+    ]
+  },
+  {
+    "question": "How can employees request data deletion? [it and data retention #26545d]",
+    "answer": "Critical systems have daily full backups and hourly incremental backups; retention policies vary by service.",
+    "supporting_passages": [
+      "Retention policy: Logs are retained for a period to support security and compliance, after which they are anonymized."
+    ]
+  },
+  {
+    "question": "How do customers submit identity updates for KYC? [compliance aml kyc #00d949]",
+    "answer": "We accept government-issued photo ID, proof of address, and in some cases tax documentation for KYC.",
+    "supporting_passages": [
+      "KYC rules: Acceptable documents include passports, national IDs, and utility bills for address verification."
+    ]
+  },
+  {
+    "question": "Are temporary employees allowed remote access? [hr and internal #74325b]",
+    "answer": "Temporary employees may access systems only via secure VPN with restricted rights.",
+    "supporting_passages": [
+      "Training: Annual compliance and cybersecurity training is mandatory for all staff."
+    ]
+  },
+  {
+    "question": "What documents are required to apply for a student loan? [loans and mortgages #47687f]",
+    "answer": "Interest for student loans can be fixed or variable; see the loan schedule for specific rates and adjustment periods.",
+    "supporting_passages": [
+      "Approval timelines vary: consumer loans may be quicker while mortgages require property valuation and underwriting."
+    ]
+  },
+  {
+    "question": "Can employees use personal email for work-related communication? [hr and internal #c55540]",
+    "answer": "Compliance training must be completed annually by all employees.",
+    "supporting_passages": [
+      "HR approvals: Role changes require manager sign-off and HR processing."
+    ]
+  },
+  {
+    "question": "Does the bank offer transaction alerts for suspicious activity? [fraud and security #f57c4e]",
+    "answer": "Yes, customers can freeze their debit or credit card instantly via the mobile app or by contacting support.",
+    "supporting_passages": [
+      "Security measures: Multi-factor authentication and transaction alerts help detect and stop fraud in real time."
+    ]
+  },
+  {
+    "question": "How long do you keep KYC records? [compliance aml kyc #81fd1a]",
+    "answer": "We accept government-issued photo ID, proof of address, and in some cases tax documentation for KYC.",
+    "supporting_passages": [
+      "KYC rules: Acceptable documents include passports, national IDs, and utility bills for address verification."
+    ]
+  },
+  {
+    "question": "How do customers submit identity updates for KYC? [compliance aml kyc #00d949]",
+    "answer": "We accept government-issued photo ID, proof of address, and in some cases tax documentation for KYC.",
+    "supporting_passages": [
+      "KYC rules: Acceptable documents include passports, national IDs, and utility bills for address verification."
+    ]
+  },
+  {
+    "question": "How often must employees complete compliance training? [hr and internal #5ba007]",
+    "answer": "No — all work-related communication must use the official company email domain.",
+    "supporting_passages": [
+      "HR approvals: Role changes require manager sign-off and HR processing."
+    ]
+  },
+  {
+    "question": "Can a customer get a refund if they cancel after 48 hours? [customer support and refunds #0a6206]",
+    "answer": "Business account support is available during 9am-6pm local time and via emergency channels outside those hours.",
+    "supporting_passages": [
+      "Support: Escalation procedures detail timelines and ownership for complaint resolution."
+    ]
+  },
+  {
+    "question": "How are complaints escalated? [customer support and refunds #9c6c46]",
+    "answer": "Business account support is available during 9am-6pm local time and via emergency channels outside those hours.",
+    "supporting_passages": [
+      "Support: Escalation procedures detail timelines and ownership for complaint resolution."
+    ]
+  },
+  {
+    "question": "Does the bank offer transaction alerts for suspicious activity? [fraud and security #f57c4e]",
+    "answer": "Yes, customers can freeze their debit or credit card instantly via the mobile app or by contacting support.",
+    "supporting_passages": [
+      "Fraud response: Block cards immediately and open an investigation; provisional credits might be provided pending outcome."
+    ]
+  },
+  {
+    "question": "Who can access financial transaction records? [finance and transactions #0b9998]",
+    "answer": "Customer data is retained for 5 years unless deletion is requested earlier and legally permitted.",
+    "supporting_passages": [
+      "Retention: Financial records retention aligns with regulatory requirements."
+    ]
+  },
+  {
+    "question": "How do I open a student account online? [account management #c1f8ff]",
+    "answer": "Yes — you can link multiple savings accounts to a single profile through the online banking portal.",
+    "supporting_passages": [
+      "Account management: To close an account, customers must submit a closure request via the portal or contact support. Remaining balances are processed after KYC."
+    ]
+  },
+  {
+    "question": "How are complaints escalated? [customer support and refunds #774acc]",
+    "answer": "Business account support is available during 24/7 for premium accounts and via emergency channels outside those hours.",
+    "supporting_passages": [
+      "Support: Escalation procedures detail timelines and ownership for complaint resolution."
+    ]
+  },
+  {
+    "question": "Can I prepay my personal loan without penalty? [loans and mortgages #e9b9f9]",
+    "answer": "Prepayment rules vary by product; many personal loans allow partial prepayment but may include penalties — check your loan agreement.",
+    "supporting_passages": [
+      "Approval timelines vary: consumer loans may be quicker while mortgages require property valuation and underwriting."
+    ]
+  },
+  {
+    "question": "How long does small business loan approval take? [loans and mortgages #7d1d0e]",
+    "answer": "To refinance, submit a refinance application, property valuation, and current loan statements; the bank will evaluate eligibility.",
+    "supporting_passages": [
+      "Approval timelines vary: consumer loans may be quicker while mortgages require property valuation and underwriting."
+    ]
+  },
+  {
+    "question": "What is the process for reporting phishing emails? [fraud and security #c3ee3f]",
+    "answer": "Yes, customers can freeze their debit or credit card instantly via the mobile app or by contacting support.",
+    "supporting_passages": [
+      "Fraud response: Block cards immediately and open an investigation; provisional credits might be provided pending outcome."
+    ]
+  },
+  {
+    "question": "What is the bank's AML screening process? [compliance aml kyc #e6197f]",
+    "answer": "KYC records are retained according to regulatory requirements; typically for 7 years from account opening.",
+    "supporting_passages": [
+      "AML: Automated screening combined with manual review helps the bank meet regulatory obligations."
+    ]
+  },
+  {
+    "question": "Are third-party vendors allowed to access production data? [it and data retention #e60a83]",
+    "answer": "Critical systems have daily full backups and hourly incremental backups; retention policies vary by service.",
+    "supporting_passages": [
+      "Retention policy: Logs are retained for a period to support security and compliance, after which they are anonymized."
+    ]
+  },
+  {
+    "question": "How often are system backups performed for financial records? [finance and transactions #f76fea]",
+    "answer": "Wire transfers above $10,000 require dual approval from authorized signatories and compliance checks.",
+    "supporting_passages": [
+      "Financial access: Strict role-based access controls protect transaction records."
+    ]
+  },
+  {
+    "question": "What documents are required to apply for a personal loan? [loans and mortgages #4e4a43]",
+    "answer": "Required documents include ID, income proof (pay slips or tax returns), and property details for mortgage loans.",
+    "supporting_passages": [
+      "Loan documentation: ID, income verification and collateral documents are required for loan processing."
+    ]
+  },
+  {
+    "question": "How do I open a student account online? [account management #a9bc95]",
+    "answer": "Direct debits will be transferred to the new account if you set up a transfer; otherwise they may fail and you must notify the payees.",
+    "supporting_passages": [
+      "Account rules: Minimum balances vary by product. Fees can apply when balances fall below the required minimum."
+    ]
+  },
+  {
+    "question": "What KYC documents are accepted for new accounts? [compliance aml kyc #23e252]",
+    "answer": "We accept government-issued photo ID, proof of address, and in some cases tax documentation for KYC.",
+    "supporting_passages": [
+      "KYC rules: Acceptable documents include passports, national IDs, and utility bills for address verification."
+    ]
+  },
+  {
+    "question": "How can employees request data deletion? [it and data retention #6b9442]",
+    "answer": "System logs are retained for 180 days and then anonymized or archived offsite.",
+    "supporting_passages": [
+      "Backups: Encryption and access controls apply to all backup storage."
+    ]
+  },
+  {
+    "question": "How can I close my checking account? [account management #9ec2a4]",
+    "answer": "Contact customer support or use the online portal to close your savings account; any remaining balance will be returned after identity verification.",
+    "supporting_passages": [
+      "Account management: To close an account, customers must submit a closure request via the portal or contact support. Remaining balances are processed after KYC."
+    ]
+  },
+  {
+    "question": "How often are system backups performed for financial records? [finance and transactions #fb1b78]",
+    "answer": "Wire transfers above $50,000 require dual approval from authorized signatories and compliance checks.",
+    "supporting_passages": [
+      "Financial access: Strict role-based access controls protect transaction records."
+    ]
+  },
+  {
+    "question": "What is the password policy for internal accounts? [hr and internal #84f757]",
+    "answer": "Only managers can approve employee role changes through the HR portal.",
+    "supporting_passages": [
+      "Training: Annual compliance and cybersecurity training is mandatory for all staff."
+    ]
+  },
+  {
+    "question": "What is the interest rate structure for personal loans? [loans and mortgages #4151b0]",
+    "answer": "Prepayment rules vary by product; many student loans allow partial prepayment but may include penalties — check your loan agreement.",
+    "supporting_passages": [
+      "Loan documentation: ID, income verification and collateral documents are required for loan processing."
+    ]
+  },
+  {
+    "question": "How long does mortgage loan approval take? [loans and mortgages #d7c445]",
+    "answer": "Typical approval for personal loans takes 4-6 weeks after submission of complete documents.",
+    "supporting_passages": [
+      "Approval timelines vary: consumer loans may be quicker while mortgages require property valuation and underwriting."
+    ]
+  },
+  {
+    "question": "How do I apply for a mortgage refinance? [loans and mortgages #e8358b]",
+    "answer": "Typical approval for personal loans takes 4-6 weeks after submission of complete documents.",
+    "supporting_passages": [
+      "Approval timelines vary: consumer loans may be quicker while mortgages require property valuation and underwriting."
+    ]
+  },
+  {
+    "question": "How long do ACH transfers take? [payments and cards #892093]",
+    "answer": "To dispute a transaction, report it in the app or contact support within 30 days with transaction details.",
+    "supporting_passages": [
+      "Fees: Wire and FX fees vary by corridor and correspondent banks."
+    ]
+  },
+  {
+    "question": "How can I close my joint account? [account management #e7e90d]",
+    "answer": "Yes — you can link multiple joint accounts to a single profile through the online banking portal.",
+    "supporting_passages": [
+      "Account management: To close an account, customers must submit a closure request via the portal or contact support. Remaining balances are processed after KYC."
+    ]
+  },
+  {
+    "question": "What documents are required to apply for a small business loan? [loans and mortgages #22cffc]",
+    "answer": "To refinance, submit a refinance application, property valuation, and current loan statements; the bank will evaluate eligibility.",
+    "supporting_passages": [
+      "Loan documentation: ID, income verification and collateral documents are required for loan processing."
+    ]
+  },
+  {
+    "question": "What internal approvals are required for wire transfers above $10,000? [finance and transactions #f52e87]",
+    "answer": "Large cash deposits require branch verification, identification, and may be reported per regulatory rules.",
+    "supporting_passages": [
+      "Retention: Financial records retention aligns with regulatory requirements."
+    ]
+  },
+  {
+    "question": "How long are system logs retained? [it and data retention #41dcbc]",
+    "answer": "Third-party access to production data is restricted and requires contractual safeguards and least-privilege access.",
+    "supporting_passages": [
+      "Backups: Encryption and access controls apply to all backup storage."
+    ]
+  },
+  {
+    "question": "How do I apply for a mortgage refinance? [loans and mortgages #c75fe1]",
+    "answer": "To refinance, submit a refinance application, property valuation, and current loan statements; the bank will evaluate eligibility.",
+    "supporting_passages": [
+      "Loan documentation: ID, income verification and collateral documents are required for loan processing."
+    ]
+  },
+  {
+    "question": "What is the backup schedule for critical systems? [it and data retention #1298f7]",
+    "answer": "System logs are retained for 1 year and then anonymized or archived offsite.",
+    "supporting_passages": [
+      "Retention policy: Logs are retained for a period to support security and compliance, after which they are anonymized."
+    ]
+  },
+  {
+    "question": "What is the daily ATM withdrawal limit? [payments and cards #788795]",
+    "answer": "Yes — you can set up recurring card or account payments via the bill pay feature.",
+    "supporting_passages": [
+      "Payments: ACH processing timelines vary; banks commonly use 1-3 business days for settlement."
+    ]
+  },
+  {
+    "question": "Does the bank offer transaction alerts for suspicious activity? [fraud and security #f57c4e]",
+    "answer": "Yes, customers can freeze their debit or credit card instantly via the mobile app or by contacting support.",
+    "supporting_passages": [
+      "Fraud response: Block cards immediately and open an investigation; provisional credits might be provided pending outcome."
+    ]
+  },
+  {
+    "question": "How do I open a checking account online? [account management #c9a5e4]",
+    "answer": "Yes — you can link multiple business accounts to a single profile through the online banking portal.",
+    "supporting_passages": [
+      "Account management: To close an account, customers must submit a closure request via the portal or contact support. Remaining balances are processed after KYC."
+    ]
+  },
+  {
+    "question": "What is the bank's AML screening process? [compliance aml kyc #2bd097]",
+    "answer": "Yes — the bank complies with applicable data protection laws and stores KYC data securely.",
+    "supporting_passages": [
+      "AML: Automated screening combined with manual review helps the bank meet regulatory obligations."
+    ]
+  },
+  {
+    "question": "Are temporary employees allowed remote access? [hr and internal #2d000e]",
+    "answer": "Passwords must be at least 12 characters long and include uppercase, lowercase, numbers, and symbols.",
+    "supporting_passages": [
+      "Training: Annual compliance and cybersecurity training is mandatory for all staff."
+    ]
+  },
+  {
+    "question": "How do I apply for a mortgage refinance? [loans and mortgages #745acd]",
+    "answer": "Interest for personal loans can be fixed or variable; see the loan schedule for specific rates and adjustment periods.",
+    "supporting_passages": [
+      "Approval timelines vary: consumer loans may be quicker while mortgages require property valuation and underwriting."
+    ]
+  },
+  {
+    "question": "What is the bank's AML screening process? [compliance aml kyc #2bd097]",
+    "answer": "Yes — the bank complies with applicable data protection laws and stores KYC data securely.",
+    "supporting_passages": [
+      "AML: Automated screening combined with manual review helps the bank meet regulatory obligations."
+    ]
+  },
+  {
+    "question": "Are temporary employees allowed remote access? [hr and internal #8460fb]",
+    "answer": "Compliance training must be completed annually by all employees.",
+    "supporting_passages": [
+      "HR approvals: Role changes require manager sign-off and HR processing."
+    ]
+  },
+  {
+    "question": "What is the password policy for internal accounts? [hr and internal #309a51]",
+    "answer": "Compliance training must be completed annually by all employees.",
+    "supporting_passages": [
+      "Training: Annual compliance and cybersecurity training is mandatory for all staff."
+    ]
+  },
+  {
+    "question": "Do you encrypt backups at rest? [it and data retention #61feb5]",
+    "answer": "Third-party access to production data is restricted and requires contractual safeguards and least-privilege access.",
+    "supporting_passages": [
+      "Backups: Encryption and access controls apply to all backup storage."
+    ]
+  },
+  {
+    "question": "What is the backup schedule for critical systems? [it and data retention #0aaa76]",
+    "answer": "Critical systems have daily full backups and hourly incremental backups; retention policies vary by service.",
+    "supporting_passages": [
+      "Retention policy: Logs are retained for a period to support security and compliance, after which they are anonymized."
+    ]
+  },
+  {
+    "question": "Can a customer freeze their card instantly? [fraud and security #45ace7]",
+    "answer": "Mobile banking uses MFA, session timeout, and encrypted connections to secure customer sessions.",
+    "supporting_passages": [
+      "Security measures: Multi-factor authentication and transaction alerts help detect and stop fraud in real time."
+    ]
+  },
+  {
+    "question": "What is the backup schedule for critical systems? [it and data retention #51827b]",
+    "answer": "Third-party access to production data is restricted and requires contractual safeguards and least-privilege access.",
+    "supporting_passages": [
+      "Backups: Encryption and access controls apply to all backup storage."
+    ]
+  },
+  {
+    "question": "What are international wire fees? [payments and cards #5a2a66]",
+    "answer": "Yes — you can set up recurring card or account payments via the bill pay feature.",
+    "supporting_passages": [
+      "Fees: Wire and FX fees vary by corridor and correspondent banks."
+    ]
+  },
+  {
+    "question": "How can I close my business account? [account management #b8a9cc]",
+    "answer": "The minimum balance for our student account is $500. If you fall below this, fees may apply.",
+    "supporting_passages": [
+      "Opening accounts: Online opening requires identity documents and proof of address, and is subject to approval under KYC policies."
+    ]
+  },
+  {
+    "question": "How long does small business loan approval take? [loans and mortgages #d6daa6]",
+    "answer": "Prepayment rules vary by product; many mortgage loans allow partial prepayment but may include penalties — check your loan agreement.",
+    "supporting_passages": [
+      "Loan documentation: ID, income verification and collateral documents are required for loan processing."
+    ]
+  },
+  {
+    "question": "How often must employees complete compliance training? [hr and internal #5ba007]",
+    "answer": "No — all work-related communication must use the official company email domain.",
+    "supporting_passages": [
+      "Training: Annual compliance and cybersecurity training is mandatory for all staff."
+    ]
+  },
+  {
+    "question": "Who can approve role changes for employees? [hr and internal #0dfff5]",
+    "answer": "Temporary employees may access systems only via secure VPN with restricted rights.",
+    "supporting_passages": [
+      "Training: Annual compliance and cybersecurity training is mandatory for all staff."
+    ]
+  },
+  {
+    "question": "How do I open a savings account online? [account management #a7314a]",
+    "answer": "Direct debits will be transferred to the new account if you set up a transfer; otherwise they may fail and you must notify the payees.",
+    "supporting_passages": [
+      "Account rules: Minimum balances vary by product. Fees can apply when balances fall below the required minimum."
+    ]
+  },
+  {
+    "question": "How often are system backups performed for financial records? [finance and transactions #a9364a]",
+    "answer": "Full system backups for financial systems are performed daily with hourly incremental backups.",
+    "supporting_passages": [
+      "Retention: Financial records retention aligns with regulatory requirements."
+    ]
+  },
+  {
+    "question": "Can I prepay my small business loan without penalty? [loans and mortgages #721087]",
+    "answer": "Required documents include ID, income proof (pay slips or tax returns), and property details for mortgage loans.",
+    "supporting_passages": [
+      "Loan documentation: ID, income verification and collateral documents are required for loan processing."
+    ]
+  },
+  {
+    "question": "What is the process for reporting phishing emails? [fraud and security #c3ee3f]",
+    "answer": "Yes, customers can freeze their debit or credit card instantly via the mobile app or by contacting support.",
+    "supporting_passages": [
+      "Fraud response: Block cards immediately and open an investigation; provisional credits might be provided pending outcome."
+    ]
+  },
+  {
+    "question": "What is the retention period for customer data? [finance and transactions #cc1f18]",
+    "answer": "Wire transfers above $100,000 require dual approval from authorized signatories and compliance checks.",
+    "supporting_passages": [
+      "Financial access: Strict role-based access controls protect transaction records."
+    ]
+  },
+  {
+    "question": "What are international wire fees? [payments and cards #3c98d3]",
+    "answer": "International wire fees depend on destination and intermediary banks; refer to the fee schedule for exact amounts.",
+    "supporting_passages": [
+      "Fees: Wire and FX fees vary by corridor and correspondent banks."
+    ]
+  },
+  {
+    "question": "What KYC documents are accepted for new accounts? [compliance aml kyc #23e252]",
+    "answer": "We accept government-issued photo ID, proof of address, and in some cases tax documentation for KYC.",
+    "supporting_passages": [
+      "KYC rules: Acceptable documents include passports, national IDs, and utility bills for address verification."
+    ]
+  },
+  {
+    "question": "How often are system backups performed for financial records? [finance and transactions #26edbf]",
+    "answer": "Customer data is retained for 7 years unless deletion is requested earlier and legally permitted.",
+    "supporting_passages": [
+      "Financial access: Strict role-based access controls protect transaction records."
+    ]
+  },
+  {
+    "question": "Does the bank offer transaction alerts for suspicious activity? [fraud and security #2470b5]",
+    "answer": "Report phishing emails using the 'Report Phishing' button in the webmail or forward to security@bank.example for investigation.",
+    "supporting_passages": [
+      "Security measures: Multi-factor authentication and transaction alerts help detect and stop fraud in real time."
+    ]
+  },
+  {
+    "question": "How do we handle large cash deposits? [finance and transactions #2e95cd]",
+    "answer": "Only authorized finance and audit personnel have access to transaction records.",
+    "supporting_passages": [
+      "Financial access: Strict role-based access controls protect transaction records."
+    ]
+  },
+  {
+    "question": "Does the bank comply with local data protection laws for KYC data? [compliance aml kyc #7640f5]",
+    "answer": "Customers can upload updated identity documents through the secure portal or at a branch for KYC updates.",
+    "supporting_passages": [
+      "KYC rules: Acceptable documents include passports, national IDs, and utility bills for address verification."
+    ]
+  },
+  {
+    "question": "How long do ACH transfers take? [payments and cards #b54555]",
+    "answer": "International wire fees depend on destination and intermediary banks; refer to the fee schedule for exact amounts.",
+    "supporting_passages": [
+      "Fees: Wire and FX fees vary by corridor and correspondent banks."
+    ]
+  },
+  {
+    "question": "What internal approvals are required for wire transfers above $50,000? [finance and transactions #5e9523]",
+    "answer": "Customer data is retained for 7 years unless deletion is requested earlier and legally permitted.",
+    "supporting_passages": [
+      "Financial access: Strict role-based access controls protect transaction records."
+    ]
+  },
+  {
+    "question": "What is the retention period for customer data? [finance and transactions #be030e]",
+    "answer": "Only authorized finance and audit personnel have access to transaction records.",
+    "supporting_passages": [
+      "Retention: Financial records retention aligns with regulatory requirements."
+    ]
+  },
+  {
+    "question": "How long do you keep KYC records? [compliance aml kyc #e722f5]",
+    "answer": "Yes — the bank complies with applicable data protection laws and stores KYC data securely.",
+    "supporting_passages": [
+      "AML: Automated screening combined with manual review helps the bank meet regulatory obligations."
+    ]
+  },
+  {
+    "question": "What internal approvals are required for wire transfers above $10,000? [finance and transactions #b7157f]",
+    "answer": "Full system backups for financial systems are performed daily with hourly incremental backups.",
+    "supporting_passages": [
+      "Financial access: Strict role-based access controls protect transaction records."
+    ]
+  },
+  {
+    "question": "Are temporary employees allowed remote access? [hr and internal #2d000e]",
+    "answer": "Passwords must be at least 12 characters long and include uppercase, lowercase, numbers, and symbols.",
+    "supporting_passages": [
+      "HR approvals: Role changes require manager sign-off and HR processing."
+    ]
+  },
+  {
+    "question": "How can I close my joint account? [account management #2c6e32]",
+    "answer": "Yes — you can link multiple savings accounts to a single profile through the online banking portal.",
+    "supporting_passages": [
+      "Opening accounts: Online opening requires identity documents and proof of address, and is subject to approval under KYC policies."
+    ]
+  },
+  {
+    "question": "How do you secure mobile banking sessions? [fraud and security #adc2b1]",
+    "answer": "Mobile banking uses MFA, session timeout, and encrypted connections to secure customer sessions.",
+    "supporting_passages": [
+      "Fraud response: Block cards immediately and open an investigation; provisional credits might be provided pending outcome."
+    ]
+  },
+  {
+    "question": "How are complaints escalated? [customer support and refunds #840ef8]",
+    "answer": "Complaints are logged and escalated to the quality team; resolution targets are within 72 hours.",
+    "supporting_passages": [
+      "Support: Escalation procedures detail timelines and ownership for complaint resolution."
+    ]
+  },
+  {
+    "question": "What should I do if I suspect fraudulent transactions on my account? [fraud and security #d03897]",
+    "answer": "Mobile banking uses MFA, session timeout, and encrypted connections to secure customer sessions.",
+    "supporting_passages": [
+      "Security measures: Multi-factor authentication and transaction alerts help detect and stop fraud in real time."
+    ]
+  },
+  {
+    "question": "Are third-party vendors allowed to access production data? [it and data retention #09d9ed]",
+    "answer": "Employees can request data deletion by contacting Data Protection or using the privacy portal, subject to legal retention obligations.",
+    "supporting_passages": [
+      "Retention policy: Logs are retained for a period to support security and compliance, after which they are anonymized."
+    ]
+  },
+  {
+    "question": "How do customers submit identity updates for KYC? [compliance aml kyc #30f983]",
+    "answer": "Yes — the bank complies with applicable data protection laws and stores KYC data securely.",
+    "supporting_passages": [
+      "AML: Automated screening combined with manual review helps the bank meet regulatory obligations."
+    ]
+  },
+  {
+    "question": "Can I set up recurring payments on my card? [payments and cards #53f35d]",
+    "answer": "Yes — you can set up recurring card or account payments via the bill pay feature.",
+    "supporting_passages": [
+      "Fees: Wire and FX fees vary by corridor and correspondent banks."
+    ]
+  },
+  {
+    "question": "Can employees use personal email for work-related communication? [hr and internal #af3124]",
+    "answer": "Passwords must be at least 12 characters long and include uppercase, lowercase, numbers, and symbols.",
+    "supporting_passages": [
+      "HR approvals: Role changes require manager sign-off and HR processing."
+    ]
+  },
+  {
+    "question": "What internal approvals are required for wire transfers above $50,000? [finance and transactions #7f0770]",
+    "answer": "Large cash deposits require branch verification, identification, and may be reported per regulatory rules.",
+    "supporting_passages": [
+      "Retention: Financial records retention aligns with regulatory requirements."
+    ]
+  },
+  {
+    "question": "What is the interest rate structure for mortgage loans? [loans and mortgages #5ce6f2]",
+    "answer": "Prepayment rules vary by product; many personal loans allow partial prepayment but may include penalties — check your loan agreement.",
+    "supporting_passages": [
+      "Approval timelines vary: consumer loans may be quicker while mortgages require property valuation and underwriting."
+    ]
+  },
+  {
+    "question": "What is the password policy for internal accounts? [hr and internal #6dae88]",
+    "answer": "No — all work-related communication must use the official company email domain.",
+    "supporting_passages": [
+      "HR approvals: Role changes require manager sign-off and HR processing."
+    ]
+  },
+  {
+    "question": "What is the daily ATM withdrawal limit? [payments and cards #0fe6c3]",
+    "answer": "International wire fees depend on destination and intermediary banks; refer to the fee schedule for exact amounts.",
+    "supporting_passages": [
+      "Payments: ACH processing timelines vary; banks commonly use 1-3 business days for settlement."
+    ]
+  },
+  {
+    "question": "Are temporary employees allowed remote access? [hr and internal #97b092]",
+    "answer": "No — all work-related communication must use the official company email domain.",
+    "supporting_passages": [
+      "Training: Annual compliance and cybersecurity training is mandatory for all staff."
+    ]
+  },
+  {
+    "question": "Does the bank comply with local data protection laws for KYC data? [compliance aml kyc #0fe3c0]",
+    "answer": "We accept government-issued photo ID, proof of address, and in some cases tax documentation for KYC.",
+    "supporting_passages": [
+      "AML: Automated screening combined with manual review helps the bank meet regulatory obligations."
+    ]
+  },
+  {
+    "question": "Can I link multiple business accounts under one profile? [account management #211173]",
+    "answer": "Contact customer support or use the online portal to close your student account; any remaining balance will be returned after identity verification.",
+    "supporting_passages": [
+      "Account rules: Minimum balances vary by product. Fees can apply when balances fall below the required minimum."
+    ]
+  },
+  {
+    "question": "How often are system backups performed for financial records? [finance and transactions #fb1b78]",
+    "answer": "Wire transfers above $50,000 require dual approval from authorized signatories and compliance checks.",
+    "supporting_passages": [
+      "Financial access: Strict role-based access controls protect transaction records."
+    ]
+  },
+  {
+    "question": "How do I dispute a card transaction? [payments and cards #ead1c1]",
+    "answer": "Yes — you can set up recurring card or account payments via the bill pay feature.",
+    "supporting_passages": [
+      "Fees: Wire and FX fees vary by corridor and correspondent banks."
+    ]
+  },
+  {
+    "question": "What KYC documents are accepted for new accounts? [compliance aml kyc #b97e96]",
+    "answer": "Yes — the bank complies with applicable data protection laws and stores KYC data securely.",
+    "supporting_passages": [
+      "AML: Automated screening combined with manual review helps the bank meet regulatory obligations."
+    ]
+  },
+  {
+    "question": "Are third-party vendors allowed to access production data? [it and data retention #81dc0c]",
+    "answer": "System logs are retained for 90 days and then anonymized or archived offsite.",
+    "supporting_passages": [
+      "Retention policy: Logs are retained for a period to support security and compliance, after which they are anonymized."
+    ]
+  },
+  {
+    "question": "How do customers submit identity updates for KYC? [compliance aml kyc #1ff034]",
+    "answer": "AML screening includes sanctions list checks, transaction monitoring, and manual review of flagged activity.",
+    "supporting_passages": [
+      "KYC rules: Acceptable documents include passports, national IDs, and utility bills for address verification."
+    ]
+  },
+  {
+    "question": "Are third-party vendors allowed to access production data? [it and data retention #d4e889]",
+    "answer": "System logs are retained for 180 days and then anonymized or archived offsite.",
+    "supporting_passages": [
+      "Backups: Encryption and access controls apply to all backup storage."
+    ]
+  },
+  {
+    "question": "How long are system logs retained? [it and data retention #74a98a]",
+    "answer": "Yes — backups are encrypted at rest and in transit according to the security policy.",
+    "supporting_passages": [
+      "Retention policy: Logs are retained for a period to support security and compliance, after which they are anonymized."
+    ]
+  },
+  {
+    "question": "What are international wire fees? [payments and cards #3c98d3]",
+    "answer": "International wire fees depend on destination and intermediary banks; refer to the fee schedule for exact amounts.",
+    "supporting_passages": [
+      "Fees: Wire and FX fees vary by corridor and correspondent banks."
+    ]
+  },
+  {
+    "question": "How long do you keep KYC records? [compliance aml kyc #477f1e]",
+    "answer": "Customers can upload updated identity documents through the secure portal or at a branch for KYC updates.",
+    "supporting_passages": [
+      "KYC rules: Acceptable documents include passports, national IDs, and utility bills for address verification."
+    ]
+  },
+  {
+    "question": "Can I link multiple joint accounts under one profile? [account management #64a657]",
+    "answer": "To open a student account online, complete KYC (identity verification), provide proof of address, and accept terms.",
+    "supporting_passages": [
+      "Account rules: Minimum balances vary by product. Fees can apply when balances fall below the required minimum."
+    ]
+  },
+  {
+    "question": "Can a customer get a refund if they cancel after 48 hours? [customer support and refunds #04d715]",
+    "answer": "Use professional, concise, and empathetic language for all customer-facing replies.",
+    "supporting_passages": [
+      "Refunds: Full refunds are granted within 24 hours; after that refunds require review."
+    ]
+  },
+  {
+    "question": "What is the minimum balance for a checking account? [account management #829207]",
+    "answer": "Yes — you can link multiple savings accounts to a single profile through the online banking portal.",
+    "supporting_passages": [
+      "Opening accounts: Online opening requires identity documents and proof of address, and is subject to approval under KYC policies."
+    ]
+  },
+  {
+    "question": "Do you offer chargeback support for disputed payments? [customer support and refunds #813265]",
+    "answer": "Use professional, concise, and empathetic language for all customer-facing replies.",
+    "supporting_passages": [
+      "Refunds: Full refunds are granted within 24 hours; after that refunds require review."
+    ]
+  },
+  {
+    "question": "Are temporary employees allowed remote access? [hr and internal #2d000e]",
+    "answer": "Passwords must be at least 12 characters long and include uppercase, lowercase, numbers, and symbols.",
+    "supporting_passages": [
+      "Training: Annual compliance and cybersecurity training is mandatory for all staff."
+    ]
+  },
+  {
+    "question": "Who can access financial transaction records? [finance and transactions #3b5da0]",
+    "answer": "Full system backups for financial systems are performed daily with hourly incremental backups.",
+    "supporting_passages": [
+      "Financial access: Strict role-based access controls protect transaction records."
+    ]
+  },
+  {
+    "question": "How often must employees complete compliance training? [hr and internal #bcf378]",
+    "answer": "Passwords must be at least 12 characters long and include uppercase, lowercase, numbers, and symbols.",
+    "supporting_passages": [
+      "Training: Annual compliance and cybersecurity training is mandatory for all staff."
+    ]
+  },
+  {
+    "question": "How often are system backups performed for financial records? [finance and transactions #a9364a]",
+    "answer": "Full system backups for financial systems are performed daily with hourly incremental backups.",
+    "supporting_passages": [
+      "Retention: Financial records retention aligns with regulatory requirements."
+    ]
+  },
+  {
+    "question": "Can a customer get a refund if they cancel after 12 hours? [customer support and refunds #4dc5da]",
+    "answer": "Complaints are logged and escalated to the quality team; resolution targets are within 48 hours.",
+    "supporting_passages": [
+      "Support: Escalation procedures detail timelines and ownership for complaint resolution."
+    ]
+  },
+  {
+    "question": "What is the bank's AML screening process? [compliance aml kyc #a03e79]",
+    "answer": "We accept government-issued photo ID, proof of address, and in some cases tax documentation for KYC.",
+    "supporting_passages": [
+      "KYC rules: Acceptable documents include passports, national IDs, and utility bills for address verification."
+    ]
+  },
+  {
+    "question": "Do you offer chargeback support for disputed payments? [customer support and refunds #2d4e68]",
+    "answer": "Yes — customers may cancel within 24 hours for a full refund; cancellations after 12 hours are handled case-by-case.",
+    "supporting_passages": [
+      "Refunds: Full refunds are granted within 24 hours; after that refunds require review."
+    ]
+  },
+  {
+    "question": "How do customers submit identity updates for KYC? [compliance aml kyc #04de79]",
+    "answer": "KYC records are retained according to regulatory requirements; typically for 7 years from account opening.",
+    "supporting_passages": [
+      "AML: Automated screening combined with manual review helps the bank meet regulatory obligations."
+    ]
+  },
+  {
+    "question": "Can a customer get a refund if they cancel after 48 hours? [customer support and refunds #04d715]",
+    "answer": "Use professional, concise, and empathetic language for all customer-facing replies.",
+    "supporting_passages": [
+      "Refunds: Full refunds are granted within 24 hours; after that refunds require review."
+    ]
+  },
+  {
+    "question": "Who can approve role changes for employees? [hr and internal #0dfff5]",
+    "answer": "Temporary employees may access systems only via secure VPN with restricted rights.",
+    "supporting_passages": [
+      "HR approvals: Role changes require manager sign-off and HR processing."
+    ]
+  },
+  {
+    "question": "What is the process for reporting phishing emails? [fraud and security #ea4af2]",
+    "answer": "Immediately contact support to block your card and dispute transactions; we will investigate and may provisionally credit your account.",
+    "supporting_passages": [
+      "Fraud response: Block cards immediately and open an investigation; provisional credits might be provided pending outcome."
+    ]
+  },
+  {
+    "question": "How do I open a student account online? [account management #a9bc95]",
+    "answer": "Direct debits will be transferred to the new account if you set up a transfer; otherwise they may fail and you must notify the payees.",
+    "supporting_passages": [
+      "Opening accounts: Online opening requires identity documents and proof of address, and is subject to approval under KYC policies."
+    ]
+  },
+  {
+    "question": "How often must employees complete compliance training? [hr and internal #78c7b9]",
+    "answer": "Only managers can approve employee role changes through the HR portal.",
+    "supporting_passages": [
+      "Training: Annual compliance and cybersecurity training is mandatory for all staff."
+    ]
+  },
+  {
+    "question": "How often are system backups performed for financial records? [finance and transactions #a9364a]",
+    "answer": "Full system backups for financial systems are performed daily with hourly incremental backups.",
+    "supporting_passages": [
+      "Retention: Financial records retention aligns with regulatory requirements."
+    ]
+  },
+  {
+    "question": "How do I dispute a card transaction? [payments and cards #303f49]",
+    "answer": "International wire fees depend on destination and intermediary banks; refer to the fee schedule for exact amounts.",
+    "supporting_passages": [
+      "Fees: Wire and FX fees vary by corridor and correspondent banks."
+    ]
+  },
+  {
+    "question": "How do I dispute a card transaction? [payments and cards #b66b01]",
+    "answer": "The default daily ATM withdrawal limit is $2,000; customers can request temporary increases subject to approval.",
+    "supporting_passages": [
+      "Payments: ACH processing timelines vary; banks commonly use 1-3 business days for settlement."
+    ]
+  },
+  {
+    "question": "What are international wire fees? [payments and cards #cde335]",
+    "answer": "ACH transfers typically settle in same-day when eligible business days.",
+    "supporting_passages": [
+      "Payments: ACH processing timelines vary; banks commonly use 1-3 business days for settlement."
+    ]
+  },
+  {
+    "question": "Who can access financial transaction records? [finance and transactions #3b5da0]",
+    "answer": "Full system backups for financial systems are performed daily with hourly incremental backups.",
+    "supporting_passages": [
+      "Retention: Financial records retention aligns with regulatory requirements."
+    ]
+  },
+  {
+    "question": "Are third-party vendors allowed to access production data? [it and data retention #ce09cd]",
+    "answer": "Yes — backups are encrypted at rest and in transit according to the security policy.",
+    "supporting_passages": [
+      "Retention policy: Logs are retained for a period to support security and compliance, after which they are anonymized."
+    ]
+  },
+  {
+    "question": "How long do you keep KYC records? [compliance aml kyc #e722f5]",
+    "answer": "Yes — the bank complies with applicable data protection laws and stores KYC data securely.",
+    "supporting_passages": [
+      "KYC rules: Acceptable documents include passports, national IDs, and utility bills for address verification."
+    ]
+  },
+  {
+    "question": "What documents are required to apply for a auto loan? [loans and mortgages #1b4cc6]",
+    "answer": "Required documents include ID, income proof (pay slips or tax returns), and property details for small business loans.",
+    "supporting_passages": [
+      "Approval timelines vary: consumer loans may be quicker while mortgages require property valuation and underwriting."
+    ]
+  },
+  {
+    "question": "What tone should customer-facing replies use? [customer support and refunds #121c05]",
+    "answer": "Use professional, concise, and empathetic language for all customer-facing replies.",
+    "supporting_passages": [
+      "Refunds: Full refunds are granted within 24 hours; after that refunds require review."
+    ]
+  },
+  {
+    "question": "Does the bank comply with local data protection laws for KYC data? [compliance aml kyc #dd4875]",
+    "answer": "KYC records are retained according to regulatory requirements; typically for 5 years from account opening.",
+    "supporting_passages": [
+      "AML: Automated screening combined with manual review helps the bank meet regulatory obligations."
+    ]
+  },
+  {
+    "question": "Who can approve role changes for employees? [hr and internal #7551fc]",
+    "answer": "Only managers can approve employee role changes through the HR portal.",
+    "supporting_passages": [
+      "Training: Annual compliance and cybersecurity training is mandatory for all staff."
+    ]
+  },
+  {
+    "question": "How long do you keep KYC records? [compliance aml kyc #81fd1a]",
+    "answer": "We accept government-issued photo ID, proof of address, and in some cases tax documentation for KYC.",
+    "supporting_passages": [
+      "KYC rules: Acceptable documents include passports, national IDs, and utility bills for address verification."
+    ]
+  },
+  {
+    "question": "What are customer support hours for business accounts? [customer support and refunds #907b21]",
+    "answer": "Business account support is available during 9am-6pm local time and via emergency channels outside those hours.",
+    "supporting_passages": [
+      "Support: Escalation procedures detail timelines and ownership for complaint resolution."
+    ]
+  },
+  {
+    "question": "What KYC documents are accepted for new accounts? [compliance aml kyc #621e3b]",
+    "answer": "KYC records are retained according to regulatory requirements; typically for 7 years from account opening.",
+    "supporting_passages": [
+      "AML: Automated screening combined with manual review helps the bank meet regulatory obligations."
+    ]
+  },
+  {
+    "question": "What happens to direct debits if I close my savings account? [account management #af084f]",
+    "answer": "Direct debits will be transferred to the new account if you set up a transfer; otherwise they may fail and you must notify the payees.",
+    "supporting_passages": [
+      "Account management: To close an account, customers must submit a closure request via the portal or contact support. Remaining balances are processed after KYC."
+    ]
+  },
+  {
+    "question": "Can employees use personal email for work-related communication? [hr and internal #c55540]",
+    "answer": "Compliance training must be completed annually by all employees.",
+    "supporting_passages": [
+      "HR approvals: Role changes require manager sign-off and HR processing."
+    ]
+  },
+  {
+    "question": "Who can approve role changes for employees? [hr and internal #d3a4e6]",
+    "answer": "No — all work-related communication must use the official company email domain.",
+    "supporting_passages": [
+      "HR approvals: Role changes require manager sign-off and HR processing."
+    ]
+  },
+  {
+    "question": "What happens to direct debits if I close my checking account? [account management #21afad]",
+    "answer": "The minimum balance for our student account is $0. If you fall below this, fees may apply.",
+    "supporting_passages": [
+      "Account management: To close an account, customers must submit a closure request via the portal or contact support. Remaining balances are processed after KYC."
+    ]
+  },
+  {
+    "question": "Do you offer chargeback support for disputed payments? [customer support and refunds #a2114d]",
+    "answer": "Business account support is available during 24/7 for premium accounts and via emergency channels outside those hours.",
+    "supporting_passages": [
+      "Refunds: Full refunds are granted within 24 hours; after that refunds require review."
+    ]
+  },
+  {
+    "question": "What are international wire fees? [payments and cards #3cbb1b]",
+    "answer": "The default daily ATM withdrawal limit is $2,000; customers can request temporary increases subject to approval.",
+    "supporting_passages": [
+      "Fees: Wire and FX fees vary by corridor and correspondent banks."
+    ]
+  },
+  {
+    "question": "What should I do if I suspect fraudulent transactions on my account? [fraud and security #9fe37b]",
+    "answer": "Report phishing emails using the 'Report Phishing' button in the webmail or forward to security@bank.example for investigation.",
+    "supporting_passages": [
+      "Security measures: Multi-factor authentication and transaction alerts help detect and stop fraud in real time."
+    ]
+  },
+  {
+    "question": "How long does personal loan approval take? [loans and mortgages #72ae1a]",
+    "answer": "Typical approval for auto loans takes 3-5 business days after submission of complete documents.",
+    "supporting_passages": [
+      "Loan documentation: ID, income verification and collateral documents are required for loan processing."
+    ]
+  },
+  {
+    "question": "Do you encrypt backups at rest? [it and data retention #bc0270]",
+    "answer": "Critical systems have daily full backups and hourly incremental backups; retention policies vary by service.",
+    "supporting_passages": [
+      "Backups: Encryption and access controls apply to all backup storage."
+    ]
+  },
+  {
+    "question": "How can employees request data deletion? [it and data retention #62a6e1]",
+    "answer": "System logs are retained for 90 days and then anonymized or archived offsite.",
+    "supporting_passages": [
+      "Retention policy: Logs are retained for a period to support security and compliance, after which they are anonymized."
+    ]
+  },
+  {
+    "question": "Can a customer get a refund if they cancel after 48 hours? [customer support and refunds #398fa1]",
+    "answer": "Yes — we assist customers with chargebacks following card network rules and provide documentation for disputes.",
+    "supporting_passages": [
+      "Refunds: Full refunds are granted within 24 hours; after that refunds require review."
+    ]
+  },
+  {
+    "question": "How can I close my checking account? [account management #2c611e]",
+    "answer": "Yes — you can link multiple checking accounts to a single profile through the online banking portal.",
+    "supporting_passages": [
+      "Account management: To close an account, customers must submit a closure request via the portal or contact support. Remaining balances are processed after KYC."
+    ]
+  },
+  {
+    "question": "What internal approvals are required for wire transfers above $50,000? [finance and transactions #65defc]",
+    "answer": "Only authorized finance and audit personnel have access to transaction records.",
+    "supporting_passages": [
+      "Retention: Financial records retention aligns with regulatory requirements."
+    ]
+  },
+  {
+    "question": "How are complaints escalated? [customer support and refunds #8dac59]",
+    "answer": "Use professional, concise, and empathetic language for all customer-facing replies.",
+    "supporting_passages": [
+      "Support: Escalation procedures detail timelines and ownership for complaint resolution."
+    ]
+  },
+  {
+    "question": "How often must employees complete compliance training? [hr and internal #5ba007]",
+    "answer": "No — all work-related communication must use the official company email domain.",
+    "supporting_passages": [
+      "Training: Annual compliance and cybersecurity training is mandatory for all staff."
+    ]
+  },
+  {
+    "question": "What is the interest rate structure for small business loans? [loans and mortgages #33075c]",
+    "answer": "Prepayment rules vary by product; many personal loans allow partial prepayment but may include penalties — check your loan agreement.",
+    "supporting_passages": [
+      "Loan documentation: ID, income verification and collateral documents are required for loan processing."
+    ]
+  },
+  {
+    "question": "What is the interest rate structure for student loans? [loans and mortgages #e73097]",
+    "answer": "To refinance, submit a refinance application, property valuation, and current loan statements; the bank will evaluate eligibility.",
+    "supporting_passages": [
+      "Approval timelines vary: consumer loans may be quicker while mortgages require property valuation and underwriting."
+    ]
+  },
+  {
+    "question": "Can a customer freeze their card instantly? [fraud and security #45ace7]",
+    "answer": "Mobile banking uses MFA, session timeout, and encrypted connections to secure customer sessions.",
+    "supporting_passages": [
+      "Security measures: Multi-factor authentication and transaction alerts help detect and stop fraud in real time."
+    ]
+  },
+  {
+    "question": "Do you offer chargeback support for disputed payments? [customer support and refunds #9df825]",
+    "answer": "Yes — we assist customers with chargebacks following card network rules and provide documentation for disputes.",
+    "supporting_passages": [
+      "Support: Escalation procedures detail timelines and ownership for complaint resolution."
+    ]
+  },
+  {
+    "question": "Can I link multiple savings accounts under one profile? [account management #c9aa04]",
+    "answer": "Contact customer support or use the online portal to close your savings account; any remaining balance will be returned after identity verification.",
+    "supporting_passages": [
+      "Opening accounts: Online opening requires identity documents and proof of address, and is subject to approval under KYC policies."
+    ]
+  },
+  {
+    "question": "What is the retention period for customer data? [finance and transactions #be030e]",
+    "answer": "Only authorized finance and audit personnel have access to transaction records.",
+    "supporting_passages": [
+      "Retention: Financial records retention aligns with regulatory requirements."
+    ]
+  },
+  {
+    "question": "Who can approve role changes for employees? [hr and internal #0dfff5]",
+    "answer": "Temporary employees may access systems only via secure VPN with restricted rights.",
+    "supporting_passages": [
+      "HR approvals: Role changes require manager sign-off and HR processing."
+    ]
+  },
+  {
+    "question": "How do I open a business account online? [account management #a20548]",
+    "answer": "The minimum balance for our checking account is $100. If you fall below this, fees may apply.",
+    "supporting_passages": [
+      "Opening accounts: Online opening requires identity documents and proof of address, and is subject to approval under KYC policies."
+    ]
+  },
+  {
+    "question": "What should I do if I suspect fraudulent transactions on my account? [fraud and security #e610f5]",
+    "answer": "Yes — the bank offers SMS and email alerts for large or suspicious transactions when enabled in settings.",
+    "supporting_passages": [
+      "Security measures: Multi-factor authentication and transaction alerts help detect and stop fraud in real time."
+    ]
+  },
+  {
+    "question": "Do you offer chargeback support for disputed payments? [customer support and refunds #a8a09e]",
+    "answer": "Business account support is available during 9am-6pm local time and via emergency channels outside those hours.",
+    "supporting_passages": [
+      "Refunds: Full refunds are granted within 24 hours; after that refunds require review."
+    ]
+  },
+  {
+    "question": "How are complaints escalated? [customer support and refunds #8dac59]",
+    "answer": "Use professional, concise, and empathetic language for all customer-facing replies.",
+    "supporting_passages": [
+      "Support: Escalation procedures detail timelines and ownership for complaint resolution."
+    ]
+  },
+  {
+    "question": "Can I set up recurring payments on my card? [payments and cards #8ec149]",
+    "answer": "ACH transfers typically settle in 2-4 business days.",
+    "supporting_passages": [
+      "Payments: ACH processing timelines vary; banks commonly use 1-3 business days for settlement."
+    ]
+  },
+  {
+    "question": "What is the retention period for customer data? [finance and transactions #abeda8]",
+    "answer": "Full system backups for financial systems are performed daily with hourly incremental backups.",
+    "supporting_passages": [
+      "Retention: Financial records retention aligns with regulatory requirements."
+    ]
+  }]
+ 

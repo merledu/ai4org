@@ -49,21 +49,21 @@ CORPUS_PATH = "./data/processed/corpus.txt"
 # -------------------------
 # Hyperparameters
 # -------------------------
-SFT_EPOCHS = 8
-SFT_BATCH = 1
+SFT_EPOCHS = 6
+SFT_BATCH = 2
 SFT_LR = 3e-5
 
-DISC_EPOCHS = 10
-DISC_BATCH = 8
+DISC_EPOCHS = 6
+DISC_BATCH = 12
 DISC_LR = 2e-5
 
 MC_ROLLOUTS = 6
-GEN_BATCH_SIZE = 1
+GEN_BATCH_SIZE = 4
 GEN_LR = 1e-5
 MAX_GEN_TOKENS = 64
 MIN_GEN_TOKENS = 5
 TOP_K = 3
-RL_EPOCHS = 6
+RL_EPOCHS = 5
 
 # -------------------------
 # Reward weights
