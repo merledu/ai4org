@@ -17,7 +17,7 @@ def load_generator(model_name=GEN_MODEL, device=DEVICE):
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
-    model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
+    model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto",dtype=torch.bfloat16)
     model.eval()
     return tokenizer, model
 
