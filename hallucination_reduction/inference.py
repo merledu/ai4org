@@ -1,132 +1,77 @@
 import os
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM, AutoModel
-from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
+from transformers import AutoModelForCausalLM, AutoTokenizer
+from peft import PeftModel
 
-CORPUS_PATH = "data/processed/corpus.txt"
-EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"  # lightweight and accurate
+def load_model(base_model_name=None, lora_path=None, device=None):
+    """
+    Loads a base model and optionally merges LoRA weights (.pt or folder).
+    Works with GPT-2 or any Hugging Face model.
+    """
+    device = device or ("cuda" if torch.cuda.is_available() else "cpu")
 
-# -----------------------------
-# 1. Load or encode corpus
-# -----------------------------
-def load_corpus(corpus_path=CORPUS_PATH):
-    if not os.path.exists(corpus_path):
-        raise FileNotFoundError(f"❌ Corpus file not found: {corpus_path}")
+    # --- Auto-detect GPT-2 if LoRA was trained on it ---
+    if base_model_name is None:
+        if lora_path and "gpt2" in lora_path.lower():
+            base_model_name = "gpt2"
+        else:
+            base_model_name = "gpt2"  # default fallback
 
-    with open(corpus_path, "r", encoding="utf-8") as f:
-        docs = [line.strip() for line in f if line.strip()]
-    print(f"📚 Loaded {len(docs)} documents from corpus.")
-    return docs
+    print(f"🔧 Loading base model: {base_model_name}")
+    tokenizer = AutoTokenizer.from_pretrained(base_model_name)
+    model = AutoModelForCausalLM.from_pretrained(
+        base_model_name,
+        torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
+        device_map="auto"
+    )
 
+    # --- Load LoRA if provided ---
+    if lora_path:
+        if os.path.isdir(lora_path):
+            print(f"🔄 Loading LoRA adapter from folder: {lora_path}")
+            model = PeftModel.from_pretrained(model, lora_path)
+        elif os.path.isfile(lora_path) and lora_path.endswith(".pt"):
+            print(f"🔄 Loading LoRA weights manually from: {lora_path}")
+            state_dict = torch.load(lora_path, map_location="cpu")
+            missing, unexpected = model.load_state_dict(state_dict, strict=False)
+            print(f"✅ Loaded LoRA weights — Missing keys: {len(missing)}, Unexpected keys: {len(unexpected)}")
+        else:
+            print(f"⚠️ Invalid LoRA path: {lora_path}")
 
-def build_embeddings(docs, embed_model_name=EMBED_MODEL, device="cpu"):
-    from sentence_transformers import SentenceTransformer
-    embedder = SentenceTransformer(embed_model_name, device=device)
-    print("🔹 Encoding corpus embeddings...")
-    corpus_embeddings = embedder.encode(docs, convert_to_numpy=True, show_progress_bar=True)
-    return embedder, corpus_embeddings
-
-
-def retrieve_relevant_chunks(query, embedder, corpus_embeddings, docs, top_k=3):
-    query_emb = embedder.encode([query], convert_to_numpy=True)
-    sims = cosine_similarity(query_emb, corpus_embeddings)[0]
-    top_indices = sims.argsort()[-top_k:][::-1]
-    top_docs = [docs[i] for i in top_indices]
-    return top_docs
-
-
-# -----------------------------
-# 2. Load fine-tuned model
-# -----------------------------
-def find_best_model(weights_dir="./saved_models_improved"):
-    if not os.path.exists(weights_dir):
-        print(f"⚠️ Weights directory not found: {weights_dir}")
-        return None
-
-    files = os.listdir(weights_dir)
-    candidates = [f for f in files if f.startswith("generator") and f.endswith(".pt")]
-    if not candidates:
-        print("⚠️ No generator checkpoints found.")
-        return None
-
-    if "generator_final.pt" in candidates:
-        return os.path.join(weights_dir, "generator_final.pt")
-    if any("best" in f for f in candidates):
-        return os.path.join(weights_dir, sorted([f for f in candidates if "best" in f])[0])
-
-    epoch_files = [f for f in candidates if "epoch" in f]
-    if epoch_files:
-        latest = sorted(epoch_files, key=lambda x: int(x.split("_")[-1].split(".")[0]))[-1]
-        return os.path.join(weights_dir, latest)
-
-    return os.path.join(weights_dir, candidates[0])
-
-
-def load_model(model_name="gpt2", weights_dir="./saved_models_improved"):
-    print(f"🔹 Loading base model/tokenizer: {model_name}")
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForCausalLM.from_pretrained(model_name)
-
-    weights_path = find_best_model(weights_dir)
-    if weights_path and os.path.exists(weights_path):
-        print(f"✅ Loading fine-tuned weights from: {weights_path}")
-        state_dict = torch.load(weights_path, map_location="cpu")
-        model.load_state_dict(state_dict, strict=False)
-    else:
-        print("⚠️ No fine-tuned weights found. Using base model only.")
-
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    model.to(device)
     model.eval()
-    print(f"✅ Model ready. Type: CAUSAL, Device: {device}")
     return model, tokenizer, device
 
 
-# -----------------------------
-# 3. Generate with retrieved context
-# -----------------------------
-def generate_answer(model, tokenizer, device, question, retrieved_docs, max_length=256):
-    context = "\n".join(retrieved_docs)
-    prompt = f"Context:\n{context}\n\nQ: {question}\nA:"
-    inputs = tokenizer(prompt, return_tensors="pt", truncation=True).to(device)
-
-    with torch.no_grad():
-        outputs = model.generate(
-            **inputs,
-            max_length=max_length,
-            pad_token_id=tokenizer.eos_token_id,
-            temperature=0.3,
-            top_p=0.9,
-            do_sample=True,
-        )
-    answer = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    return answer.split("A:")[-1].strip()
-
-
-# -----------------------------
-# 4. Interactive RAG chat
-# -----------------------------
-def main():
-    model, tokenizer, device = load_model()
-    docs = load_corpus()
-    embedder, corpus_embeddings = build_embeddings(docs, device=device)
-
-    print("\n💬 RAG-Enhanced Chat Mode Started — type 'exit' to quit.\n")
+def chat(model, tokenizer, device):
+    print("\n💬 LoRA + GPT-2 Chat Mode — type 'exit' to quit.\n")
 
     while True:
-        question = input("❓ You: ").strip()
-        if question.lower() in {"exit", "quit"}:
-            print("👋 Exiting chat. Goodbye!")
+        user_input = input("❓ You: ").strip()
+        if user_input.lower() in ["exit", "quit", "bye"]:
+            print("👋 Exiting chat.")
             break
 
-        retrieved_docs = retrieve_relevant_chunks(question, embedder, corpus_embeddings, docs)
-        print(f"\n🔎 Retrieved {len(retrieved_docs)} relevant context chunks.")
-        for i, doc in enumerate(retrieved_docs, 1):
-            print(f"   [{i}] {doc[:100]}...")
+        inputs = tokenizer(user_input, return_tensors="pt").to(device)
+        with torch.no_grad():
+            outputs = model.generate(
+                **inputs,
+                max_new_tokens=200,
+                temperature=0.8,
+                top_p=0.9,
+                do_sample=True,
+                pad_token_id=tokenizer.eos_token_id
+            )
+        response = tokenizer.decode(outputs[0], skip_special_tokens=True)
+        print(f"\n🤖 Bot: {response}\n")
 
-        answer = generate_answer(model, tokenizer, device, question, retrieved_docs)
-        print(f"\n🤖 Bot: {answer}\n")
+
+def main():
+    # 🔧 Change these paths if needed
+    base_model = "gpt2"  # since LoRA was trained on GPT-2
+    lora_path = "./saved_models_improved/generator_final.pt"  # can be .pt or folder
+
+    model, tokenizer, device = load_model(base_model, lora_path)
+    chat(model, tokenizer, device)
 
 
 if __name__ == "__main__":

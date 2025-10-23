@@ -17,7 +17,7 @@ def load_generator(model_name=GEN_MODEL, device=DEVICE):
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
-    model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto",dtype=torch.bfloat16)
+    model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
     model.eval()
     return tokenizer, model
 
@@ -80,7 +80,7 @@ class SeqDataset(Dataset):
         ids = self.input_ids[idx]
         mask = self.attention_mask[idx]
         labels = ids.clone()
-        labels[labels == self.pad_token_id] = -100  # mask padding for loss
+        labels[labels == self.pad_token_id] = -100  # mask padding for lossno I want to use collabs gpus on my local enviroment or laptop
         return {"input_ids": ids, "attention_mask": mask, "labels": labels}
 
 
