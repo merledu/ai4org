@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Octopus AI Chat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        background: linear-gradient(135deg, #000000,  #202020, #6a5196);
+        color: #e0e0e0;
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    /* Login Screen */
+    .login-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #000000,  #202020, #6a5196);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+        transition: opacity 0.5s ease;
+    }
+
+    .login-box {
+        background: rgba(24, 24, 26, 0.95);
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        width: 90%;
+        max-width: 400px;
+        text-align: center;
+    }
+
+    .login-title {
+        font-size: 28px;
+        font-weight: 700;
+        background: linear-gradient(45deg, #6c53ff, #b388ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+    }
+
+    .login-subtitle {
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 30px;
+        font-size: 16px;
+    }
+
+    .pin-input-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+
+    .pin-input {
+        width: 50px;
+        height: 60px;
+        margin: 0 8px;
+        text-align: center;
+        font-size: 24px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .pin-input:focus {
+        border-color: #6c53ff;
+        box-shadow: 0 0 10px rgba(108, 83, 255, 0.5);
+        outline: none;
+    }
+
+    .login-button {
+        background: linear-gradient(45deg, #6c53ff, #b388ff);
+        border: none;
+        border-radius: 25px;
+        padding: 15px 30px;
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .login-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(108, 83, 255, 0.4);
+    }
+
+    .login-message {
+        margin-top: 15px;
+        color: #ff6b6b;
+        font-size: 14px;
+        min-height: 20px;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 280px;
+        background: rgba(24, 24, 26, 0.95);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 3px 0 15px rgba(0, 0, 0, 0.6);
+        position: relative;
+        z-index: 10;
+        transition: all 0.3s ease;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        cursor: pointer;
+    }
+
+    .logo-icon {
+        font-size: 28px;
+        margin-right: 12px;
+        color: #b388ff;
+        transition: all 0.3s ease;
+    }
+
+    .logo-text {
+        font-size: 22px;
+        font-weight: 700;
+        background: linear-gradient(45deg, #b388ff, #6c53ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        transition: all 0.3s ease;
+    }
+
+    .nav-section {
+        margin-bottom: 25px;
+    }
+
+    .section-title {
+        font-size: 12px;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.5);
+        letter-spacing: 1px;
+        margin-bottom: 15px;
+        transition: all 0.3s ease;
+    }
+
+    /* Sidebar Nav Items - Compact Style */
+    .nav-item {
+        display: flex;
+        align-items: center;
+        padding: 8px 12px;
+        border-radius: 6px;
+        margin-bottom: 3px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+
+    .nav-item:hover {
+        background: rgba(108, 83, 255, 0.15);
+    }
+
+    .nav-item.active {
+        background: rgba(108, 83, 255, 0.25);
+        box-shadow: 0 0 8px rgba(108, 83, 255, 0.3);
+    }
+
+    /* Sidebar Icons */
+    .nav-icon {
+        font-size: 16px;
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+        color: #b388ff;
+        transition: all 0.3s ease;
+    }
+
+    /* Sidebar Text */
+    .nav-text {
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .user-profile {
+        margin-top: auto;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .user-profile:hover {
+        background: rgba(108, 83, 255, 0.15);
+        transform: translateY(-2px);
+    }
+
+    .user-avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #6c53ff, #b388ff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        color: white;
+        margin-right: 15px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+    }
+
+    .user-info {
+        flex: 1;
+        transition: all 0.3s ease;
+    }
+
+    .user-name {
+        font-weight: 600;
+        font-size: 15px;
+        margin-bottom: 3px;
+        color: #fff;
+    }
+
+    .user-email {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Logout Button */
+    .logout-button {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .logout-button:hover {
+        background: rgba(255, 69, 58, 0.2);
+        color: #ff453a;
+        transform: scale(1.1);
+    }
+
+    /* Main Content */
+    .main-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        height: 100vh;
+        transition: all 0.3s ease;
+    }
+
+    .header {
+        padding: 10px 0 15px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .header h1 {
+        font-size: 24px; /* Smaller welcome text */
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.8);
+        text-align: left;
+    }
+
+    .logout-header-button {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        border-radius: 20px;
+        padding: 8px 16px;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .logout-header-button:hover {
+        background: rgba(255, 69, 58, 0.2);
+        color: #ff453a;
+    }
+
+    /* Chat - Larger container */
+    .chat-container {
+        flex: 1;
+        overflow-y: auto;
+        padding: 25px;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 18px;
+        margin-bottom: 20px;
+        box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+        height: calc(100vh - 200px); /* Increased height */
+    }
+
+    .message {
+        margin-bottom: 25px;
+        max-width: 80%;
+        animation: fadeIn 0.5s ease;
+    }
+
+    .ai-message {
+        background: rgba(255, 255, 255, 0.08);
+        padding: 18px 22px;
+        border-radius: 18px 18px 18px 5px;
+        align-self: flex-start;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .user-message {
+        background: #2e2e2e ;
+        padding: 18px 22px;
+        border-radius: 18px 18px 5px 18px;
+        margin-left: auto;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .feedback-buttons {
+        display: flex;
+        margin-top: 10px;
+    }
+
+    .feedback-button {
+        background: rgba(255, 255, 255, 0.08);
+        border: none;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .feedback-button:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1);
+    }
+
+    .typing-indicator {
+        padding: 15px 0;
+        display: none;
+    }
+
+    .typing-dots {
+        display: flex;
+        align-items: center;
+    }
+
+    .typing-dot {
+        width: 10px;
+        height: 10px;
+        background: #6c53ff;
+        border-radius: 50%;
+        margin: 0 3px;
+        animation: typingAnimation 1.4s infinite ease-in-out;
+    }
+
+    .typing-dot:nth-child(1) { animation-delay: 0s; }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    /* Input */
+    .input-area {
+        padding: 20px 0;
+    }
+
+    .input-container {
+        display: flex;
+        background: linear-gradient(90deg, #6c53ff, #b388ff);
+        border-radius: 25px;
+        padding: 3px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
+    }
+
+    .input-field {
+        flex: 1;
+        background: rgba(0, 0, 0, 0.7);
+        border: none;
+        padding: 15px 20px;
+        color: #fff;
+        font-size: 16px;
+        resize: none;
+        max-height: 150px;
+        outline: none;
+        border-radius: 22px;
+    }
+
+    .input-field::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .send-button {
+        background: linear-gradient(45deg, #544e5e, #6c53ff);
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-left: 10px;
+    }
+
+    .send-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px rgba(108, 83, 255, 0.5);
+    }
+
+    .send-button i {
+        color: white;
+        font-size: 20px;
+    }
+
+    /* Collapsed Sidebar */
+    .sidebar.collapsed {
+        width: 80px;
+        padding: 20px 10px;
+        align-items: center;
+    }
+
+    /* Hide text when collapsed */
+    .sidebar.collapsed .logo-text,
+    .sidebar.collapsed .nav-text,
+    .sidebar.collapsed .user-info,
+    .sidebar.collapsed .section-title {
+        display: none;
+    }
+
+    /* Center icons in collapsed mode */
+    .sidebar.collapsed .logo {
+        justify-content: center;
+        margin-bottom: 25px;
+    }
+
+    .sidebar.collapsed .nav-item {
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .sidebar.collapsed .nav-icon {
+        margin-right: 0;
+        font-size: 20px;
+    }
+
+    /* Shrink user profile in collapsed mode */
+    .sidebar.collapsed .user-profile {
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .sidebar.collapsed .user-avatar {
+        margin-right: 0;
+        width: 40px;
+        height: 40px;
+    }
+
+    /* Tooltip for collapsed sidebar items */
+    .nav-item {
+        position: relative;
+    }
+
+    .nav-item .tooltip {
+        position: absolute;
+        left: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(24, 24, 26, 0.95);
+        padding: 8px 12px;
+        border-radius: 4px;
+        font-size: 14px;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 1000;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        pointer-events: none;
+    }
+
+    .sidebar.collapsed .nav-item:hover .tooltip {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes typingAnimation {
+        0%, 60%, 100% { transform: translateY(0); }
+        30% { transform: translateY(-5px); }
+    }
+
+    /* Octopus Icon Animation */
+    .octopus-icon {
+        position: relative;
+        display: inline-block;
+        font-size: 28px;
+        color: #b388ff;
+        transition: all 0.3s ease;
+    }
+
+    .octopus-icon::before {
+        content: "🐙";
+    }
+
+    .logo:hover .octopus-icon {
+        transform: rotate(15deg) scale(1.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        body { flex-direction: column; }
+        .sidebar { width: 100%; padding: 15px; }
+        .logo { margin-bottom: 20px; }
+        .main-content { padding: 15px; }
+        .message { max-width: 90%; }
+        
+        .sidebar.collapsed {
+            width: 70px;
+            padding: 15px 8px;
+        }
+        
+        .login-box {
+            padding: 30px 20px;
+        }
+        
+        .pin-input {
+            width: 45px;
+            height: 55px;
+            margin: 0 5px;
+        }
+        
+        .header {
+            flex-direction: column;
+            gap: 15px;
+            text-align: center;
+        }
+        
+        .chat-container {
+            height: calc(100vh - 220px);
+        }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: rgba(108, 83, 255, 0.3); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(108, 83, 255, 0.5); }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-container" id="loginContainer">
+        <div class="login-box">
+            <h1 class="login-title">Octopus AI Chat</h1>
+            <p class="login-subtitle">Enter your 4-digit PIN to access your personal AI assistant</p>
+            
+            <div class="pin-input-container">
+                <input type="password" class="pin-input" id="pin1" maxlength="1" autocomplete="off">
+                <input type="password" class="pin-input" id="pin2" maxlength="1" autocomplete="off">
+                <input type="password" class="pin-input" id="pin3" maxlength="1" autocomplete="off">
+                <input type="password" class="pin-input" id="pin4" maxlength="1" autocomplete="off">
+            </div>
+            
+            <button class="login-button" id="loginButton">Access Chat</button>
+            <div class="login-message" id="loginMessage"></div>
+        </div>
+    </div>
+
+    <!-- Main Interface (Initially Hidden) -->
+    <div class="sidebar" id="sidebar">
+        <div class="logo" id="logo">
+            <span class="octopus-icon logo-icon"></span>
+            <span class="logo-text">Octopus AI</span>
+        </div>
+
+        <!-- Chat -->
+        <div class="nav-section">
+            <div class="nav-item active" id="chatNav">
+                <i class="fas fa-comments nav-icon"></i>
+                <span class="nav-text">Chat</span>
+                <span class="tooltip">Chat</span>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-item" id="historyNav">
+                <i class="fas fa-history nav-icon"></i>
+                <span class="nav-text">History</span>
+                <span class="tooltip">History</span>
+            </div>
+        </div>
+
+        <!-- Settings -->
+        <div class="nav-section">
+            <div class="nav-item" id="settingsNav">
+                <i class="fas fa-cog nav-icon"></i>
+                <span class="nav-text">Settings</span>
+                <span class="tooltip">Settings</span>
+            </div>
+        </div>
+
+        <!-- Help Center -->
+        <div class="nav-section">
+            <div class="nav-item" id="helpNav">
+                <i class="fas fa-question-circle nav-icon"></i>
+                <span class="nav-text">Help Center</span>
+                <span class="tooltip">Help Center</span>
+            </div>
+        </div>
+
+        <!-- User Profile -->
+        <div class="user-profile">
+            <div class="user-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="user-info">
+                <div class="user-name" id="userName">User</div>
+                <div class="user-email" id="userEmail">user@example.com</div>
+            </div>
+            <button class="logout-button" id="sidebarLogoutButton" title="Logout">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="header">
+            <h1 id="welcomeMessage">Welcome to Octopus AI</h1>
+            <button class="logout-header-button" id="headerLogoutButton">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </button>
+        </div>
+        
+        <!-- Chat View - Larger container -->
+        <div class="chat-container" id="chatContainer">
+            <div class="message ai-message">
+                <p>Hello! I'm your personal Octopus AI assistant. How can I help you today?</p>
+                <div class="feedback-buttons">
+                    <button class="feedback-button" title="Like">👍</button>
+                    <button class="feedback-button" title="Dislike">👎</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="typing-indicator" id="typingIndicator">
+            <div class="typing-dots">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        </div>
+        
+        <div class="input-area">
+            <div class="input-container">
+                <textarea class="input-field" id="userInput" placeholder="Type your message here..." rows="1"></textarea>
+                <button class="send-button" id="sendButton">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const loginContainer = document.getElementById('loginContainer');
+            const pinInputs = [
+                document.getElementById('pin1'),
+                document.getElementById('pin2'),
+                document.getElementById('pin3'),
+                document.getElementById('pin4')
+            ];
+            const loginButton = document.getElementById('loginButton');
+            const loginMessage = document.getElementById('loginMessage');
+            const chatContainer = document.getElementById('chatContainer');
+            const userInput = document.getElementById('userInput');
+            const sendButton = document.getElementById('sendButton');
+            const typingIndicator = document.getElementById('typingIndicator');
+            const sidebar = document.getElementById('sidebar');
+            const logo = document.getElementById('logo');
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            const userName = document.getElementById('userName');
+            const userEmail = document.getElementById('userEmail');
+            const sidebarLogoutButton = document.getElementById('sidebarLogoutButton');
+            const headerLogoutButton = document.getElementById('headerLogoutButton');
+            
+            // Navigation elements
+            const chatNav = document.getElementById('chatNav');
+            const historyNav = document.getElementById('historyNav');
+            const settingsNav = document.getElementById('settingsNav');
+            const helpNav = document.getElementById('helpNav');
+            
+            // User data storage with unique names and emails
+            const userDatabase = {
+                '1234': { 
+                    name: 'Maha Rehan', 
+                    email: 'maha@example.com',
+                    chatHistory: [
+                        { role: 'ai', text: 'Hello Maha! I\'m your personal Octopus AI assistant. How can I help you today?' }
+                    ]
+                },
+                '5678': { 
+                    name: 'Alex Johnson', 
+                    email: 'alex.johnson@example.com',
+                    chatHistory: [
+                        { role: 'ai', text: 'Hi Alex! I\'m your personal Octopus AI assistant. What can I do for you?' }
+                    ]
+                },
+                '9999': { 
+                    name: 'Sarah Williams', 
+                    email: 'sarah.w@example.com',
+                    chatHistory: [
+                        { role: 'ai', text: 'Welcome Sarah! I\'m your Octopus AI assistant. How may I assist you?' }
+                    ]
+                },
+                '1111': { 
+                    name: 'David Chen', 
+                    email: 'david.chen@example.com',
+                    chatHistory: [
+                        { role: 'ai', text: 'Hello David! I\'m here to help. What would you like to know?' }
+                    ]
+                },
+                '4321': { 
+                    name: 'Emma Thompson', 
+                    email: 'emma.t@example.com',
+                    chatHistory: [
+                        { role: 'ai', text: 'Hi Emma! I\'m your Octopus AI assistant. How can I be of service?' }
+                    ]
+                }
+            };
+            
+            let currentUser = null;
+            
+            // PIN input handling
+            pinInputs.forEach((input, index) => {
+                input.addEventListener('input', function() {
+                    if (this.value.length === 1 && index < pinInputs.length - 1) {
+                        pinInputs[index + 1].focus();
+                    }
+                });
+                
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && this.value.length === 0 && index > 0) {
+                        pinInputs[index - 1].focus();
+                    }
+                });
+            });
+            
+            // Login functionality
+            loginButton.addEventListener('click', function() {
+                const pin = pinInputs.map(input => input.value).join('');
+                
+                if (pin.length !== 4) {
+                    loginMessage.textContent = 'Please enter a 4-digit PIN';
+                    return;
+                }
+                
+                if (userDatabase[pin]) {
+                    // Successful login
+                    currentUser = userDatabase[pin];
+                    loginContainer.style.opacity = '0';
+                    setTimeout(() => {
+                        loginContainer.style.display = 'none';
+                        initializeChat();
+                    }, 500);
+                } else {
+                    // Failed login
+                    loginMessage.textContent = 'Invalid PIN. Please try again.';
+                    pinInputs.forEach(input => {
+                        input.value = '';
+                        input.style.borderColor = '#ff6b6b';
+                    });
+                    pinInputs[0].focus();
+                    
+                    // Reset border color after a delay
+                    setTimeout(() => {
+                        pinInputs.forEach(input => {
+                            input.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                        });
+                    }, 2000);
+                }
+            });
+            
+            // Logout functionality
+            function logout() {
+                // Reset PIN inputs
+                pinInputs.forEach(input => {
+                    input.value = '';
+                    input.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                });
+                
+                // Reset login message
+                loginMessage.textContent = '';
+                
+                // Show login screen
+                loginContainer.style.display = 'flex';
+                setTimeout(() => {
+                    loginContainer.style.opacity = '1';
+                }, 10);
+                
+                // Reset current user
+                currentUser = null;
+                
+                // Focus on first PIN input
+                pinInputs[0].focus();
+            }
+            
+            // Add logout event listeners
+            sidebarLogoutButton.addEventListener('click', logout);
+            headerLogoutButton.addEventListener('click', logout);
+            
+            // Initialize chat after login
+            function initializeChat() {
+                // Update user info
+                userName.textContent = currentUser.name;
+                userEmail.textContent = currentUser.email;
+                welcomeMessage.textContent = `Welcome, ${currentUser.name}!`;
+                
+                // Load chat history
+                chatContainer.innerHTML = '';
+                currentUser.chatHistory.forEach(message => {
+                    addMessage(message.text, message.role);
+                });
+                
+                // Auto-resize textarea
+                userInput.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                });
+                
+                // Send message function
+                function sendMessage() {
+                    const message = userInput.value.trim();
+                    if (message) {
+                        // Add user message
+                        addMessage(message, 'user');
+                        
+                        // Save to history
+                        currentUser.chatHistory.push({ role: 'user', text: message });
+                        
+                        userInput.value = '';
+                        userInput.style.height = 'auto';
+                        
+                        // Show typing indicator
+                        typingIndicator.style.display = 'block';
+                        
+                        // Simulate AI response after a delay
+                        setTimeout(() => {
+                            typingIndicator.style.display = 'none';
+                            const aiResponse = generateAIResponse(message, currentUser.name);
+                            addMessage(aiResponse, 'ai');
+                            
+                            // Save AI response to history
+                            currentUser.chatHistory.push({ role: 'ai', text: aiResponse });
+                        }, 1500);
+                    }
+                }
+                
+                // Add message to chat
+                function addMessage(text, type) {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = `message ${type}-message`;
+                    messageDiv.innerHTML = `
+                        <p>${text}</p>
+                        ${type === 'ai' ? `
+                        <div class="feedback-buttons">
+                            <button class="feedback-button" title="Like">👍</button>
+                            <button class="feedback-button" title="Dislike">👎</button>
+                        </div>
+                        ` : ''}
+                    `;
+                    chatContainer.appendChild(messageDiv);
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                }
+                
+                // Generate AI response (simulated)
+                function generateAIResponse(userMessage, userName) {
+                    const responses = [
+                        `I understand your question, ${userName}. In a real implementation, I would provide a helpful response based on your query.`,
+                        `That's an interesting point, ${userName}. Let me think about how to best assist you with that.`,
+                        `I can help with that, ${userName}! Based on your question, here's what I would suggest in a real AI system.`,
+                        `Thanks for your message, ${userName}. A production AI would analyze your query and provide a detailed response.`,
+                        `I've processed your request, ${userName}. In a live system, I would generate a meaningful answer to your question.`
+                    ];
+                    
+                    // Simple keyword-based response selection
+                    if (userMessage.toLowerCase().includes('hello') || userMessage.toLowerCase().includes('hi')) {
+                        return `Hello ${userName}! How can I assist you today?`;
+                    } else if (userMessage.toLowerCase().includes('help')) {
+                        return `I'm here to help, ${userName}! What specific assistance do you need?`;
+                    } else if (userMessage.toLowerCase().includes('thank')) {
+                        return `You're welcome, ${userName}! Is there anything else I can help you with?`;
+                    } else if (userMessage.toLowerCase().includes('name')) {
+                        return `I'm Octopus AI, ${userName}. How can I help you today?`;
+                    } else if (userMessage.toLowerCase().includes('octopus')) {
+                        return `Yes, I'm your friendly octopus AI assistant! With eight virtual tentacles, I can handle multiple tasks at once. How can I help you, ${userName}?`;
+                    } else {
+                        return responses[Math.floor(Math.random() * responses.length)];
+                    }
+                }
+                
+                // Event listeners
+                sendButton.addEventListener('click', sendMessage);
+                
+                userInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendMessage();
+                    }
+                });
+            }
+            
+            // Sidebar toggle functionality
+            logo.addEventListener('click', function() {
+                sidebar.classList.toggle('collapsed');
+            });
+            
+            // Navigation functionality
+            const navItems = [chatNav, historyNav, settingsNav, helpNav];
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    navItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // In a real app, you would switch views here
+                    if (this === historyNav) {
+                        alert('History view would show your previous conversations here.');
+                    } else if (this === settingsNav) {
+                        alert('Settings view would allow you to customize your experience.');
+                    } else if (this === helpNav) {
+                        alert('Help Center would provide assistance and documentation.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
