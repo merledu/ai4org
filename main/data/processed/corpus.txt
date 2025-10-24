@@ -1,0 +1,39 @@
+Our cancellation policy: Customers may cancel within 24 hours for a full refund. After that, refund requests are handled on a case-by-case basis.
+
+Data retention rules: We keep system logs for 90 days and anonymize them afterward to protect user privacy.
+
+Access control: Only managers can approve employee role or permission changes.
+
+Security policy: All devices must have full disk encryption enabled to safeguard sensitive company data.
+
+Tone guideline: Use professional, concise, and empathetic language when replying to customers.
+
+Support availability: Customer support operates 24/7 through chat and email to ensure constant assistance.
+
+Remote access policy: Temporary employees may access systems only via secure VPN connections with restricted rights.
+
+Phishing alert policy: Report suspicious emails using the 'Report Phishing' button to notify IT security immediately.
+
+Password standards: Internal passwords must be at least 12 characters long and include uppercase, lowercase, numbers, and special symbols.
+
+Training policy: All employees must complete compliance and cybersecurity training annually.
+
+Email usage policy: Employees must use official company email accounts for all work-related communications.
+
+Customer data retention: Personal data is stored securely for 5 years or until a deletion request is submitted.
+
+Software installation rule: Only IT-approved applications may be installed on company-managed devices.
+
+Backup process: Full backups occur daily, and incremental backups run hourly to ensure data recovery readiness.
+
+Password reset policy: Users can reset passwords via the self-service portal if multi-factor authentication is enabled.
+
+Customer complaint handling: All complaints are logged, reviewed, and resolved within 48 hours by the QA team.
+
+Compliance framework: The company follows GDPR, CCPA, and other relevant data protection laws.
+
+BYOD policy: Employees may use personal devices for work if enrolled in Mobile Device Management (MDM).
+
+Financial data policy: Only authorized finance and audit personnel have access to transaction records.
+
+Document sharing policy: Internal documents must be shared only through secure, company-approved systems such as SharePoint or encrypted email.
