@@ -1,39 +1,95 @@
-Our cancellation policy: Customers may cancel within 24 hours for a full refund. After that, refund requests are handled on a case-by-case basis.
+To open a savings account, a customer must visit the bank with ID proof, address proof, and a photo, fill out the form, and make the initial deposit as required.
 
-Data retention rules: We keep system logs for 90 days and anonymize them afterward to protect user privacy.
+The minimum balance in a savings account depends on the bank and type of account; some allow zero balance while others need a monthly average balance.
 
-Access control: Only managers can approve employee role or permission changes.
+Many banks now let customers open accounts online using e-KYC verification with Aadhaar and PAN.
 
-Security policy: All devices must have full disk encryption enabled to safeguard sensitive company data.
+A newly opened account usually becomes active within 24 to 48 hours after document verification.
 
-Tone guideline: Use professional, concise, and empathetic language when replying to customers.
+A customer can have more than one savings account in the same bank, though each must meet the respective minimum balance requirement.
 
-Support availability: Customer support operates 24/7 through chat and email to ensure constant assistance.
+A current account is intended for businesses and professionals needing high transaction limits and generally does not earn interest.
 
-Remote access policy: Temporary employees may access systems only via secure VPN connections with restricted rights.
+To open a current account, the applicant must submit business registration papers, PAN, address and ID proof, and in some cases incorporation or partnership documents.
 
-Phishing alert policy: Report suspicious emails using the 'Report Phishing' button to notify IT security immediately.
+Savings accounts are meant for personal savings with interest, whereas current accounts are for frequent business transactions and usually offer no interest.
 
-Password standards: Internal passwords must be at least 12 characters long and include uppercase, lowercase, numbers, and special symbols.
+A minor can open a bank account jointly with a guardian, and some banks even provide special children’s accounts with parental control.
 
-Training policy: All employees must complete compliance and cybersecurity training annually.
+To update an address, customers must submit a written or online request with valid proof such as Aadhaar or a utility bill.
 
-Email usage policy: Employees must use official company email accounts for all work-related communications.
+Closing a bank account requires submitting a closure form along with the passbook, cheque book, and debit card at the branch.
 
-Customer data retention: Personal data is stored securely for 5 years or until a deletion request is submitted.
+A fixed deposit is a time-bound savings option where money is kept for a specific period at a fixed interest rate higher than a savings account.
 
-Software installation rule: Only IT-approved applications may be installed on company-managed devices.
+Fixed deposits can be withdrawn before maturity, but banks may levy a small penalty or lower the interest rate.
 
-Backup process: Full backups occur daily, and incremental backups run hourly to ensure data recovery readiness.
+A recurring deposit allows a customer to save a fixed amount every month for a set period and earn interest similar to an FD.
 
-Password reset policy: Users can reset passwords via the self-service portal if multi-factor authentication is enabled.
+Most banks allow joint accounts operated by two or more people who share deposit and withdrawal rights.
 
-Customer complaint handling: All complaints are logged, reviewed, and resolved within 48 hours by the QA team.
+A nominee is a person designated to receive the account balance in the event of the account holder’s death.
 
-Compliance framework: The company follows GDPR, CCPA, and other relevant data protection laws.
+Online banking enables customers to manage accounts and perform transactions through the internet.
 
-BYOD policy: Employees may use personal devices for work if enrolled in Mobile Device Management (MDM).
+Internet banking can be activated by registering online or visiting the branch; banks provide login credentials after verification.
 
-Financial data policy: Only authorized finance and audit personnel have access to transaction records.
+Online banking is safe when customers use secure connections, never share passwords, and enable two-factor authentication.
 
-Document sharing policy: Internal documents must be shared only through secure, company-approved systems such as SharePoint or encrypted email.
+Mobile banking allows financial transactions via a smartphone using the bank’s official mobile app or SMS service.
+
+Funds can be transferred online through NEFT, RTGS, IMPS, or UPI using mobile or internet banking platforms.
+
+NEFT, the National Electronic Funds Transfer system, processes interbank fund transfers in batches throughout the day.
+
+RTGS, or Real Time Gross Settlement, allows immediate settlement of high-value interbank transfers, generally above ₹2 lakh.
+
+IMPS enables instant 24/7 fund transfers between banks with immediate confirmation.
+
+UPI, the Unified Payments Interface, allows instant money transfers via mobile apps by linking multiple bank accounts.
+
+If an online transfer fails and the amount is debited, it is usually reversed automatically within a few hours or by the next working day.
+
+Banks support international remittance services such as SWIFT for sending money abroad in compliance with RBI and FEMA regulations.
+
+The IFSC (Indian Financial System Code) is an 11-character identifier for a specific bank branch used in electronic transfers.
+
+A cheque is a written instruction ordering the bank to pay a specified sum from the drawer’s account to the payee.
+
+Local cheques normally clear in one or two business days, while outstation cheques may take up to a week.
+
+A demand draft is a prepaid payment instrument guaranteeing funds to the payee and is used for secure transactions.
+
+A customer may request to stop payment of a cheque through online banking, phone, or branch before it is cleared.
+
+When a cheque bounces because of insufficient funds or other issues, banks may charge penalties, and legal action may follow.
+
+An overdraft facility lets an account holder withdraw more than the available balance within an approved limit, paying interest on the overdrawn sum.
+
+Loans can be taken against fixed deposits, allowing borrowing of a percentage of the FD amount while the deposit continues to earn interest.
+
+A personal loan is an unsecured borrowing option for individual needs such as travel, education, or emergencies, without collateral.
+
+To apply for a home loan, the borrower submits property papers, ID and income proof, and credit details; approval follows eligibility verification.
+
+EMI, or Equated Monthly Installment, is a fixed monthly repayment including both principal and interest portions of a loan.
+
+Most banks permit early repayment or foreclosure of loans, sometimes charging a nominal prepayment fee.
+
+Loan eligibility is affected by income, job stability, credit score, existing debts, and repayment history.
+
+A credit score represents a borrower’s creditworthiness based on past repayment behavior and outstanding obligations.
+
+Credit scores improve with timely payments, low debt utilization, and regular review of credit reports.
+
+A credit card allows purchases on borrowed funds up to a certain limit, repayable later with or without interest.
+
+Using credit cards responsibly can provide cashback, rewards, purchase protection, and a positive credit record.
+
+A debit card withdraws funds directly from the linked account, while a credit card provides short-term borrowing to be repaid later.
+
+If a debit or credit card is lost, it should be immediately blocked via app, online banking, or customer care; a replacement will be issued.
+
+A card PIN is a personal identification number for secure transactions and can be changed at an ATM or via online banking.
+
+If an ATM transaction fails to dispense cash but the account is debited, report it immediately; the refund generally arrives within three to five business days.

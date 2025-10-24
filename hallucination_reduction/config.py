@@ -35,7 +35,7 @@ else:
 # -------------------------
 # Model configuration
 # -------------------------
-GEN_MODEL = os.environ.get("GEN_MODEL", "gpt2")
+GEN_MODEL = os.environ.get("GEN_MODEL", "Qwen/Qwen2.5-14B-Instruct")
 DISC_MODEL = os.environ.get("DISC_MODEL", "distilbert-base-uncased")
 SAVE_DIR = "./saved_models_improved"
 os.makedirs(SAVE_DIR, exist_ok=True)

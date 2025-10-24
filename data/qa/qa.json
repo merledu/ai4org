@@ -1,142 +1,95 @@
-[
-  {
-    "question": "Who can access financial transaction records?",
-    "answer": "Access to financial transaction records is restricted to authorized personnel only. These include members of the compliance and audit departments who are specifically granted permissions under role-based access control (RBAC) systems. The bank enforces strict monitoring to ensure that customer privacy and data protection laws are followed.",
-    "supporting_passages": [
-      "Financial access: Strict role-based access controls protect transaction records. Only authorized compliance and auditing staff have access under supervision."
-    ]
-  },
-  {
-    "question": "What is the bank's AML screening process?",
-    "answer": "The bank's Anti-Money Laundering (AML) screening process involves verifying each customer's identity and monitoring transactions for unusual activity. During account opening or periodic reviews, customers must provide valid identification documents such as a passport or national ID, and proof of address like a utility bill.",
-    "supporting_passages": [
-      "KYC rules: Acceptable documents include passports, national IDs, and utility bills for address verification. AML checks ensure compliance with anti-money laundering regulations."
-    ]
-  },
-  {
-    "question": "What documents are needed to open a bank account?",
-    "answer": "To open a bank account with us, you'll need to provide three key documents: a valid government-issued photo identification such as a driver's license or passport, recent proof of address like a utility bill or bank statement from within the last three months, and your Social Security number for verification purposes.",
-    "supporting_passages": [
-      "Account opening requires valid government-issued photo ID, proof of address dated within last 3 months, and Social Security number verification."
-    ]
-  },
-  {
-    "question": "What are the daily withdrawal limits?",
-    "answer": "Our daily withdrawal limits are designed with your security in mind. For ATM withdrawals, you can withdraw up to $1,000 per day. If you need to withdraw larger amounts, you can visit any of our branches where you can withdraw up to $5,000 daily, provided you present valid identification.",
-    "supporting_passages": [
-      "ATM withdrawals limited to $1000 daily, while in-branch withdrawals can go up to $5000 with proper identification."
-    ]
-  },
-  {
-    "question": "How long do international transfers take?",
-    "answer": "International wire transfers usually take between 2 to 5 business days to complete. The exact timing depends on factors such as the destination country, their banking system's processing times, and any currency exchange requirements.",
-    "supporting_passages": [
-      "International wire transfers typically process within 2-5 business days, depending on the destination country and currency exchange requirements."
-    ]
-  },
-  {
-    "question": "What is the minimum balance for a savings account?",
-    "answer": "For our savings accounts, we require a minimum opening deposit of $25 to get started. To avoid the monthly maintenance fee, you'll need to maintain a minimum balance of $100 in your account at all times.",
-    "supporting_passages": [
-      "Savings accounts require a minimum opening deposit of $25 and must maintain $100 minimum balance to avoid monthly maintenance fees."
-    ]
-  },
-  {
-    "question": "How do I report a lost debit card?",
-    "answer": "If your debit card is lost or stolen, please report it immediately through any of these channels: call our 24/7 hotline, use our mobile banking app, or log into your online banking account. Immediate reporting ensures we can quickly block the card to prevent any unauthorized transactions.",
-    "supporting_passages": [
-      "Lost or stolen cards must be reported immediately through 24/7 hotline, mobile app, or online banking to prevent unauthorized transactions."
-    ]
-  },
-  {
-    "question": "What are the requirements for a personal loan?",
-    "answer": "To qualify for a personal loan with us, you'll need a minimum credit score of 650, documentation showing stable income such as recent pay stubs or tax returns, and a debt-to-income ratio that doesn't exceed 40%.",
-    "supporting_passages": [
-      "Personal loan applications require minimum credit score of 650, proof of stable income, and debt-to-income ratio below 40%."
-    ]
-  },
-  {
-    "question": "How do I set up online banking?",
-    "answer": "Setting up online banking is straightforward. You'll need your account number, Social Security number, and access to your email for verification. Once you complete the initial registration, we'll guide you through setting up two-factor authentication.",
-    "supporting_passages": [
-      "Online banking registration requires account number, Social Security number, and email verification followed by two-factor authentication setup."
-    ]
-  },
-  {
-    "question": "What is the process for ordering new checks?",
-    "answer": "You can order new checks through several convenient methods: via our online banking portal, through the mobile banking app, or by calling our customer service line. Once ordered, your checks will typically arrive within 7 to 10 business days.",
-    "supporting_passages": [
-      "Check orders can be placed through online banking, mobile app, or by phone, with delivery expected within 7-10 business days."
-    ]
-  },
-  {
-    "question": "How do I update my contact information?",
-    "answer": "You can update your contact information through multiple channels for your convenience. Use our online banking platform or mobile app for instant updates, visit any branch in person, or call our verified customer service line where you'll answer security questions to confirm your identity.",
-    "supporting_passages": [
-      "Contact information updates can be done through online banking, mobile app, in-branch visit, or verified phone call with security questions."
-    ]
-  },
-  {
-    "question": "What are the fees for overdraft protection?",
-    "answer": "Our overdraft protection service has a monthly fee of $10. Additionally, if a transaction causes your account to overdraft beyond what's covered by your linked backup funds, there's a $35 fee per transaction.",
-    "supporting_passages": [
-      "Overdraft protection service costs $10 monthly with $35 fee per transaction that overdraws the account beyond linked backup funds."
-    ]
-  },
-  {
-    "question": "How do I stop payment on a check?",
-    "answer": "You can place a stop payment on a check through our online banking system, by phone, or by visiting any branch. There is a $30 fee for each check you want to stop, and the stop payment order remains effective for 6 months.",
-    "supporting_passages": [
-      "Stop payment requests can be placed online, by phone, or in branch with $30 fee per check, valid for 6 months unless renewed."
-    ]
-  },
-  {
-    "question": "What is the interest rate for CDs?",
-    "answer": "Our Certificate of Deposit (CD) interest rates depend on the term length you choose. Currently, a 3-month CD earns 0.5% APY, a 12-month CD earns 1.5% APY, and our 60-month CD offers 2.75% APY.",
-    "supporting_passages": [
-      "Certificate of Deposit rates vary by term: 3-month CD earns 0.5%, 12-month CD earns 1.5%, and 60-month CD earns 2.75% APY."
-    ]
-  },
-  {
-    "question": "How do I add a joint account holder?",
-    "answer": "To add a joint account holder, both you and the person you wish to add will need to visit one of our branches together. Please bring valid government-issued photo identification for both parties, and we'll help you complete a new account application.",
-    "supporting_passages": [
-      "Adding joint account holders requires both parties to present in branch with valid ID and complete new account application together."
-    ]
-  },
-  {
-    "question": "What is the process for wire transfers?",
-    "answer": "To initiate a wire transfer, you'll need to provide the recipient's full legal name, their account number, the receiving bank's routing number, and the bank's physical address. For same-day processing, please submit your wire transfer request before 3 PM local time.",
-    "supporting_passages": [
-      "Wire transfers require recipient's full name, account number, routing number, and bank address, with same-day processing for requests before 3 PM."
-    ]
-  },
-  {
-    "question": "How do I set up automatic bill payments?",
-    "answer": "You can set up automatic bill payments through our online banking system. You'll need to enter each payee's information, specify the payment amount, and set the frequency. Our system processes these payments 2 business days before the due date.",
-    "supporting_passages": [
-      "Automatic bill pay can be configured online with payee information, payment amount, and frequency, with processing 2 business days before due date."
-    ]
-  },
-  {
-    "question": "What are the fees for using out-of-network ATMs?",
-    "answer": "When you use out-of-network ATMs, there's a $3 fee from our bank in addition to any fee charged by the ATM owner. However, if you have a premium account with us, we reimburse up to $15 in out-of-network ATM fees each month.",
-    "supporting_passages": [
-      "Out-of-network ATM withdrawals incur $3 bank fee plus any fee charged by the ATM owner, with reimbursement up to $15 monthly for premium accounts."
-    ]
-  },
-  {
-    "question": "How do I apply for a mortgage?",
-    "answer": "Applying for a mortgage involves submitting several documents: your credit report, income verification, employment history, documentation of your assets, and details about the property. Once we receive your complete application, we typically provide pre-approval within 3 business days.",
-    "supporting_passages": [
-      "Mortgage applications require credit report, income verification, employment history, asset documentation, and property details with pre-approval within 3 business days."
-    ]
-  },
-  {
-    "question": "What is the process for disputing a charge?",
-    "answer": "If you need to dispute a charge, you must file your dispute within 60 days of the statement date when the charge appeared. You can submit disputes through our online banking platform, mobile app, or by calling our customer service.",
-    "supporting_passages": [
-      "Transaction disputes must be filed within 60 days of statement date through online banking, mobile app, or phone, with provisional credit within 10 business days."
-    ]
-  }
-]
+To open a savings account, a customer must visit the bank with ID proof, address proof, and a photo, fill out the form, and make the initial deposit as required.
+
+The minimum balance in a savings account depends on the bank and type of account; some allow zero balance while others need a monthly average balance.
+
+Many banks now let customers open accounts online using e-KYC verification with Aadhaar and PAN.
+
+A newly opened account usually becomes active within 24 to 48 hours after document verification.
+
+A customer can have more than one savings account in the same bank, though each must meet the respective minimum balance requirement.
+
+A current account is intended for businesses and professionals needing high transaction limits and generally does not earn interest.
+
+To open a current account, the applicant must submit business registration papers, PAN, address and ID proof, and in some cases incorporation or partnership documents.
+
+Savings accounts are meant for personal savings with interest, whereas current accounts are for frequent business transactions and usually offer no interest.
+
+A minor can open a bank account jointly with a guardian, and some banks even provide special children’s accounts with parental control.
+
+To update an address, customers must submit a written or online request with valid proof such as Aadhaar or a utility bill.
+
+Closing a bank account requires submitting a closure form along with the passbook, cheque book, and debit card at the branch.
+
+A fixed deposit is a time-bound savings option where money is kept for a specific period at a fixed interest rate higher than a savings account.
+
+Fixed deposits can be withdrawn before maturity, but banks may levy a small penalty or lower the interest rate.
+
+A recurring deposit allows a customer to save a fixed amount every month for a set period and earn interest similar to an FD.
+
+Most banks allow joint accounts operated by two or more people who share deposit and withdrawal rights.
+
+A nominee is a person designated to receive the account balance in the event of the account holder’s death.
+
+Online banking enables customers to manage accounts and perform transactions through the internet.
+
+Internet banking can be activated by registering online or visiting the branch; banks provide login credentials after verification.
+
+Online banking is safe when customers use secure connections, never share passwords, and enable two-factor authentication.
+
+Mobile banking allows financial transactions via a smartphone using the bank’s official mobile app or SMS service.
+
+Funds can be transferred online through NEFT, RTGS, IMPS, or UPI using mobile or internet banking platforms.
+
+NEFT, the National Electronic Funds Transfer system, processes interbank fund transfers in batches throughout the day.
+
+RTGS, or Real Time Gross Settlement, allows immediate settlement of high-value interbank transfers, generally above ₹2 lakh.
+
+IMPS enables instant 24/7 fund transfers between banks with immediate confirmation.
+
+UPI, the Unified Payments Interface, allows instant money transfers via mobile apps by linking multiple bank accounts.
+
+If an online transfer fails and the amount is debited, it is usually reversed automatically within a few hours or by the next working day.
+
+Banks support international remittance services such as SWIFT for sending money abroad in compliance with RBI and FEMA regulations.
+
+The IFSC (Indian Financial System Code) is an 11-character identifier for a specific bank branch used in electronic transfers.
+
+A cheque is a written instruction ordering the bank to pay a specified sum from the drawer’s account to the payee.
+
+Local cheques normally clear in one or two business days, while outstation cheques may take up to a week.
+
+A demand draft is a prepaid payment instrument guaranteeing funds to the payee and is used for secure transactions.
+
+A customer may request to stop payment of a cheque through online banking, phone, or branch before it is cleared.
+
+When a cheque bounces because of insufficient funds or other issues, banks may charge penalties, and legal action may follow.
+
+An overdraft facility lets an account holder withdraw more than the available balance within an approved limit, paying interest on the overdrawn sum.
+
+Loans can be taken against fixed deposits, allowing borrowing of a percentage of the FD amount while the deposit continues to earn interest.
+
+A personal loan is an unsecured borrowing option for individual needs such as travel, education, or emergencies, without collateral.
+
+To apply for a home loan, the borrower submits property papers, ID and income proof, and credit details; approval follows eligibility verification.
+
+EMI, or Equated Monthly Installment, is a fixed monthly repayment including both principal and interest portions of a loan.
+
+Most banks permit early repayment or foreclosure of loans, sometimes charging a nominal prepayment fee.
+
+Loan eligibility is affected by income, job stability, credit score, existing debts, and repayment history.
+
+A credit score represents a borrower’s creditworthiness based on past repayment behavior and outstanding obligations.
+
+Credit scores improve with timely payments, low debt utilization, and regular review of credit reports.
+
+A credit card allows purchases on borrowed funds up to a certain limit, repayable later with or without interest.
+
+Using credit cards responsibly can provide cashback, rewards, purchase protection, and a positive credit record.
+
+A debit card withdraws funds directly from the linked account, while a credit card provides short-term borrowing to be repaid later.
+
+If a debit or credit card is lost, it should be immediately blocked via app, online banking, or customer care; a replacement will be issued.
+
+A card PIN is a personal identification number for secure transactions and can be changed at an ATM or via online banking.
+
+If an ATM transaction fails to dispense cash but the account is debited, report it immediately; the refund generally arrives within three to five business days.
