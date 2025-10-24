@@ -1,4 +1,5 @@
 # config/default_config.yaml
+
 data:
   raw_documents_path: "data/raw_documents"
   processed_path: "data/processed" 
