@@ -1,0 +1,201 @@
+:root {
+    --primary-color: #9b59b6;      /* Brighter Purple */
+    --dark-color: #000000;         /* Black */
+    --light-color: #f0f0f0;        /* Soft White */
+    --gray-color: #bbbbbb;         /* Mid Gray */
+    --gradient-start: #000000;     /* Black start */
+    --gradient-mid: #64278e;       /* Rich Purple mid */
+    --gradient-end: #7f8c8d;       /* Grey end */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
+    color: var(--light-color);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.header {
+    padding: 0.75rem;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.85);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chat-container {
+    flex: 1;
+    overflow-y: scroll;
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.message {
+    padding: 0.6rem 0.8rem;
+    margin-bottom: 0.25rem;
+    border-radius: 0.75rem;
+    max-width: 80%;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.user-message {
+    align-self: flex-end;
+    background-color: rgba(100, 39, 142, 0.85); /* Purple with 85% opacity */
+    color: var(--light-color); /* Remains white for readability */
+}
+
+
+.ai-message {
+    align-self: flex-start;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--light-color);
+}
+
+.feedback-buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    justify-content: flex-end;
+}
+
+.feedback-button {
+    background: none;
+    border: none;
+    color: var(--gray-color);
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0.15rem 0.3rem;
+    border-radius: 0.25rem;
+    transition: all 0.2s;
+}
+
+.feedback-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--light-color);
+}
+
+.feedback-button.active {
+    color: var(--primary-color);
+}
+
+.input-area {
+    padding: 0.75rem;
+    background-color: rgba(0, 0, 0, 0.85);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: center;
+}
+
+.input-container {
+    max-width: 800px;
+    width: 100%;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.input-field {
+    flex: 1;
+    padding: 0.6rem 0.8rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: #1e1e1e;
+    color: var(--light-color);
+    font-size: 0.9rem;
+    outline: none;
+    white-space: pre-wrap;
+    min-height: 1.5rem;
+    max-height: 5rem;
+    overflow-y: auto;
+    resize: none;
+}
+
+.input-field:focus {
+    border-color: var(--primary-color);
+}
+
+.send-button {
+    padding: 0.6rem 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+    align-self: flex-end;
+    height: fit-content;
+}
+
+.send-button:hover {
+    background-color: #7d3c98;
+}
+
+.typing-indicator {
+    display: none;
+    padding: 0.6rem 0.8rem;
+    align-self: flex-start;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    margin-bottom: 0.25rem;
+}
+
+.typing-dots {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.typing-dot {
+    width: 0.4rem;
+    height: 0.4rem;
+    background-color: var(--gray-color);
+    border-radius: 50%;
+    animation: typingAnimation 1.4s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(1) { animation-delay: 0s; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingAnimation {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-0.15rem); }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 0.5rem;
+}
+::-webkit-scrollbar-track {
+    background: var(--primary-color);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 0.25rem;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+::-webkit-scrollbar {
+    display: none;  /* Hides the scrollbar */
+}

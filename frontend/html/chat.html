@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI4ORG Chat - Your Personal Intelligence Platform</title>
+    <link rel="stylesheet" href="../css/chat.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+   <!-- <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        background: linear-gradient(135deg, #000000, #0a0f1c, #0d1b2a);
+        color: #e0e0e0;
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 280px;
+        background: rgba(5, 10, 20, 0.95);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 3px 0 15px rgba(0, 0, 0, 0.6);
+        position: relative;
+        z-index: 10;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .logo-icon {
+        font-size: 28px;
+        margin-right: 12px;
+        color: #3b82f6;
+    }
+
+    .logo-text {
+        font-size: 22px;
+        font-weight: 700;
+        background: linear-gradient(45deg, #3b82f6, #60a5fa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .nav-section {
+        margin-bottom: 25px;
+    }
+
+    .section-title {
+        font-size: 12px;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.5);
+        letter-spacing: 1px;
+        margin-bottom: 15px;
+    }
+/* Sidebar Nav Items - Compact Style */
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;   /* smaller height & width */
+    border-radius: 6px;  /* less rounded */
+    margin-bottom: 3px;  /* closer spacing */
+    cursor: pointer;
+    font-size: 14px;     /* smaller text */
+    transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+    background: rgba(59, 130, 246, 0.15);
+}
+
+.nav-item.active {
+    background: rgba(59, 130, 246, 0.25);
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+}
+
+/* Sidebar Icons */
+.nav-icon {
+    font-size: 16px;   /* smaller icon */
+    margin-right: 10px;
+    width: 20px;       /* reduce width */
+    text-align: center;
+    color: #3b82f6;
+}
+
+/* Sidebar Text */
+.nav-text {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+    .user-profile {
+    margin-top: auto;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.user-profile:hover {
+    background: rgba(59, 130, 246, 0.15);
+    transform: translateY(-2px);
+}
+
+.user-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6, #60a5fa);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: white;
+    margin-right: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.user-info {
+    flex: 1;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 3px;
+    color: #fff;
+}
+
+.user-email {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+
+    /* Main Content */
+    .main-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        height: 100vh;
+    }
+
+    .header {
+        padding: 10px 0 30px 0;
+    }
+
+    .header h1 {
+        font-size: 32px;
+        font-weight: 700;
+        background: linear-gradient(45deg, #3b82f6, #60a5fa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: center;
+    }
+
+    /* Chat */
+    .chat-container {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 15px;
+        margin-bottom: 20px;
+        box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .message {
+        margin-bottom: 25px;
+        max-width: 80%;
+        animation: fadeIn 0.5s ease;
+    }
+
+    .ai-message {
+        background: rgba(59, 130, 246, 0.15);
+        padding: 15px 20px;
+        border-radius: 18px 18px 18px 5px;
+        align-self: flex-start;
+    }
+
+    .user-message {
+        background: rgba(0, 0, 0, 0.5);
+        padding: 15px 20px;
+        border-radius: 18px 18px 5px 18px;
+        margin-left: auto;
+    }
+
+    .feedback-buttons {
+        display: flex;
+        margin-top: 10px;
+    }
+
+    .feedback-button {
+        background: rgba(255, 255, 255, 0.08);
+        border: none;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .feedback-button:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1);
+    }
+
+    .typing-indicator {
+        padding: 15px 0;
+        display: none;
+    }
+
+    .typing-dots {
+        display: flex;
+        align-items: center;
+    }
+
+    .typing-dot {
+        width: 10px;
+        height: 10px;
+        background: #3b82f6;
+        border-radius: 50%;
+        margin: 0 3px;
+        animation: typingAnimation 1.4s infinite ease-in-out;
+    }
+
+    .typing-dot:nth-child(1) { animation-delay: 0s; }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    /* Input */
+    .input-area {
+        padding: 20px 0;
+    }
+
+    .input-container {
+        display: flex;
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 25px;
+        padding: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
+    }
+
+    .input-field {
+        flex: 1;
+        background: transparent;
+        border: none;
+        padding: 15px 20px;
+        color: #fff;
+        font-size: 16px;
+        resize: none;
+        max-height: 150px;
+        outline: none;
+    }
+
+    .input-field::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .send-button {
+        background: linear-gradient(45deg, #3b82f6, #60a5fa);
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .send-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+    }
+
+    .send-button i {
+        color: white;
+        font-size: 20px;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes typingAnimation {
+        0%, 60%, 100% { transform: translateY(0); }
+        30% { transform: translateY(-5px); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        body { flex-direction: column; }
+        .sidebar { width: 100%; padding: 15px; }
+        .logo { margin-bottom: 20px; }
+        .main-content { padding: 15px; }
+        .message { max-width: 90%; }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.3); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(59, 130, 246, 0.5); }
+</style> -->
+
+</head>
+<body>
+    <div class="sidebar">
+    <div class="logo">
+        <i class="fas fa-robot logo-icon"></i>
+        <span class="logo-text">AI4ORG</span>
+    </div>
+
+    <!-- Chat -->
+    <div class="nav-section">
+        <div class="nav-item active">
+            <i class="fas fa-comments nav-icon"></i>
+            <span class="nav-text">Chat</span>
+        </div>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-item active" onclick="showChatHistory()">
+            <i class="fas fa-comments nav-icon"></i>
+            <span class="nav-text">History</span>
+        </div>
+    </div>
+
+    <!-- Settings -->
+    <div class="nav-section">
+        <div class="nav-item" onclick="showSettings()">
+            <i class="fas fa-cog nav-icon"></i>
+            <span class="nav-text">Settings</span>
+        </div>
+    </div>
+
+    <!-- Help Center -->
+    <div class="nav-section">
+        <div class="nav-item" onclick="showHelpCenter()">
+            <i class="fas fa-question-circle nav-icon"></i>
+            <span class="nav-text">Help Center</span>
+        </div>
+    </div>
+
+    <!-- Logout -->
+    <div class="nav-section">
+        <div class="nav-item" onclick="logout()" style="cursor: pointer; color: #ff6b6b;">
+            <i class="fas fa-sign-out-alt nav-icon"></i>
+            <span class="nav-text">Logout</span>
+        </div>
+    </div>
+
+    <!-- User Profile -->
+    <div class="user-profile">
+        <div class="user-avatar">
+            <i class="fas fa-user"></i>
+        </div>
+        <div class="user-info">
+            <div class="user-name">Maha Rehan</div>
+            <div class="user-email">maha@example.com</div>
+        </div>
+    </div>
+</div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- <div class="header">
+            <h1>Your Personal Intelligence Platform</h1>
+        </div> -->
+        
+        <div class="chat-container" id="chatContainer">
+            <div class="message ai-message">
+                <p>Hello! I'm your personal AI assistant. How can I help you today?</p>
+                <div class="feedback-buttons">
+                    <button class="feedback-button" title="Like">👍</button>
+                    <button class="feedback-button" title="Dislike">👎</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="typing-indicator" id="typingIndicator">
+            <div class="typing-dots">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        </div>
+        
+        <div class="input-area">
+            <div class="input-container">
+                <textarea class="input-field" id="userInput" placeholder="Type your message here..." rows="1"></textarea>
+                <button class="send-button" id="sendButton">
+                    <i class="fas fa-circle-arrow-up"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Modal -->
+    <div id="historyModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Chat History</h2>
+                <div class="header-actions">
+                    <button class="clear-history-btn" onclick="clearChatHistory()" title="Clear All History">
+                        <i class="fas fa-trash"></i> Clear History
+                    </button>
+                    <span class="close" onclick="closeHistoryModal()">&times;</span>
+                </div>
+            </div>
+            <div class="modal-body" id="historyContent">
+                <!-- History content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <span class="close" onclick="closeSettingsModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="settings-section">
+                    <h3>🎨 Theme</h3>
+                    <div class="theme-options">
+                        <label class="theme-option">
+                            <input type="radio" name="theme" value="dark" checked>
+                            <span class="theme-preview dark-theme">Dark</span>
+                        </label>
+                        <label class="theme-option">
+                            <input type="radio" name="theme" value="light">
+                            <span class="theme-preview light-theme">Light</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h3>📝 Font Size</h3>
+                    <div class="font-size-controls">
+                        <label for="fontSizeSlider">Size: <span id="fontSizeValue">16</span>px</label>
+                        <input type="range" id="fontSizeSlider" min="12" max="24" value="16" oninput="updateFontSize(this.value)">
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h3>💾 Save Settings</h3>
+                    <button onclick="saveSettings()" class="save-btn">Save Settings</button>
+                    <button onclick="resetSettings()" class="reset-btn">Reset to Default</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Center Modal -->
+    <div id="helpModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Help Center</h2>
+                <span class="close" onclick="closeHelpModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="help-section">
+                    <h3>📚 Quick Help</h3>
+                    <div class="help-items">
+                        <div class="help-item">
+                            <i class="fas fa-comments"></i>
+                            <div>
+                                <strong>Chat with AI</strong>
+                                <p>Type your questions and get intelligent responses from our AI assistant.</p>
+                            </div>
+                        </div>
+                        <div class="help-item">
+                            <i class="fas fa-history"></i>
+                            <div>
+                                <strong>View History</strong>
+                                <p>Access your previous conversations anytime from the History section.</p>
+                            </div>
+                        </div>
+                        <div class="help-item">
+                            <i class="fas fa-cog"></i>
+                            <div>
+                                <strong>Customize Settings</strong>
+                                <p>Change themes and font sizes to personalize your experience.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="help-section">
+                    <h3>💬 Send Feedback</h3>
+                    <div class="feedback-form">
+                        <textarea id="feedbackText" placeholder="Tell us how we can improve your experience..." rows="4"></textarea>
+                        <div class="feedback-actions">
+                            <button onclick="submitFeedback()" class="submit-feedback-btn">
+                                <i class="fas fa-paper-plane"></i> Send Feedback
+                            </button>
+                            <span class="feedback-note">Your feedback helps us improve!</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification System -->
+    <div id="notification" class="notification" style="display: none;">
+        <div class="notification-content">
+            <i class="notification-icon"></i>
+            <span class="notification-message"></span>
+        </div>
+    </div>
+
+    <!-- <style>
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 15px;
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            padding: 20px;
+            background: rgba(59, 130, 246, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            color: #fff;
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .close {
+            color: #fff;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #ff6b6b;
+        }
+
+        .modal-body {
+            padding: 20px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .history-message {
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid #3b82f6;
+        }
+
+        .history-message.user {
+            background: rgba(0, 0, 0, 0.3);
+            border-left-color: #60a5fa;
+        }
+
+        .history-message.ai {
+            background: rgba(59, 130, 246, 0.1);
+            border-left-color: #3b82f6;
+        }
+
+        .history-timestamp {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 5px;
+        }
+
+        .no-history {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+            padding: 40px;
+        }
+
+        /* Settings Modal Styles */
+        .settings-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .settings-section h3 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .theme-options {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .theme-option {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .theme-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .theme-option input[type="radio"] {
+            margin-right: 10px;
+            accent-color: #3b82f6;
+        }
+
+        .theme-preview {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            color: white;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .dark-theme {
+            background: linear-gradient(135deg, #000000, #0a0f1c, #0d1b2a);
+        }
+
+        .light-theme {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef, #dee2e6);
+            color: #333;
+        }
+
+
+        .font-size-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .font-size-controls label {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        #fontSizeSlider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        #fontSizeSlider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .save-btn, .reset-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .save-btn {
+            background: linear-gradient(45deg, #3b82f6, #60a5fa);
+            color: white;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .reset-btn {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            border: 1px solid #ff6b6b;
+        }
+
+        .reset-btn:hover {
+            background: rgba(255, 107, 107, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Theme Classes */
+        .theme-light {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa, #e9ecef) !important;
+            color: #2c3e50 !important;
+        }
+
+        .theme-light .sidebar {
+            background: rgba(255, 255, 255, 0.98) !important;
+            color: #2c3e50 !important;
+            box-shadow: 3px 0 15px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .theme-light .chat-container {
+            background: rgba(255, 255, 255, 0.9) !important;
+            color: #2c3e50 !important;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .theme-light .message {
+            color: #2c3e50 !important;
+        }
+
+        .theme-light .user-message {
+            background: rgba(52, 73, 94, 0.1) !important;
+            color: #2c3e50 !important;
+        }
+
+        .theme-light .ai-message {
+            background: rgba(59, 130, 246, 0.15) !important;
+            color: #2c3e50 !important;
+        }
+
+        .theme-light .nav-item {
+            color: #2c3e50 !important;
+        }
+
+        .theme-light .nav-item:hover {
+            background: rgba(59, 130, 246, 0.1) !important;
+        }
+
+        .theme-light .nav-item.active {
+            background: rgba(59, 130, 246, 0.2) !important;
+        }
+
+        .theme-light .input-field {
+            background: rgba(255, 255, 255, 0.8) !important;
+            color: #2c3e50 !important;
+            border: 1px solid rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .theme-light .input-field::placeholder {
+            color: rgba(44, 62, 80, 0.6) !important;
+        }
+
+        .theme-light .user-name {
+            color: #2c3e50 !important;
+        }
+
+        .theme-light .user-email {
+            color: rgba(44, 62, 80, 0.7) !important;
+        }
+
+        /* History Modal Header Actions */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .clear-history-btn {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            border: 1px solid #ff6b6b;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .clear-history-btn:hover {
+            background: rgba(255, 107, 107, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Help Center Styles */
+        .help-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .help-section h3 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .help-items {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .help-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            border-left: 3px solid #3b82f6;
+        }
+
+        .help-item i {
+            font-size: 20px;
+            color: #3b82f6;
+            margin-top: 5px;
+        }
+
+        .help-item strong {
+            color: #fff;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .help-item p {
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Feedback Form Styles */
+        .feedback-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        #feedbackText {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+        }
+
+        #feedbackText::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        #feedbackText:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+
+        .feedback-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .submit-feedback-btn {
+            background: linear-gradient(45deg, #3b82f6, #60a5fa);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .submit-feedback-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .feedback-note {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+            font-style: italic;
+        }
+
+        /* Notification System */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            max-width: 400px;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 16px 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-left: 4px solid #3b82f6;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-left-color: #27ae60;
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        }
+
+        .notification.error {
+            border-left-color: #e74c3c;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .notification.warning {
+            border-left-color: #f39c12;
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .notification-icon {
+            font-size: 20px;
+        }
+
+        .notification-message {
+            font-weight: 500;
+            line-height: 1.4;
+        }
+    </style> -->
+
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatContainer = document.getElementById('chatContainer');
+            const userInput = document.getElementById('userInput');
+            const sendButton = document.getElementById('sendButton');
+            const typingIndicator = document.getElementById('typingIndicator');
+            
+            // Load chat history on page load
+            loadChatHistory();
+            
+            // Auto-resize textarea
+            userInput.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+            
+            // Load chat history from localStorage
+            function loadChatHistory() {
+                const savedHistory = localStorage.getItem('chatHistory');
+                if (savedHistory) {
+                    const messages = JSON.parse(savedHistory);
+                    // Clear the default AI message
+                    chatContainer.innerHTML = '';
+                    // Load all saved messages
+                    messages.forEach(msg => {
+                        addMessageToDOM(msg.text, msg.type, false);
+                    });
+                }
+            }
+            
+            // Save chat history to localStorage
+            function saveChatHistory() {
+                const messages = [];
+                const messageElements = chatContainer.querySelectorAll('.message');
+                messageElements.forEach(element => {
+                    const text = element.querySelector('p').textContent;
+                    const type = element.classList.contains('user-message') ? 'user' : 'ai';
+                    messages.push({ text, type, timestamp: new Date().toISOString() });
+                });
+                localStorage.setItem('chatHistory', JSON.stringify(messages));
+            }
+            
+        // Clear chat history
+        function clearChatHistory() {
+            // Create a custom confirmation with buttons
+            const confirmDiv = document.createElement('div');
+            confirmDiv.innerHTML = `
+                <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                           background: linear-gradient(135deg, #2c3e50, #34495e); color: white; 
+                           padding: 30px; border-radius: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); 
+                           z-index: 10001; text-align: center; max-width: 400px;">
+                    <h3 style="margin-bottom: 20px;">Clear Chat History</h3>
+                    <p style="margin-bottom: 25px; color: rgba(255,255,255,0.8);">Are you sure you want to clear all chat history? This action cannot be undone.</p>
+                    <div style="display: flex; gap: 15px; justify-content: center;">
+                        <button onclick="confirmClearHistory()" style="background: #e74c3c; color: white; border: none; 
+                                     padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                            Yes, Clear All
+                        </button>
+                        <button onclick="cancelClearHistory()" style="background: #3b82f6; color: white; border: none; 
+                                     padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(confirmDiv);
+            
+            window.confirmClearHistory = function() {
+                localStorage.removeItem('chatHistory');
+                chatContainer.innerHTML = '';
+                addMessageToDOM("Hello! I'm your personal AI assistant. How can I help you today?", 'ai', false);
+                // Close the history modal after clearing
+                closeHistoryModal();
+                document.body.removeChild(confirmDiv);
+                showNotification('Chat history cleared successfully!', 'success');
+            };
+            
+            window.cancelClearHistory = function() {
+                document.body.removeChild(confirmDiv);
+            };
+        }
+            
+            // Send message function
+            function sendMessage() {
+                const message = userInput.value.trim();
+                if (message) {
+                    // Add user message
+                    addMessage(message, 'user');
+                    userInput.value = '';
+                    userInput.style.height = 'auto';
+                    
+                    // Show typing indicator
+                    typingIndicator.style.display = 'block';
+                    
+                    // Simulate AI response after a delay
+                    // Call Python backend using pywebview
+window.pywebview.api.get_ai_response(message)
+.then(response => {
+        typingIndicator.style.display = 'none';
+        if (response.status === "ok") {
+            addMessage(response.answer, 'ai');
+        } else {
+            addMessage("⚠️ Error: " + response.message, 'ai');
+        }
+        // Save history after AI response
+        saveChatHistory();
+    })
+    .catch(err => {
+        typingIndicator.style.display = 'none';
+        addMessage("⚠️ Failed to reach backend: " + err, 'ai');
+        // Save history even if there's an error
+        saveChatHistory();
+    });
+
+                }
+            }
+            
+            // Add message to chat (with save option)
+            function addMessage(text, type, saveToHistory = true) {
+                addMessageToDOM(text, type, saveToHistory);
+            }
+            
+            // Add message to DOM
+            function addMessageToDOM(text, type, saveToHistory = true) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${type}-message`;
+                messageDiv.innerHTML = `
+                    <p>${text}</p>
+                    ${type === 'ai' ? `
+                    <div class="feedback-buttons">
+                        <button class="feedback-button" title="Like">👍</button>
+                        <button class="feedback-button" title="Dislike">👎</button>
+                    </div>
+                    ` : ''}
+                `;
+                chatContainer.appendChild(messageDiv);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                
+                // Save to history if requested
+                if (saveToHistory) {
+                    saveChatHistory();
+                }
+            }
+            
+            // Event listeners
+            sendButton.addEventListener('click', sendMessage);
+            
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+            
+            // Add navigation functionality
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    navItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Add clear history button functionality
+            window.clearChatHistory = clearChatHistory;
+            
+            // Add logout functionality
+            window.logout = logout;
+            
+            // Add history modal functionality
+            window.showChatHistory = showChatHistory;
+            window.closeHistoryModal = closeHistoryModal;
+            
+            // Add settings functionality
+            window.showSettings = showSettings;
+            window.closeSettingsModal = closeSettingsModal;
+            window.updateFontSize = updateFontSize;
+            window.saveSettings = saveSettings;
+            window.resetSettings = resetSettings;
+            
+            // Add help center functionality
+            window.showHelpCenter = showHelpCenter;
+            window.closeHelpModal = closeHelpModal;
+            window.submitFeedback = submitFeedback;
+            
+            // Add notification functionality
+            window.showNotification = showNotification;
+            
+            // Load saved settings on page load
+            loadSettings();
+        });
+        
+        // Show chat history in modal
+        function showChatHistory() {
+            const modal = document.getElementById('historyModal');
+            const historyContent = document.getElementById('historyContent');
+            
+            const savedHistory = localStorage.getItem('chatHistory');
+            if (savedHistory) {
+                const messages = JSON.parse(savedHistory);
+                let historyHTML = '';
+                
+                messages.forEach(msg => {
+                    const timestamp = new Date(msg.timestamp).toLocaleString();
+                    historyHTML += `
+                        <div class="history-message ${msg.type}">
+                            <div>${msg.text}</div>
+                            <div class="history-timestamp">${timestamp}</div>
+                        </div>
+                    `;
+                });
+                
+                historyContent.innerHTML = historyHTML;
+            } else {
+                historyContent.innerHTML = '<div class="no-history">No chat history found.</div>';
+            }
+            
+            modal.style.display = 'flex';
+        }
+        
+        // Close history modal
+        function closeHistoryModal() {
+            document.getElementById('historyModal').style.display = 'none';
+        }
+        
+        // Logout function
+        function logout() {
+            // Create a custom confirmation with buttons
+            const confirmDiv = document.createElement('div');
+            confirmDiv.innerHTML = `
+                <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                           background: linear-gradient(135deg, #2c3e50, #34495e); color: white; 
+                           padding: 30px; border-radius: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); 
+                           z-index: 10001; text-align: center; max-width: 400px;">
+                    <h3 style="margin-bottom: 20px;">Logout</h3>
+                    <p style="margin-bottom: 25px; color: rgba(255,255,255,0.8);">Are you sure you want to logout?</p>
+                    <div style="display: flex; gap: 15px; justify-content: center;">
+                        <button onclick="confirmLogout()" style="background: #e74c3c; color: white; border: none; 
+                                     padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                            Yes, Logout
+                        </button>
+                        <button onclick="cancelLogout()" style="background: #3b82f6; color: white; border: none; 
+                                     padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(confirmDiv);
+            
+            window.confirmLogout = function() {
+                // Clear any session data if needed
+                // Redirect to upload page
+                document.body.removeChild(confirmDiv);
+                window.location.href = 'upload.html';
+            };
+            
+            window.cancelLogout = function() {
+                document.body.removeChild(confirmDiv);
+            };
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const historyModal = document.getElementById('historyModal');
+            const settingsModal = document.getElementById('settingsModal');
+            const helpModal = document.getElementById('helpModal');
+            if (event.target === historyModal) {
+                closeHistoryModal();
+            }
+            if (event.target === settingsModal) {
+                closeSettingsModal();
+            }
+            if (event.target === helpModal) {
+                closeHelpModal();
+            }
+        }
+        
+        // Settings Modal Functions
+        function showSettings() {
+            document.getElementById('settingsModal').style.display = 'flex';
+            loadSettings(); // Load current settings into the modal
+        }
+        
+        function closeSettingsModal() {
+            document.getElementById('settingsModal').style.display = 'none';
+        }
+        
+        // Font size update function
+        function updateFontSize(value) {
+            document.getElementById('fontSizeValue').textContent = value;
+            document.body.style.fontSize = value + 'px';
+        }
+        
+        // Load settings from localStorage
+        function loadSettings() {
+            const savedTheme = localStorage.getItem('chatTheme') || 'dark';
+            const savedFontSize = localStorage.getItem('chatFontSize') || '16';
+            
+            // Apply theme
+            document.body.className = 'theme-' + savedTheme;
+            
+            // Apply font size
+            document.body.style.fontSize = savedFontSize + 'px';
+            document.getElementById('fontSizeSlider').value = savedFontSize;
+            document.getElementById('fontSizeValue').textContent = savedFontSize;
+            
+            // Set radio button
+            document.querySelector(`input[name="theme"][value="${savedTheme}"]`).checked = true;
+        }
+        
+        // Save settings to localStorage
+        function saveSettings() {
+            const selectedTheme = document.querySelector('input[name="theme"]:checked').value;
+            const fontSize = document.getElementById('fontSizeSlider').value;
+            
+            // Save to localStorage
+            localStorage.setItem('chatTheme', selectedTheme);
+            localStorage.setItem('chatFontSize', fontSize);
+            
+            // Apply settings immediately
+            document.body.className = 'theme-' + selectedTheme;
+            document.body.style.fontSize = fontSize + 'px';
+            
+            // Show success message
+            showNotification('Settings saved successfully!', 'success');
+            closeSettingsModal();
+        }
+        
+        // Reset settings to default
+        function resetSettings() {
+            showNotification('Are you sure you want to reset all settings to default?', 'warning', 5000);
+            
+            // Create a custom confirmation with buttons
+            const confirmDiv = document.createElement('div');
+            confirmDiv.innerHTML = `
+                <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                           background: linear-gradient(135deg, #2c3e50, #34495e); color: white; 
+                           padding: 30px; border-radius: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); 
+                           z-index: 10001; text-align: center; max-width: 400px;">
+                    <h3 style="margin-bottom: 20px;">Reset Settings</h3>
+                    <p style="margin-bottom: 25px; color: rgba(255,255,255,0.8);">Are you sure you want to reset all settings to default?</p>
+                    <div style="display: flex; gap: 15px; justify-content: center;">
+                        <button onclick="confirmReset()" style="background: #e74c3c; color: white; border: none; 
+                                     padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                            Yes, Reset
+                        </button>
+                        <button onclick="cancelReset()" style="background: #3b82f6; color: white; border: none; 
+                                     padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(confirmDiv);
+            
+            window.confirmReset = function() {
+                localStorage.removeItem('chatTheme');
+                localStorage.removeItem('chatFontSize');
+                
+                // Reset to default values
+                document.body.className = '';
+                document.body.style.fontSize = '16px';
+                document.getElementById('fontSizeSlider').value = '16';
+                document.getElementById('fontSizeValue').textContent = '16';
+                document.querySelector('input[name="theme"][value="dark"]').checked = true;
+                
+                showNotification('Settings reset to default!', 'success');
+                document.body.removeChild(confirmDiv);
+                closeSettingsModal();
+            };
+            
+            window.cancelReset = function() {
+                document.body.removeChild(confirmDiv);
+            };
+        }
+        
+        // Help Center Functions
+        function showHelpCenter() {
+            document.getElementById('helpModal').style.display = 'flex';
+        }
+        
+        function closeHelpModal() {
+            document.getElementById('helpModal').style.display = 'none';
+        }
+        
+        // Notification system
+        function showNotification(message, type = 'info', duration = 3000) {
+            const notification = document.getElementById('notification');
+            const icon = notification.querySelector('.notification-icon');
+            const messageEl = notification.querySelector('.notification-message');
+            
+            // Set message
+            messageEl.textContent = message;
+            
+            // Set icon and type
+            notification.className = `notification ${type}`;
+            switch(type) {
+                case 'success':
+                    icon.className = 'notification-icon fas fa-check-circle';
+                    break;
+                case 'error':
+                    icon.className = 'notification-icon fas fa-exclamation-circle';
+                    break;
+                case 'warning':
+                    icon.className = 'notification-icon fas fa-exclamation-triangle';
+                    break;
+                default:
+                    icon.className = 'notification-icon fas fa-info-circle';
+            }
+            
+            // Show notification
+            notification.style.display = 'block';
+            setTimeout(() => notification.classList.add('show'), 100);
+            
+            // Auto hide
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.style.display = 'none', 300);
+            }, duration);
+        }
+        
+        // Submit feedback function
+        function submitFeedback() {
+            const feedbackText = document.getElementById('feedbackText').value.trim();
+            
+            if (!feedbackText) {
+                showNotification('Please enter your feedback before submitting.', 'warning');
+                return;
+            }
+            
+            // Here you would typically send the feedback to your backend
+            // For now, we'll just show a success message and save to localStorage
+            const feedback = {
+                text: feedbackText,
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent
+            };
+            
+            // Save feedback to localStorage (in a real app, this would go to a server)
+            const existingFeedback = JSON.parse(localStorage.getItem('userFeedback') || '[]');
+            existingFeedback.push(feedback);
+            localStorage.setItem('userFeedback', JSON.stringify(existingFeedback));
+            
+            // Show success message
+            showNotification('Thank you for your feedback! We appreciate your input.', 'success');
+            
+            // Clear the form
+            document.getElementById('feedbackText').value = '';
+            
+            // Close the modal
+            closeHelpModal();
+        }
+    </script> -->
+    <script src="../script/chat.js"></script>
+</body>
+</html>

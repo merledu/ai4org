@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>File Upload with Redirect</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 50px 20px;
+      background: #121212;
+      color: white;
+    }
+    h2 { color: #b388ff; }
+    input[type="file"], button {
+      padding: 10px;
+      border-radius: 8px;
+      border: 2px solid #6c53ff;
+      background: rgba(255,255,255,0.06);
+      color: white;
+      cursor: pointer;
+    }
+    .progress-container {
+      width: 80%;
+      background: rgba(255,255,255,0.06);
+      border-radius: 20px;
+      margin: 30px auto;
+      height: 25px;
+      overflow: hidden;
+      display: none;
+      box-shadow: 0 0 10px #6c53ff66;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #6c53ff, #b388ff);
+      transition: width 0.3s ease;
+    }
+    .done-message {
+      display: none;
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #b388ff;
+    }
+  </style>
+</head>
+<body>
+  <h2>Upload a File</h2>
+  <input type="file" id="fileInput" /><br /><br />
+  <button onclick="uploadFile()">Upload</button>
+  <button onclick="goToChat()" style="margin-left: 10px; background: #b388ff;">Go to Chat</button>
+
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <div class="done-message" id="doneMessage">✅ Upload Complete!</div>
+
+  <script>
+    async function uploadFile() {
+      const fileInput = document.getElementById("fileInput");
+      const file = fileInput.files[0];
+      if (!file) {
+        alert("Please select a file.");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = async function () {
+        const base64Data = reader.result.split(",")[1];
+
+        const progressContainer = document.querySelector(".progress-container");
+        const progressBar = document.getElementById("progressBar");
+        const doneMessage = document.getElementById("doneMessage");
+
+        progressContainer.style.display = "block";
+        progressBar.style.width = "0%";
+        doneMessage.style.display = "none";
+
+        // Animate progress bar up to 90%
+        let progress = 0;
+        const interval = setInterval(() => {
+          if (progress < 90) {
+            progress += 2;
+            progressBar.style.width = progress + "%";
+          }
+        }, 100);
+
+        const result = await window.pywebview.api.save_file(file.name, base64Data);
+
+        clearInterval(interval);
+        progressBar.style.width = "100%";
+
+        if (result === "success") {
+          doneMessage.style.display = "block";
+
+          // ✅ Redirect to chat.html after 1 sec
+          setTimeout(() => {
+            window.location.href = "chat.html";
+          }, 1000);
+        } else {
+          alert("Upload failed: " + result);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function goToChat() {
+      window.location.href = "chat.html";
+    }
+  </script>
+</body>
+</html>
