@@ -50,11 +50,11 @@ def evaluate_old_vs_new_generator(old_gen, new_gen, tokenizer, retriever, qa_pai
             metrics["total"] += 1
             metrics["exact"] += exact_match(out, qa.answer)
             metrics["f1_sum"] += f1_score(out, qa.answer)
-            # hallucination detection: use both fact_disc and overlap_check
+            
             fact_pred = discriminator_predict_text(fact_disc, fact_tok, [out], device=device)[0]
             p_fact = fact_pred["probs"][1] if len(fact_pred["probs"])>1 else fact_pred["probs"][0]
             overlap = overlap_fact_check(out, qa.supporting_passages)
-            # mark hallucinated if both p_fact < 0.5 AND overlap < 0.3
+            
             if (p_fact < 0.5) and (overlap < 0.3):
                 metrics["hallucinated"] += 1
 

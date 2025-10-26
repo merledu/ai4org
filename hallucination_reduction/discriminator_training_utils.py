@@ -10,7 +10,7 @@ from .config import SEED, DEVICE
 
 
 def train_discriminator_minibatch(classifier, tokenizer, texts, labels, device=DEVICE, epochs=5, batch_size=8, lr=2e-5, val_split=0.2):
-    # train/val split
+
     tr_texts, val_texts, tr_labels, val_labels = train_test_split(texts, labels, test_size=val_split, random_state=SEED, stratify=labels if len(set(labels))>1 else None)
     ds = SimpleTextDataset(tr_texts, tr_labels, tokenizer)
     dl = DataLoader(ds, batch_size=batch_size, shuffle=True)
@@ -26,7 +26,7 @@ def train_discriminator_minibatch(classifier, tokenizer, texts, labels, device=D
             loss.backward()
             optimizer.step()
             losses.append(loss.item())
-        # validation
+
         classifier.eval()
         val_preds = []
         val_true = []

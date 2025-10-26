@@ -16,12 +16,10 @@ from .config import (
     RL_EPOCHS, TOP_K, MAX_GEN_TOKENS, MIN_GEN_TOKENS, SAVE_DIR
 )
 
-# Device fallback: use cuda if available
+
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
-# -------------------------
-# Helpers / protections
-# -------------------------
+
 def is_repetitive(text: str, repeat_threshold: float = 0.6):
     """Heuristic: if a single token occupies > repeat_threshold of tokens, treat as repetitive."""
     toks = text.split()
@@ -39,9 +37,7 @@ def safe_save_state(model, path):
         print("Warning: failed to save checkpoint:", e)
 
 
-# -------------------------
-# Compute reward
-# -------------------------
+
 def compute_reward(generated_answer: str, retrieved_docs: List[str], supporting_passages: List[str],
                    fact_disc, style_disc, safety_disc,
                    fact_tok, style_tok, safety_tok,
@@ -58,17 +54,17 @@ def compute_reward(generated_answer: str, retrieved_docs: List[str], supporting_
 
     overlap_score = overlap_fact_check(generated_answer, supporting_passages)
 
-    # Weighted average (normalized)
+
     combined = fact_weight * p_fact + style_weight * p_style + safety_weight * p_safe
     total_w = fact_weight + style_weight + safety_weight
     combined /= total_w
 
-    # Blend overlap and penalize low factuality
+
     combined = combined * 0.7 + overlap_score * 0.3
     if p_fact < 0.5:
         combined = max(0.0, combined - HARD_PENALTY_IF_FACT_LT)
 
-    # Penalize repetition
+
     if is_repetitive(generated_answer):
         combined *= 0.2
 
@@ -78,9 +74,6 @@ def compute_reward(generated_answer: str, retrieved_docs: List[str], supporting_
     return combined, debug
 
 
-# -------------------------
-# Monte Carlo rollouts
-# -------------------------
 def monte_carlo_rewards(prompt: str, generator, tokenizer, retrieved_docs, supporting_passages,
                         fact_disc, style_disc, safety_disc,
                         fact_tok, style_tok, safety_tok,
@@ -108,9 +101,6 @@ def monte_carlo_rewards(prompt: str, generator, tokenizer, retrieved_docs, suppo
     return avg_reward, debug_list, samples
 
 
-# -------------------------
-# Safer REINFORCE update
-# -------------------------
 def reinforce_update(generator, tokenizer, prompts: List[str], sampled_texts: List[str], rewards: List[float],
                      gen_optimizer, baseline=0.0, device=DEVICE,
                      max_adv=5.0, min_adv=-5.0, clip_grad_norm=1.0):
@@ -125,7 +115,7 @@ def reinforce_update(generator, tokenizer, prompts: List[str], sampled_texts: Li
     losses = []
 
     for prompt, sample, reward in zip(prompts, sampled_texts, rewards):
-        # Ensure separation between prompt and sample
+        
         sep = "\n\n"
         full_text = prompt + sep + sample
 
@@ -137,7 +127,7 @@ def reinforce_update(generator, tokenizer, prompts: List[str], sampled_texts: Li
         labels = input_ids.clone()
         prompt_len = enc_prompt.input_ids.shape[1]
 
-        # Mask prompt tokens in labels
+        
         labels[:, :prompt_len] = -100
 
         try:
@@ -146,7 +136,7 @@ def reinforce_update(generator, tokenizer, prompts: List[str], sampled_texts: Li
             print("Generator forward error, skipping sample:", e)
             continue
 
-        logits = outputs.logits  # (1, L, V)
+        logits = outputs.logits  
         shift_logits = logits[..., :-1, :].contiguous()
         shift_labels = labels[..., 1:].contiguous()
 
@@ -186,9 +176,7 @@ def reinforce_update(generator, tokenizer, prompts: List[str], sampled_texts: Li
     return float(loss_tensor.detach().cpu().item())
 
 
-# -------------------------
-# Main RL loop
-# -------------------------
+
 def reinforcement_learning_loop(generator, gen_tokenizer,
                                 fact_disc, style_disc, safety_disc,
                                 fact_tok, style_tok, safety_tok,

@@ -26,7 +26,7 @@ def build_rag_prompt(question: str, retrieved_docs: List[str]) -> str:
 def generate_answer(generator, tokenizer, prompt: str, max_new_tokens=MAX_GEN_TOKENS, min_new_tokens=MIN_GEN_TOKENS,
                     device=DEVICE, num_return_sequences=1, temperature=0.8):
     inputs = tokenizer(prompt, return_tensors="pt", truncation=True).to(device)
-    # Ensure min_new_tokens to avoid empty output collapse
+    
     out = generator.generate(
         **inputs,
         max_new_tokens=max_new_tokens,
@@ -44,7 +44,7 @@ def generate_answer(generator, tokenizer, prompt: str, max_new_tokens=MAX_GEN_TO
 
 
 def sft_finetune_generator(generator, tokenizer, qa_pairs, device=DEVICE, epochs=SFT_EPOCHS, batch_size=SFT_BATCH, lr=SFT_LR):
-    # Create input sequences: prompt + gold answer
+    
     inputs = []
     for qa in qa_pairs:
         prompt = build_rag_prompt(qa.question, qa.supporting_passages)
