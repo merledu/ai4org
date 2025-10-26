@@ -1,4 +1,4 @@
-from .data_utils import build_dummy_corpus_and_qa
+from .data_utils import build_corpus_and_qa
 from .retriever import SimpleRetriever
 from .generator import load_generator, sft_finetune_generator
 from .discriminator import load_discriminator
@@ -31,7 +31,7 @@ def main():
     print(f" Using device: {DEVICE}")
 
     
-    passages, qa_pairs = build_dummy_corpus_and_qa()
+    passages, qa_pairs = build_corpus_and_qa()
     retriever = SimpleRetriever(passages)
 
     

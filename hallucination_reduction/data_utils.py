@@ -10,7 +10,7 @@ class QAPair:
     answer: str
     supporting_passages: List[str]
 
-def build_dummy_corpus_and_qa():
+def build_corpus_and_qa():
 
     with open("data/processed/corpus.txt", "r", encoding="utf-8") as f:
         passages = [line.strip() for line in f if line.strip()]
