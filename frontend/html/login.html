@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <style>
+    :root {
+      --primary: #9b59b6;
+      --primary-dark: #8e44ad;
+      --bg-dark: #000;
+      --bg-mid: #2d0b3d;
+      --bg-light: #4a4a4a;
+      --text: #e0e0e0;
+      --gray: #bbbbbb;
+      --error: #e74c3c;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, var(--bg-dark), var(--bg-mid), var(--bg-light));
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: var(--text);
+    }
+
+    .login-container {
+      width: 400px;
+      padding: 2rem;
+      background: rgba(40, 40, 40, 0.7);
+      border-radius: 14px;
+      backdrop-filter: blur(12px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: #fff;
+    }
+
+    .input-group {
+      margin-bottom: 1.2rem;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.6rem;
+      font-size: 0.95rem;
+      color: var(--gray);
+      font-weight: 500;
+    }
+
+    input {
+      width: 93%;
+      padding: 0.9rem;
+      margin-top: 1rem;
+      border-radius: 8px;
+      /* background: var(--primary); */
+      /* color: #fff; */
+      border: none;
+      font-size: 1rem;
+    }
+
+    input:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.3);
+    }
+
+    .error {
+      font-size: 0.85rem;
+      color: var(--error);
+      margin-top: 4px;
+      display: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.9rem;
+      margin-top: 1rem;
+      border-radius: 8px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(155, 89, 182, 0.4);
+    }
+
+    .forgot-pw {
+      margin-top: 1rem;
+      text-align: right;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    a:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login Admin Panel</h2>
+    <form id="loginForm">
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" required placeholder="Enter your username">
+        <div class="error" id="user-error">⚠ Username not found</div>
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" required placeholder="••••••••">
+        <div class="error" id="pass-error">⚠ Incorrect password</div>
+      </div>
+      <button type="submit">Login</button>
+      <div class="forgot-pw">
+        <a href="forgotPW.html">Forgot Password?</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Fake dataset (replace with JSON fetch)
+    const users = [
+      { username: "admin", password: "oldpass123" },
+      { username: "maha", password: "mypassword" }
+    ];
+
+    const loginForm = document.getElementById("loginForm");
+    const userError = document.getElementById("user-error");
+    const passError = document.getElementById("pass-error");
+
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      const user = users.find(u => u.username === username);
+
+      if (!user) {
+        userError.style.display = "block";
+        passError.style.display = "none";
+        return;
+      } else {
+        userError.style.display = "none";
+      }
+
+      if (user.password !== password) {
+        passError.style.display = "block";
+        return;
+      } else {
+        passError.style.display = "none";
+      }
+
+      // ✅ Success
+      alert("Welcome " + username + "!");
+      window.location.href = "admin.html";
+    });
+  </script>
+</body>
+</html>

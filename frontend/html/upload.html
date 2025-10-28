@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>File Upload with Redirect</title>
+  <style>
+    /* ---------- Base Styles ---------- */
+    body {
+      font-family: "Poppins", Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background: radial-gradient(circle at 20% 20%, #1b1b2f, #121212);
+      color: #e0e0e0;
+      overflow: hidden;
+    }
+
+    h2 {
+      color: #b388ff;
+      font-size: 2em;
+      margin-bottom: 30px;
+      text-shadow: 0 0 10px #6c53ff66;
+    }
+
+    /* ---------- File Input & Buttons ---------- */
+    input[type="file"] {
+      padding: 10px;
+      border-radius: 10px;
+      border: 2px dashed #6c53ff99;
+      background: rgba(255, 255, 255, 0.05);
+      color: #ccc;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    input[type="file"]:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #b388ff;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 30px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: linear-gradient(90deg, #6c53ff, #b388ff);
+      color: white;
+      box-shadow: 0 0 10px #6c53ff66;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 15px #b388ff99;
+    }
+
+    button.secondary {
+      background: transparent;
+      border: 2px solid #b388ff;
+      color: #b388ff;
+      margin-left: 10px;
+    }
+
+    button.secondary:hover {
+      background: #b388ff22;
+      box-shadow: 0 0 10px #b388ff55;
+    }
+
+    /* ---------- Progress Bar ---------- */
+    .progress-container {
+      width: 80%;
+      max-width: 500px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 30px;
+      margin: 40px auto 20px;
+      height: 25px;
+      overflow: hidden;
+      display: none;
+      box-shadow: 0 0 10px #6c53ff66;
+      position: relative;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #6c53ff, #b388ff);
+      transition: width 0.3s ease;
+      border-radius: 30px;
+    }
+
+    .progress-text {
+      position: absolute;
+      width: 100%;
+      top: 0;
+      left: 0;
+      text-align: center;
+      line-height: 25px;
+      font-size: 14px;
+      color: #ddd;
+    }
+
+    /* ---------- Done Message ---------- */
+    .done-message {
+      display: none;
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: 600;
+      color: #b388ff;
+      text-shadow: 0 0 10px #6c53ff99;
+    }
+
+    /* ---------- Animation ---------- */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2, input, button, .progress-container {
+      animation: fadeIn 0.6s ease;
+    }
+  </style>
+</head>
+<body>
+  <h2>Upload a File</h2>
+  
+  <input type="file" id="fileInput" /><br />
+  <div>
+    <button onclick="uploadFile()">Upload</button>
+    <button onclick="goToChat()" class="secondary">Go to Chat</button>
+  </div>
+
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="progress-text" id="progressText">0%</div>
+  </div>
+
+  <div class="done-message" id="doneMessage">✅ Upload Complete!</div>
+
+  <script>
+    async function uploadFile() {
+      const fileInput = document.getElementById("fileInput");
+      const file = fileInput.files[0];
+      if (!file) {
+        alert("Please select a file first.");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = async function () {
+        const base64Data = reader.result.split(",")[1];
+        const progressContainer = document.querySelector(".progress-container");
+        const progressBar = document.getElementById("progressBar");
+        const progressText = document.getElementById("progressText");
+        const doneMessage = document.getElementById("doneMessage");
+
+        progressContainer.style.display = "block";
+        progressBar.style.width = "0%";
+        progressText.textContent = "0%";
+        doneMessage.style.display = "none";
+
+        let progress = 0;
+        const interval = setInterval(() => {
+          if (progress < 90) {
+            progress += 2;
+            progressBar.style.width = progress + "%";
+            progressText.textContent = progress + "%";
+          }
+        }, 100);
+
+        const result = await window.pywebview.api.save_file(file.name, base64Data);
+        clearInterval(interval);
+        progressBar.style.width = "100%";
+        progressText.textContent = "100%";
+
+        if (result === "success") {
+          doneMessage.style.display = "block";
+          setTimeout(() => { window.location.href = "chat.html"; }, 1000);
+        } else {
+          alert("Upload failed: " + result);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function goToChat() {
+      window.location.href = "chat.html";
+    }
+  </script>
+</body>
+</html>

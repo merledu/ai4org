@@ -140,13 +140,15 @@ Include reasoning, relevant details, and explanations, but avoid speculation or 
     )
     generation_thread.start()
 
-    
+    generated_tokens = []
     for token in streamer:
+        generated_tokens.append(token)
         print(token, end="", flush=True)
-        time.sleep(0.015)  
+        time.sleep(0.015)
 
     generation_thread.join()
-    print("\n")  
+    print("\n")
+    return "".join(generated_tokens)
 
 
 def main():
