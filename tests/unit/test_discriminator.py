@@ -464,3 +464,4 @@ class TestSimpleTextDataset:
         # Should be able to create a DataLoader
         dataloader = DataLoader(dataset, batch_size=2)
         assert dataloader is not None
+        
