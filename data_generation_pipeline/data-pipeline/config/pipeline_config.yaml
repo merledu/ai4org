@@ -1,0 +1,11 @@
+chunk_size_words: 120
+chunk_overlap_words: 30
+max_q_per_chunk: 5
+max_new_tokens: 512
+deterministic_temp: 0.0
+sampling_temp: 0.4
+semantic_dedupe_threshold: 0.88
+evidence_sent_top_k: 2
+sleep_between_chunks: 0.12
+file_path: "data/input/amanah_bank_policy.pdf"
+output_file: "data/output/results.json"
