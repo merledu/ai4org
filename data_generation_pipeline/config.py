@@ -1,0 +1,12 @@
+DEFAULT_MODEL = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+CHUNK_SIZE_WORDS = 120
+CHUNK_OVERLAP_WORDS = 30
+MAX_Q_PER_CHUNK = 5
+MAX_NEW_TOKENS = 512
+DETERMINISTIC_TEMP = 0.0
+SAMPLING_TEMP = 0.4
+EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+SEMANTIC_DEDUPE_THRESHOLD = 0.88   # cosine similarity threshold for deduping questions
+EVIDENCE_SENT_TOP_K = 2
+SLEEP_BETWEEN_CHUNKS = 0.12
+FILE_PATH = "data/raw/amanah_bank_policy.pdf"
