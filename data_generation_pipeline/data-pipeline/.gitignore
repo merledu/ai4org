@@ -1,0 +1,37 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+venv/
+
+# OS files
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data pipeline outputs
+data/output/
+data/interim/
+
+# Logs
+logs/
+
+# Cache directories
+.cache/
+transformers_cache/
+hf_cache/
+
+# IDE settings
+.vscode/
+.idea/
+
+# Distribution / build artifacts
+dist/
+build/
+*.egg-info/
+
