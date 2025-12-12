@@ -24,8 +24,6 @@ import time
 from pathlib import Path
 from typing import List, Tuple, Dict
 
-# ---- Install note (run in Colab cell or environment once) ----
-!pip install -q transformers accelerate sentence-transformers PyPDF2 torch bitsandbytes faiss-cpu nltk scikit-learn tqdm autoawq
 
 # -------------------------
 # Config / Defaults
@@ -448,6 +446,5 @@ def main():
 
 if __name__=="__main__":
     main()
-
 
 
