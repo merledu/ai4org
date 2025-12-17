@@ -16,6 +16,22 @@ def clean_text(t: str) -> str:
         t = re.sub(r"TABLE OF CONTENTS[\s\S]*?GLOSSARY[\s\.]*388", "", t)
     except Exception:
         pass
+    # REMOVE MINI TABLE OF CONTENTS 
+    t = re.sub(r"(?:\n|^)(?:[A-Za-z][A-Za-z0-9\s\(\)/,&\-]+?\s+\d+(?:\.\d+)+\s*){6,}", "\n", t, flags=re.MULTILINE)
+
+    # ---------- REMOVE ANY REMAINING MINI-TOC LINES INSIDE 1.1 ----------
+    m = re.search(r"(1\.1\s+OVERVIEW[\s\S]*?)(\n1\.2\s+CURRENT\s+ACCOUNTS)", t, flags=re.IGNORECASE )
+    if m:
+        section_11 = m.group(1)
+        rest = t[m.end(1):]
+        # remove lines ending with x.y.z inside 1.1
+        section_11 = re.sub(
+            r"(?m)^[^\n]*\b\d+\.\d+\.\d+\s*$",
+            "",
+            section_11
+        )
+        t = section_11.strip() + "\n\n" + rest.strip()
+
 
     # remove PREFACE up to first SECTION / CHAPTER
     t = re.sub(r"PREFACE[\s\S]*?(SECTION\s+1|CHAPTER\s+1)", r"\1", t, flags=re.IGNORECASE)
