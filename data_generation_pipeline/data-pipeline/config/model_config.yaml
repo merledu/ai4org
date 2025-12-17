@@ -1,4 +1,4 @@
-default_model: "Qwen/Qwen2.5-7B-Instruct"
+default_model: "microsoft/phi-2"
 embed_model: "sentence-transformers/all-MiniLM-L6-v2"
 quantization:
   load_in_4bit: true

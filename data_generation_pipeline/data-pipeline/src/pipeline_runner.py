@@ -3,24 +3,24 @@ import time
 from pathlib import Path
 from loguru import logger
 
-from .file_loader import extract_text
-from .cleaner import clean_text
-from .chunker import chunk_text
-from .prompts import build_prompt
-from .model_loader import load_model_tokenizer
-from .generator import generate_with_retry
-from .qa_parser import parse_qa_block
-from .validators import valid_question
-from .evidence import extract_evidence_sentences
-from .dedupe import semantic_dedupe
+from file_loader import extract_text
+from cleaner import clean_text
+from chunker import chunk_text
+from prompts import build_prompt
+from model_loader import load_model_tokenizer
+from generator import generate_with_retry
+from qa_parser import parse_qa_block
+from validators import valid_question
+from evidence import extract_evidence_sentences
+from dedupe import semantic_dedupe
 
 def run_pipeline(input_path: str, out_file: str, cfg: dict):
     logger.info("Loading text from {}", input_path)
     raw = extract_text(input_path)
     logger.info("Raw text length (chars): {}", len(raw))
     cleaned = clean_text(raw)
-    Path("data/interim").mkdir(parents=True, exist_ok=True)
-    with open("data/interim/cleaned_bank_corpus.txt", "w", encoding="utf-8") as f:
+    Path("data/corpus").mkdir(parents=True, exist_ok=True)
+    with open("data/corpus/cleaned_bank_corpus.txt", "w", encoding="utf-8") as f:
         f.write(cleaned)
     logger.info("Saved cleaned_bank_corpus.txt")
 
@@ -37,7 +37,7 @@ def run_pipeline(input_path: str, out_file: str, cfg: dict):
     # Load model & tokenizer
     logger.info("Loading model and tokenizer — this may take a minute...")
     try:
-        tokenizer, model = load_model_tokenizer(cfg.get("default_model", "Qwen/Qwen2.5-7B-Instruct"), model_cfg.get("quantization", {}))
+        tokenizer, model = load_model_tokenizer(cfg.get("default_model", "microsoft/phi-2"), model_cfg.get("quantization", {}))
     except Exception as e:
         logger.error("Model load failed: {}", e)
         raise
@@ -90,4 +90,3 @@ def run_pipeline(input_path: str, out_file: str, cfg: dict):
         json.dump(results, f, indent=2, ensure_ascii=False)
     logger.info("Saved final dataset -> {}", out_file)
     return results
-

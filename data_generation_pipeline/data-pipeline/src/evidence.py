@@ -1,6 +1,7 @@
 from sentence_transformers import SentenceTransformer, util
 import numpy as np
-from .chunker import chunk_text
+import nltk
+from chunker import chunk_text
 from typing import List
 
 _embed_model = None
@@ -12,7 +13,6 @@ def ensure_embed_model(model_name: str = "sentence-transformers/all-MiniLM-L6-v2
     return _embed_model
 
 def sentences_from_text(text: str):
-    import nltk
     try:
         nltk.data.find("tokenizers/punkt")
     except Exception:
