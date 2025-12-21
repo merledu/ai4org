@@ -19,9 +19,15 @@ def is_vague_question(q: str) -> bool:
     return any(p in ql for p in vague_phrases)
 
 def valid_question(q: str) -> bool:
-    if not q or len(q) < 5:
+    if len(q.strip()) < 8:
         return False
-    if is_vague_question(q) and not question_has_valid_reference(q):
-        return False
-    return question_has_valid_reference(q)
+    # reject only truly vague questions
+    vague_phrases = [
+        "what is this policy",
+        "what does the policy say",
+        "what is the purpose of this policy",
+        "what does this policy say"
+    ]
+    ql = q.lower()
+    return not any(v in ql for v in vague_phrases)
 

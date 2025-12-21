@@ -1,23 +1,63 @@
-def build_prompt(passage: str, max_q: int=5) -> str:
-    PROMPT_TEMPLATE = f"""
-You are an expert banking compliance analyst. From the passage below, produce between 0 and {max_q} very specific Q&A pairs that refer *explicitly* to policy names or section/clause numbers present in the passage.
+from config_reader import load_config
 
-REQUIREMENTS:
-- Generate ONLY questions that include a policy name or a section/clause number (e.g., "Section 2.3 Customer Risk Assessment and Profiling Policy" or "Section 5.1 Savings Account Interest Policy").
-- Do NOT produce vague questions (e.g., "What is the purpose of this policy?") unless the policy name or number is explicitly mentioned in the question.
-- Each answer must be 1–3 sentences, directly supported by the passage (do not invent facts).
-- Output EXACTLY in this format (no extra commentary):
+cfg = load_config("config/pipeline_config.yaml")
+MAX_Q_PER_CHUNK = cfg.get("max_q_per_chunk", 3)
 
-Q1: <question>?
-A1: <answer>
+def build_prompt(passage: str, max_q: int=MAX_Q_PER_CHUNK) -> str:
+  PROMPT_TEMPLATE = f"""
+  You are generating high-quality question–answer pairs for fine-tuning a language model to reduce hallucinations.
 
-Q2: <question>?
-A2: <answer>
+  Follow these strict rules:
 
-... up to Q{max_q}
+  Question Guidelines
+  Questions must sound natural and realistic, as if asked by a bank customer, employee, or compliance officer.
+  Do NOT mention section numbers, clause numbers, or internal policy labels.
+  Questions must be specific and unambiguous.
+  Avoid generic phrases like “What does the policy say”.
 
-Passage:
-{passage}
-"""
-    return PROMPT_TEMPLATE
+  Questions must be fully self-contained and standalone.
+  Do NOT use vague references such as:
+  - "this policy"
+  - "this context"
+  - "this document"
+  - "this section"
+  - "the above"
+  - "here"
+  Instead, explicitly name the policy, entity, or subject described in the text.
+  Canonical Subject Rule:
+  Each question MUST explicitly name the policy, process, or entity described in the passage (e.g., “Amanah Bank’s Account Opening and Maintenance Policy”).
+  Generic references such as “the policy” are NOT allowed.
 
+  Answer Guidelines
+  Answers must be fully supported by the provided text.
+  Answers must be complete, factual, and standalone.
+  Do NOT repeat the question wording.
+  Do NOT add assumptions or external knowledge.
+  Answers should be concise and limited to the facts explicitly stated in the passage.
+
+  Grounding Requirement
+  Each answer must be directly traceable to one or more exact sentences in the text.
+  Do not combine information from unrelated sections.
+  Generate up to {max_q} high-quality question–answer pairs from the text. Generating zero questions is acceptable.
+
+  Generation Preference
+  If the passage contains clear rules, responsibilities, timelines, or conditions, generate at least one question.
+
+  Negative instruction
+  If the text does not clearly answer a potential question, do NOT generate that question.
+
+  Output ONLY the Q&A pairs in the exact format shown. Do not include explanations or commentary.
+
+  Format:
+  Q1: <question>?
+  A1: <answer>
+
+  Q2: <question>?
+  A2: <answer>
+
+  ... up to Q{max_q}
+
+    Passage:
+    {passage}
+  """
+  return PROMPT_TEMPLATE.format(max_q=max_q, passage=passage)

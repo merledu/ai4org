@@ -24,7 +24,7 @@ def main():
     input_path = ""
     out_file = ""
     if cfg:
-        input_path = cfg['file_path']
+        input_path = cfg['input_path']
         out_file = cfg['output_file']
 
     # input_path = args.input or cfg.get("file_path")

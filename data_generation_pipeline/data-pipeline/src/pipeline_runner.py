@@ -2,8 +2,9 @@ import json
 import time
 from pathlib import Path
 from loguru import logger
+from collections import defaultdict
 
-from file_loader import extract_text
+from file_loader import extract_text, discover_files
 from cleaner import clean_text
 from chunker import chunk_text
 from prompts import build_prompt
@@ -13,80 +14,91 @@ from qa_parser import parse_qa_block
 from validators import valid_question
 from evidence import extract_evidence_sentences
 from dedupe import semantic_dedupe
+from document_reader import process_document
+from config_reader import load_config  
 
-def run_pipeline(input_path: str, out_file: str, cfg: dict):
-    logger.info("Loading text from {}", input_path)
-    raw = extract_text(input_path)
-    logger.info("Raw text length (chars): {}", len(raw))
-    cleaned = clean_text(raw)
-    Path("data/corpus").mkdir(parents=True, exist_ok=True)
-    with open("data/corpus/cleaned_bank_corpus.txt", "w", encoding="utf-8") as f:
-        f.write(cleaned)
-    logger.info("Saved cleaned_bank_corpus.txt")
 
-    chunks = chunk_text(cleaned, cfg.get("chunk_size_words", 120), cfg.get("chunk_overlap_words", 30))
-    logger.info("Total chunks: {} (chunk_size {}, overlap {})", len(chunks), cfg.get("chunk_size_words"), cfg.get("chunk_overlap_words"))
+cfg1 = load_config("config/pipeline_config.yaml")
+cfg2 = load_config("config/model_config.yaml")
+cfg = cfg1 | cfg2
+DEFAULT_MODEL = cfg.get("default_model", "meta-llama/Llama-3.2-1B")
+SEMANTIC_DEDUPE_THRESHOLD = cfg.get("semantic_dedupe_threshold", 0.88)
 
-    model_cfg = {}
-    try:
-        # model_config is optional in cfg
-        model_cfg = cfg.get("model_config", {})
-    except Exception:
-        model_cfg = {}
+def run_pipeline(input_path: str, out_file: str):
+    files = discover_files(input_path)
+    print(f"[INFO] Found {len(files)} files")
 
-    # Load model & tokenizer
-    logger.info("Loading model and tokenizer — this may take a minute...")
-    try:
-        tokenizer, model = load_model_tokenizer(cfg.get("default_model", "microsoft/phi-2"), model_cfg.get("quantization", {}))
-    except Exception as e:
-        logger.error("Model load failed: {}", e)
-        raise
+    print("[INFO] Loading model and tokenizer (device_map='auto') — this may take a minute...")
 
-    results = []
-    seen_exact = set()
+    tokenizer, model = load_model_tokenizer(DEFAULT_MODEL)
+    all_results = []
+    report = {
+        "files_found": len(files),
+        "files_processed": 0,
+        "files_failed": 0,
+        "qas_per_document": {}
+    }
 
-    for idx, chunk in enumerate(chunks):
-        prompt = build_prompt(chunk, max_q=cfg.get("max_q_per_chunk", 5))
-        text = generate_with_retry(
-            tokenizer, model, prompt,
-            max_new_tokens=cfg.get("max_new_tokens", 512),
-            deterministic_temp=cfg.get("deterministic_temp", 0.0),
-            sampling_temp=cfg.get("sampling_temp", 0.4)
-        )
-        logger.info("Processed chunk {}/{} — got {} chars", idx+1, len(chunks), len(text))
+    for f in files:
+        print(f"[INFO] Processing {f.name}")
+        results, status = process_document(f, tokenizer, model)
 
-        if not text or len(text) < 5:
-            time.sleep(cfg.get("sleep_between_chunks", 0.12))
+        if status["status"] == "success":
+            report["files_processed"] += 1
+            report["qas_per_document"][f.name] = status["qas"]
+            all_results.extend(results)
+        else:
+            report["files_failed"] += 1
+            print(f"[WARN] Failed {f.name}: {status['error']}")
+
+    # print("[INFO] Running semantic dedupe per document...")
+    # # optional: semantic_dedupe here per doc_id
+
+    # print(f"[INFO] Raw generated Q/A count before semantic dedupe: {len(all_results)}")
+
+    # # Semantic dedupe (embedding-based) to remove near-duplicates
+    # results = semantic_dedupe(all_results, threshold=SEMANTIC_DEDUPE_THRESHOLD)
+    # print(f"[INFO] Q/A count after semantic dedupe: {len(all_results)}")
+
+
+    print("[INFO] Running semantic dedupe per document...")
+
+    docs = defaultdict(list)
+    for qa in all_results:
+        docs[qa["doc_id"]].append(qa)
+
+    deduped_results = []
+    for doc_id, qas in docs.items():
+        deduped = semantic_dedupe(qas, threshold=SEMANTIC_DEDUPE_THRESHOLD)
+        deduped_results.extend(deduped)
+
+    print(f"[INFO] Q/A count after per-document semantic dedupe: {len(deduped_results)}")
+
+    # Optional global exact dedupe
+    final_results = []
+    seen = set()
+    for qa in deduped_results:
+        key = (qa["question"].lower(), qa["answer"].lower())
+        if key in seen:
             continue
+        seen.add(key)
+        final_results.append(qa)
 
-        parsed_pairs = parse_qa_block(text)
-        if not parsed_pairs:
-            time.sleep(cfg.get("sleep_between_chunks", 0.12))
-            continue
+    print(f"[INFO] Final Q/A count after global exact dedupe: {len(final_results)}")
 
-        for q, a in parsed_pairs:
-            q_norm = q.strip().rstrip("?").strip()
-            a_norm = a.strip()
-            if not valid_question(q_norm):
-                continue
-            key = (q_norm.lower(), a_norm.lower())
-            if key in seen_exact:
-                continue
-            seen_exact.add(key)
-            evidences = extract_evidence_sentences(a_norm, chunk, k=cfg.get("evidence_sent_top_k", 2))
-            results.append({
-                "question": q_norm,
-                "answer": a_norm,
-                "supporting_passages": evidences if evidences else [chunk]
-            })
-        time.sleep(cfg.get("sleep_between_chunks", 0.12))
+    all_results = final_results
 
-    logger.info("Raw generated Q/A count before semantic dedupe: {}", len(results))
-    results = semantic_dedupe(results, threshold=cfg.get("semantic_dedupe_threshold", 0.88))
-    logger.info("Q/A count after semantic dedupe: {}", len(results))
 
-    Path("data/output").mkdir(parents=True, exist_ok=True)
+
     with open(out_file, "w", encoding="utf-8") as f:
-        json.dump(results, f, indent=2, ensure_ascii=False)
-    logger.info("Saved final dataset -> {}", out_file)
-    return results
+        json.dump(all_results, f, indent=2, ensure_ascii=False)
+    print(f"[INFO] Saved final dataset -> {out_file}")
+
+    report["total_qas"] = len(all_results)
+
+    report_name = "processing_report.json"
+    with open(report_name, "w") as f:
+        json.dump(report, f, indent=2)
+    print(f"[INFO] Saved final dataset report-> {report_name}")
+
+    print("[INFO] Pipeline complete.")

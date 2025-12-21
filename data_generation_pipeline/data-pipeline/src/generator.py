@@ -10,6 +10,7 @@ def generate_with_retry(tokenizer, model, prompt: str, max_new_tokens: int=512,
             out = model.generate(
                 **inputs,
                 max_new_tokens=max_new_tokens,
+                min_new_tokens=50,
                 temperature=deterministic_temp,
                 top_p=0.95,
                 do_sample=False,
