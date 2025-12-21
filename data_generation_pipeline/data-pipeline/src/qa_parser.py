@@ -13,7 +13,8 @@ def parse_qa_block(block: str):
         a_match = A_RE.match(lines[i+1])
         if q_match and a_match and q_match.group(1) == a_match.group(1):
             q = q_match.group(2).strip()
-            a = a_match.group(2).strip().rstrip(".")
+            a = a_match.group(2).strip()
+            a = re.split(r'\nQ\d+[:\-]|Q\d+[:\-]', a)[0].strip()
             pairs.append((q, a))
             i += 2
         else:

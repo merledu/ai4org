@@ -44,3 +44,16 @@ def clean_text(t: str) -> str:
     t = re.sub(r"[ \t]{2,}", " ", t)
     return t.strip()
 
+
+BAD_MARKERS = [
+    "Human:",
+    "You are generating",
+    "<question>",
+    "<answer>"
+]
+
+def clean_text_leakage(text: str) -> str:
+    for marker in BAD_MARKERS:
+        if marker in text:
+            return ""
+    return text.strip()

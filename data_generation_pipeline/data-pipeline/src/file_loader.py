@@ -1,5 +1,6 @@
 from pathlib import Path
 import PyPDF2
+from typing import List
 
 def is_pdf(path: str) -> bool:
     return str(path).lower().endswith(".pdf")
@@ -26,3 +27,21 @@ def extract_text(file_path: str) -> str:
     else:
         raise ValueError("Unsupported file type. Provide .pdf or .txt")
 
+def discover_files(input_path: str) -> List[Path]:
+    p = Path(input_path)
+    if not p.exists():
+        raise FileNotFoundError(f"Input path not found: {input_path}")
+
+    if p.is_file():
+        return [p]
+
+    files = []
+    for ext in ("*.pdf", "*.txt"):
+        files.extend(p.rglob(ext))
+
+    return sorted(files)
+
+
+
+def get_file_name_from_dir(input_path: str):
+    return Path(input_path).stem
