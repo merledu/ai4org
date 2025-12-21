@@ -54,7 +54,7 @@ def process_document(file_path: Path, tokenizer, model) -> Tuple[List[Dict], Dic
     results = []
     seen_exact = set()
 
-    for idx, chunk in enumerate(chunks[:12]):
+    for idx, chunk in enumerate(chunks[:30]):
         prompt = build_prompt(chunk)
         text = generate_with_retry(tokenizer, model, prompt)
         print(f"Working on chunk {idx} out of {len(chunks)} of file {file_name}")
