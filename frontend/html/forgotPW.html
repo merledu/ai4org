@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password Reset</title>
+  <style>
+    :root {
+      --primary-color: #9b59b6;      /* Brighter Purple */
+      --primary-dark: #8e44ad;       /* Darker Purple */
+      --secondary-color: #bb8fce;    /* Light Purple */
+      --dark-color: #000000;         /* Black */
+      --bg-dark: #1e1e1e;
+      --bg-light: rgba(40, 40, 40, 0.75);
+      --text-light: #f0f0f0;        /* Soft White */
+      --gray-color: #bbbbbb;         /* Mid Gray */
+      --error-color: #e74c3c;
+      --gradient-start: #000000;     /* Black start */
+      --gradient-mid: #64278e;       /* Rich Purple mid */
+      --gradient-end: #7f8c8d;       /* Gray end */
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-light);
+    }
+
+    .reset-box {
+      width: 380px;
+      padding: 2rem;
+      background: rgba(24, 24, 26, 0.95);
+      border-radius: 16px;
+      backdrop-filter: blur(12px) saturate(180%);
+      border: 1px solid rgba(155, 89, 182, 0.3);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .reset-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    }
+
+    h2 {
+      margin-bottom: 1.5rem;
+      font-size: 1.6rem;
+      font-weight: 600;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .input-group {
+      margin-bottom: 1.2rem;
+      text-align: left;
+    }
+
+    label {
+      font-size: 0.9rem;
+      color: var(--gray-color);
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.8rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-light);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      border-color: var(--primary-color);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.3);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .strength-bar {
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+      margin-top: 6px;
+      overflow: hidden;
+    }
+
+    .bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+
+    .error {
+      font-size: 0.8rem;
+      color: var(--error-color);
+      margin-top: 4px;
+      display: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.9rem;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-top: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(155, 89, 182, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .back {
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .back a {
+      color: var(--secondary-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .back a:hover {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    /* Security badge */
+    .security-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(155, 89, 182, 0.1);
+      color: var(--secondary-color);
+      padding: 6px 12px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(155, 89, 182, 0.2);
+    }
+
+    /* Password requirements */
+    .requirements {
+      text-align: left;
+      font-size: 0.8rem;
+      color: var(--gray-color);
+      margin-top: 0.5rem;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 6px;
+      border-left: 3px solid var(--primary-color);
+    }
+
+    .requirements ul {
+      margin: 0;
+      padding-left: 1.2rem;
+    }
+
+    .requirements li {
+      margin-bottom: 3px;
+    }
+
+    /* Success state for inputs */
+    input.valid {
+      border-color: var(--primary-color);
+    }
+
+    input.invalid {
+      border-color: var(--error-color);
+    }
+
+    /* Animation for success */
+    @keyframes successPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
+    }
+
+    .success {
+      animation: successPulse 0.6s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="reset-box">
+    <h2>Change Password</h2>
+    <div class="security-badge">
+      <i class="fas fa-lock"></i> Secure Password Reset
+    </div>
+    
+    <form id="resetForm">
+      
+      <!-- Admin Key -->
+      <div class="input-group">
+        <label for="admin-key">
+          <i class="fas fa-key"></i> Admin Key (4 digits)
+        </label>
+        <input type="password" id="admin-key" maxlength="4" required placeholder="Enter 4-digit admin key">
+        <div class="error" id="key-error">Admin key must be 4 digits</div>
+      </div>
+
+      <!-- Current Password -->
+      <div class="input-group">
+        <label for="current-pass">
+          <i class="fas fa-lock"></i> Current Password
+        </label>
+        <input type="password" id="current-pass" required placeholder="Enter current password">
+        <div class="error" id="current-error">Invalid current password</div>
+      </div>
+
+      <!-- New Password -->
+      <div class="input-group">
+        <label for="new-pass">
+          <i class="fas fa-shield-alt"></i> New Password
+        </label>
+        <input type="password" id="new-pass" required placeholder="Create new password">
+        <div class="strength-bar">
+          <div class="bar" id="bar"></div>
+        </div>
+        <div class="error" id="pass-error">Password must be 8+ chars with number & special char</div>
+        
+        <div class="requirements">
+          <strong>Password Requirements:</strong>
+          <ul>
+            <li>Minimum 8 characters</li>
+            <li>At least one number</li>
+            <li>At least one special character</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Confirm -->
+      <div class="input-group">
+        <label for="confirm-pass">
+          <i class="fas fa-check-double"></i> Confirm New Password
+        </label>
+        <input type="password" id="confirm-pass" required placeholder="Re-enter new password">
+        <div class="error" id="confirm-error">Passwords don't match</div>
+      </div>
+
+      <button type="submit">
+        <i class="fas fa-sync-alt"></i> Update Password
+      </button>
+    </form>
+    
+    <div class="back">
+      <a href="login.html">
+        <i class="fas fa-arrow-left"></i> Back to Login
+      </a>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <script>
+    const adminKey = document.getElementById('admin-key');
+    const currentPass = document.getElementById('current-pass');
+    const newPass = document.getElementById('new-pass');
+    const confirmPass = document.getElementById('confirm-pass');
+    const bar = document.getElementById('bar');
+
+    const keyError = document.getElementById('key-error');
+    const currentError = document.getElementById('current-error');
+    const passError = document.getElementById('pass-error');
+    const confirmError = document.getElementById('confirm-error');
+
+    // Fake stored credentials (simulate dataset)
+    const storedAdminKey = "1234";
+    const storedPassword = "oldpass123";
+
+    // Input validation with visual feedback
+    function validateInput(input, isValid) {
+      if (isValid) {
+        input.classList.remove('invalid');
+        input.classList.add('valid');
+      } else {
+        input.classList.remove('valid');
+        input.classList.add('invalid');
+      }
+    }
+
+    // Admin key validation
+    adminKey.addEventListener("input", () => {
+      const isValid = /^\d{4}$/.test(adminKey.value);
+      validateInput(adminKey, isValid);
+      keyError.style.display = isValid ? "none" : "block";
+    });
+
+    // Current password validation
+    currentPass.addEventListener("input", () => {
+      const isValid = currentPass.value.length >= 1;
+      validateInput(currentPass, isValid);
+    });
+
+    // Strength check for new password
+    newPass.addEventListener("input", () => {
+      const val = newPass.value;
+      let strength = 0;
+      
+      if (val.length >= 8) strength += 30;
+      if (/[0-9]/.test(val)) strength += 30;
+      if (/[^A-Za-z0-9]/.test(val)) strength += 40;
+      
+      bar.style.width = Math.min(strength, 100) + "%";
+
+      const isValid = val.length >= 8 && /[0-9]/.test(val) && /[^A-Za-z0-9]/.test(val);
+      validateInput(newPass, isValid);
+      passError.style.display = isValid ? "none" : "block";
+    });
+
+    // Confirm password match
+    confirmPass.addEventListener("input", () => {
+      const isValid = confirmPass.value === newPass.value && newPass.value.length > 0;
+      validateInput(confirmPass, isValid);
+      confirmError.style.display = isValid ? "none" : "block";
+    });
+
+    // Form submission
+    document.getElementById("resetForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      let valid = true;
+
+      // Validate admin key
+      if (adminKey.value !== storedAdminKey) {
+        keyError.style.display = "block";
+        validateInput(adminKey, false);
+        valid = false;
+      } else {
+        keyError.style.display = "none";
+        validateInput(adminKey, true);
+      }
+
+      // Validate current password
+      if (currentPass.value !== storedPassword) {
+        currentError.style.display = "block";
+        validateInput(currentPass, false);
+        valid = false;
+      } else {
+        currentError.style.display = "none";
+        validateInput(currentPass, true);
+      }
+
+      // Validate new password strength
+      const isStrongPassword = newPass.value.length >= 8 && 
+                              /[0-9]/.test(newPass.value) && 
+                              /[^A-Za-z0-9]/.test(newPass.value);
+      if (!isStrongPassword) {
+        passError.style.display = "block";
+        validateInput(newPass, false);
+        valid = false;
+      }
+
+      // Validate password match
+      if (newPass.value !== confirmPass.value) {
+        confirmError.style.display = "block";
+        validateInput(confirmPass, false);
+        valid = false;
+      }
+
+      if (valid) {
+        // Add success animation
+        document.querySelector('.reset-box').classList.add('success');
+        
+        // Simulate API call
+        setTimeout(() => {
+          alert("✅ Password updated successfully!");
+          window.location.href = "login.html";
+        }, 800);
+      }
+    });
+
+    // Remove success class after animation
+    document.querySelector('.reset-box').addEventListener('animationend', () => {
+      document.querySelector('.reset-box').classList.remove('success');
+    });
+  </script>
+</body>
+</html>

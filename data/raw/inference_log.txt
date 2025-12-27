@@ -1,0 +1,273 @@
+=== RAG Inference Log ===
+
+🚀 Starting QA + Corpus generation...
+
+📘 Processing: Elite_Dynamics_Partners_Policies
+✏️ Added 4 chunks to corpus file.
+Generating QAs for Elite_Dynamics_Partners_Policies:   0%|                                            | 0/4 [00:00<?, ?it/s]Generating QAs for Elite_Dynamics_Partners_Policies: 100%|█████████████████████████████████| 4/4 [00:00<00:00, 99864.38it/s]
+⚠️ OPENAI_API_KEY not set. Skipping QA generation for this run.
+⚠️ OPENAI_API_KEY not set. Skipping QA generation for this run.
+⚠️ OPENAI_API_KEY not set. Skipping QA generation for this run.
+⚠️ OPENAI_API_KEY not set. Skipping QA generation for this run.
+✅ Saved 0 QAs for Elite_Dynamics_Partners_Policies
+
+🎯 Done! All QAs saved to:
+   → data/qa/qa.json
+   And corpus appended to:
+   → data/processed/corpus.txt
+The `load_in_4bit` and `load_in_8bit` arguments are deprecated and will be removed in the future versions. Please, pass a `BitsAndBytesConfig` object in `quantization_config` argument instead.
+Some weights of DistilBertForSequenceClassification were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight', 'pre_classifier.bias', 'pre_classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Some weights of DistilBertForSequenceClassification were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight', 'pre_classifier.bias', 'pre_classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Some weights of DistilBertForSequenceClassification were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight', 'pre_classifier.bias', 'pre_classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/shehroz/Desktop/New Folder/ai4org/hallucination_reduction/main.py", line 210, in <module>
+    main()
+    ~~~~^^
+  File "/home/shehroz/Desktop/New Folder/ai4org/hallucination_reduction/main.py", line 126, in main
+    fact_disc = train_discriminator_minibatch(fact_disc, fact_tok, fact_texts, fact_labels,
+                                              device=DEVICE, epochs=DISC_EPOCHS, batch_size=DISC_BATCH, lr=DISC_LR)
+  File "/home/shehroz/Desktop/New Folder/ai4org/hallucination_reduction/discriminator_training_utils.py", line 27, in train_discriminator_minibatch
+    optimizer.step()
+    ~~~~~~~~~~~~~~^^
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/torch/optim/optimizer.py", line 516, in wrapper
+    out = func(*args, **kwargs)
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/torch/optim/optimizer.py", line 81, in _use_grad
+    ret = func(*args, **kwargs)
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/torch/optim/adam.py", line 237, in step
+    has_complex = self._init_group(
+        group,
+    ...<5 lines>...
+        state_steps,
+    )
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/torch/optim/adam.py", line 177, in _init_group
+    state["exp_avg"] = torch.zeros_like(
+                       ~~~~~~~~~~~~~~~~^
+        p, memory_format=torch.preserve_format
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 20.00 MiB. GPU 0 has a total capacity of 5.79 GiB of which 21.88 MiB is free. Process 61757 has 2.47 GiB memory in use. Including non-PyTorch memory, this process has 3.28 GiB memory in use. Of the allocated memory 3.06 GiB is allocated by PyTorch, and 118.23 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+ Single GPU detected. Using cuda:0
+ Using device: cuda
+Loading generator and discriminators...
+Enabled gradient checkpointing on generator.
+Using single GPU or CPU.
+Training fact discriminator...
+🚀 Starting QA + Corpus generation...
+
+📘 Processing: Elite_Dynamics_Partners_Policies
+✏️ Added 4 chunks to corpus file.
+Generating QAs for Elite_Dynamics_Partners_Policies:   0%|                                            | 0/4 [00:00<?, ?it/s]Generating QAs for Elite_Dynamics_Partners_Policies: 100%|█████████████████████████████████| 4/4 [00:00<00:00, 93727.46it/s]
+⚠️ OPENAI_API_KEY not set. Skipping QA generation for this run.
+⚠️ OPENAI_API_KEY not set. Skipping QA generation for this run.
+⚠️ OPENAI_API_KEY not set. Skipping QA generation for this run.
+⚠️ OPENAI_API_KEY not set. Skipping QA generation for this run.
+✅ Saved 0 QAs for Elite_Dynamics_Partners_Policies
+
+🎯 Done! All QAs saved to:
+   → data/qa/qa.json
+   And corpus appended to:
+   → data/processed/corpus.txt
+The `load_in_4bit` and `load_in_8bit` arguments are deprecated and will be removed in the future versions. Please, pass a `BitsAndBytesConfig` object in `quantization_config` argument instead.
+Some weights of DistilBertForSequenceClassification were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight', 'pre_classifier.bias', 'pre_classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Some weights of DistilBertForSequenceClassification were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight', 'pre_classifier.bias', 'pre_classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Some weights of DistilBertForSequenceClassification were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight', 'pre_classifier.bias', 'pre_classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/shehroz/Desktop/New Folder/ai4org/hallucination_reduction/main.py", line 210, in <module>
+    main()
+    ~~~~^^
+  File "/home/shehroz/Desktop/New Folder/ai4org/hallucination_reduction/main.py", line 145, in main
+    _, old_before, _ = evaluate_old_vs_new_generator(baseline_generator, generator,
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                     gen_tok, retriever, qa_pairs,
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                     fact_disc, fact_tok, device=DEVICE)
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shehroz/Desktop/New Folder/ai4org/hallucination_reduction/evaluation.py", line 46, in evaluate_old_vs_new_generator
+    old_out = generate_answer(old_gen, tokenizer, prompt, max_new_tokens=MAX_GEN_TOKENS, min_new_tokens=MIN_GEN_TOKENS, device=device, num_return_sequences=1)[0]
+              ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shehroz/Desktop/New Folder/ai4org/hallucination_reduction/generator.py", line 30, in generate_answer
+    out = generator.generate(
+        **inputs,
+    ...<6 lines>...
+        pad_token_id=tokenizer.eos_token_id
+    )
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/transformers/generation/utils.py", line 2539, in generate
+    result = self._sample(
+        input_ids,
+    ...<5 lines>...
+        **model_kwargs,
+    )
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/transformers/generation/utils.py", line 2867, in _sample
+    outputs = self(**model_inputs, return_dict=True)
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/transformers/utils/generic.py", line 940, in wrapper
+    output = func(self, *args, **kwargs)
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/transformers/models/llama/modeling_llama.py", line 459, in forward
+    outputs: BaseModelOutputWithPast = self.model(
+                                       ~~~~~~~~~~^
+        input_ids=input_ids,
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/transformers/utils/generic.py", line 1064, in wrapper
+    outputs = func(self, *args, **kwargs)
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/transformers/models/llama/modeling_llama.py", line 395, in forward
+    hidden_states = decoder_layer(
+        hidden_states,
+    ...<5 lines>...
+        **kwargs,
+    )
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/transformers/modeling_layers.py", line 94, in __call__
+    return super().__call__(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/transformers/utils/deprecation.py", line 172, in wrapped_func
+    return func(*args, **kwargs)
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/transformers/models/llama/modeling_llama.py", line 294, in forward
+    hidden_states, _ = self.self_attn(
+                       ~~~~~~~~~~~~~~^
+        hidden_states=hidden_states,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/transformers/utils/deprecation.py", line 172, in wrapped_func
+    return func(*args, **kwargs)
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/transformers/models/llama/modeling_llama.py", line 252, in forward
+    attn_output, attn_weights = attention_interface(
+                                ~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<6 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/transformers/integrations/sdpa_attention.py", line 83, in sdpa_attention_forward
+    attn_output = torch.nn.functional.scaled_dot_product_attention(
+        query,
+    ...<6 lines>...
+        **sdpa_kwargs,
+    )
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 512.00 MiB. GPU 0 has a total capacity of 5.79 GiB of which 249.88 MiB is free. Including non-PyTorch memory, this process has 4.24 GiB memory in use. Process 65257 has 1.30 GiB memory in use. Of the allocated memory 3.72 GiB is allocated by PyTorch, and 417.37 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+ Single GPU detected. Using cuda:0
+ Using device: cuda
+Loading generator and discriminators...
+Enabled gradient checkpointing on generator.
+Using single GPU or CPU.
+Training fact discriminator...
+Disc train epoch 1/4, loss=0.5201, val_acc=0.7500
+Disc train epoch 2/4, loss=0.2322, val_acc=1.0000
+Disc train epoch 3/4, loss=0.0366, val_acc=1.0000
+Disc train epoch 4/4, loss=0.0120, val_acc=1.0000
+Training style discriminator...
+Disc train epoch 1/4, loss=0.4904, val_acc=1.0000
+Disc train epoch 2/4, loss=0.1207, val_acc=1.0000
+Disc train epoch 3/4, loss=0.0324, val_acc=1.0000
+Disc train epoch 4/4, loss=0.0150, val_acc=1.0000
+Training safety discriminator...
+Disc train epoch 1/4, loss=0.5335, val_acc=0.7500
+Disc train epoch 2/4, loss=0.2243, val_acc=1.0000
+Disc train epoch 3/4, loss=0.0391, val_acc=1.0000
+Disc train epoch 4/4, loss=0.0122, val_acc=1.0000
+
+Sanity-check discriminator metrics:
+Fact disc: {'acc': 1.0, 'prec': 1.0, 'rec': 1.0, 'f1': 1.0}
+Style disc: {'acc': 1.0, 'prec': 1.0, 'rec': 1.0, 'f1': 1.0}
+Safety disc: {'acc': 1.0, 'prec': 1.0, 'rec': 1.0, 'f1': 1.0}
+
+Evaluation before SFT/RL (baseline):
+🚀 Starting QA + Corpus generation...
+
+📘 Processing: Elite_Dynamics_Partners_Policies
+✏️ Added 4 chunks to corpus file.
+Generating QAs for Elite_Dynamics_Partners_Policies:   0%|                                            | 0/4 [00:00<?, ?it/s]Generating QAs for Elite_Dynamics_Partners_Policies: 100%|████████████████████████████████| 4/4 [00:00<00:00, 100462.37it/s]
+⚠️ OPENAI_API_KEY not set. Skipping QA generation for this run.
+⚠️ OPENAI_API_KEY not set. Skipping QA generation for this run.
+⚠️ OPENAI_API_KEY not set. Skipping QA generation for this run.
+⚠️ OPENAI_API_KEY not set. Skipping QA generation for this run.
+✅ Saved 0 QAs for Elite_Dynamics_Partners_Policies
+
+🎯 Done! All QAs saved to:
+   → data/qa/qa.json
+   And corpus appended to:
+   → data/processed/corpus.txt
+The `load_in_4bit` and `load_in_8bit` arguments are deprecated and will be removed in the future versions. Please, pass a `BitsAndBytesConfig` object in `quantization_config` argument instead.
+Some weights of DistilBertForSequenceClassification were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight', 'pre_classifier.bias', 'pre_classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Some weights of DistilBertForSequenceClassification were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight', 'pre_classifier.bias', 'pre_classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Some weights of DistilBertForSequenceClassification were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight', 'pre_classifier.bias', 'pre_classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/shehroz/Desktop/New Folder/ai4org/hallucination_reduction/main.py", line 210, in <module>
+    main()
+    ~~~~^^
+  File "/home/shehroz/Desktop/New Folder/ai4org/hallucination_reduction/main.py", line 126, in main
+    fact_disc = train_discriminator_minibatch(fact_disc, fact_tok, fact_texts, fact_labels,
+                                              device=DEVICE, epochs=DISC_EPOCHS, batch_size=DISC_BATCH, lr=DISC_LR)
+  File "/home/shehroz/Desktop/New Folder/ai4org/hallucination_reduction/discriminator_training_utils.py", line 27, in train_discriminator_minibatch
+    optimizer.step()
+    ~~~~~~~~~~~~~~^^
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/torch/optim/optimizer.py", line 516, in wrapper
+    out = func(*args, **kwargs)
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/torch/optim/optimizer.py", line 81, in _use_grad
+    ret = func(*args, **kwargs)
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/torch/optim/adam.py", line 237, in step
+    has_complex = self._init_group(
+        group,
+    ...<5 lines>...
+        state_steps,
+    )
+  File "/home/shehroz/miniconda3/lib/python3.13/site-packages/torch/optim/adam.py", line 177, in _init_group
+    state["exp_avg"] = torch.zeros_like(
+                       ~~~~~~~~~~~~~~~~^
+        p, memory_format=torch.preserve_format
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 20.00 MiB. GPU 0 has a total capacity of 5.79 GiB of which 21.88 MiB is free. Process 75192 has 2.47 GiB memory in use. Including non-PyTorch memory, this process has 3.28 GiB memory in use. Of the allocated memory 3.06 GiB is allocated by PyTorch, and 118.23 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+ Single GPU detected. Using cuda:0
+ Using device: cuda
+Loading generator and discriminators...
+Enabled gradient checkpointing on generator.
+Using single GPU or CPU.
+Training fact discriminator...

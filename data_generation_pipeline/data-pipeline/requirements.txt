@@ -1,0 +1,31 @@
+# Core ML & NLP libraries
+transformers>=4.35.0
+accelerate>=0.26.0
+sentence-transformers>=2.2.2
+torch>=2.1.0
+
+# Quantization
+bitsandbytes>=0.42.0
+
+# Document processing
+PyPDF2>=3.0.0
+
+# Embeddings / similarity / vector ops
+faiss-cpu>=1.7.4
+scikit-learn>=1.3.0
+
+# Text utilities
+nltk>=3.8.1
+
+# Progress bars
+tqdm>=4.66.0
+
+# Quantized model loading (optional)
+autoawq>=0.1.8
+
+# Config parsing
+pyyaml>=6.0.1
+
+# Logging
+loguru>=0.7.0
+

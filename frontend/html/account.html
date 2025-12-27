@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Selection - AI4ORG</title>
+    <style>
+        :root {
+            --bg: #0b0a14;
+            --text: #e8e6ff;
+            --muted: #b7b5d3;
+            --glass: rgba(255,255,255,0.06);
+            --accent: #6c53ff;
+            --accent-2: #b388ff;
+            --border: rgba(255,255,255,0.15);
+            --shadow: rgba(0,0,0,0.35);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Background Video */
+        #bgVideo {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background:
+                radial-gradient(60rem 25rem at 50% 80%, rgba(150, 97, 255, 0.55), rgba(108,83,255,0.15) 35%, rgba(0,0,0,0) 65%),
+                radial-gradient(1400px 600px at 50% 110%, rgba(255,255,255,0.22), rgba(255,255,255,0.0) 60%);
+            pointer-events: none;
+        }
+
+        .overlay::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(255,255,255,0.55) 1px, transparent 1px);
+            background-size: 3px 3px;
+            opacity: 0.08;
+            mask-image: radial-gradient(60rem 30rem at 50% 70%, black, transparent 70%);
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 24px;
+            backdrop-filter: blur(10px);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.0));
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 700;
+        }
+
+        .brand-logo {
+            width: 28px;
+            height: 28px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: white;
+            font-size: 14px;
+        }
+
+        .back-btn {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 8px 16px;
+            color: var(--muted);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+        }
+
+        /* Main Container */
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px 40px;
+            text-align: center;
+        }
+
+        /* Title Section */
+        .title-section {
+            margin-bottom: 60px;
+        }
+
+        .ai-pill {
+            border-radius: 999px;
+            padding: 8px 14px;
+            border: 1px solid var(--border);
+            background: var(--glass);
+            color: var(--text);
+            font-weight: 600;
+            letter-spacing: 0.1px;
+            backdrop-filter: blur(6px);
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .main-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--text), var(--muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 8px 40px rgba(108, 83, 255, 0.45);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--muted);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Account Selection */
+        .account-selection {
+            display: flex;
+            gap: 30px;
+            max-width: 800px;
+            width: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .account-btn {
+            flex: 1;
+            min-width: 300px;
+            max-width: 350px;
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 8px 24px var(--shadow);
+        }
+
+        .account-btn:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(108, 83, 255, 0.2);
+            border-color: var(--accent);
+        }
+
+        .account-btn:active {
+            transform: translateY(-4px);
+        }
+
+        .account-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .admin-btn .account-icon {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+            color: white;
+        }
+
+        .user-btn .account-icon {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: white;
+        }
+
+        .account-btn:hover .account-icon {
+            transform: scale(1.1);
+        }
+
+        .account-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        .account-description {
+            font-size: 1rem;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .account-features {
+            list-style: none;
+            text-align: left;
+            width: 100%;
+        }
+
+        .account-features li {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .account-features li::before {
+            content: '✓';
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        /* Icon Styles */
+        .icon {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        .icon-small {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* PIN Modal */
+        .pin-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .pin-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .pin-content {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 40px var(--shadow);
+            transform: scale(0.9);
+            transition: all 0.3s ease;
+        }
+
+        .pin-modal.show .pin-content {
+            transform: scale(1);
+        }
+
+        .pin-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        .pin-subtitle {
+            font-size: 1rem;
+            color: var(--muted);
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .pin-input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 1.1rem;
+            text-align: center;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: 'Courier New', monospace;
+        }
+
+        .pin-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(108, 83, 255, 0.1);
+        }
+
+        .pin-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: white;
+            box-shadow: 0 4px 12px rgba(108, 83, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(108, 83, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--glass);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .pin-error {
+            color: #ff6b6b;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .pin-error.show {
+            display: flex;
+        }
+
+        .pin-success {
+            color: #4ade80;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .pin-success.show {
+            display: flex;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 80px 15px 30px;
+            }
+
+            .account-selection {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+
+            .account-btn {
+                min-width: 280px;
+                max-width: 100%;
+                padding: 30px 25px;
+            }
+
+            .main-title {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .pin-content {
+                padding: 30px 25px;
+            }
+
+            .pin-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 12px 15px;
+            }
+
+            .container {
+                padding: 70px 10px 20px;
+            }
+
+            .account-btn {
+                min-width: 260px;
+                padding: 25px 20px;
+            }
+
+            .main-title {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .pin-content {
+                padding: 25px 20px;
+            }
+
+            .pin-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .account-btn {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .account-btn:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .account-btn:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--glass);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(108, 83, 255, 0.3);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(108, 83, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Video -->
+    <video id="bgVideo" autoplay muted loop playsinline>
+        <source src="../assets/images/bg.mp4" type="video/mp4" />
+    </video>
+
+    <!-- Overlay -->
+    <div class="overlay"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <img src="../assets/images/logo.png" alt="" height="100" width="100" style="border-radius: 50%;">
+
+        <a href="index.html" class="back-btn">
+            <svg class="icon icon-small" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M15 7H3.414l3.293-3.293a1 1 0 0 0-1.414-1.414l-5 5a1 1 0 0 0 0 1.414l5 5a1 1 0 0 0 1.414-1.414L3.414 9H15a1 1 0 1 0 0-2z"/>
+            </svg>
+            Back to Home
+        </a>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Title Section -->
+        <div class="title-section">
+            <div class="ai-pill">
+                <svg class="icon icon-small" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M8 0a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0V1a1 1 0 0 1 1-1zM4.854 2.854a.5.5 0 0 1 0-.708l.707-.707a.5.5 0 0 1 .708 0l.707.707a.5.5 0 0 1-.708.708l-.707-.707a.5.5 0 0 1-.708 0zm6.292 0a.5.5 0 0 0 0-.708l-.707-.707a.5.5 0 0 0-.708 0l-.707.707a.5.5 0 0 0 .708.708l.707-.707a.5.5 0 0 0 .708 0zM8 13a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0v-1a1 1 0 0 1 1-1zm-3.146-1.854a.5.5 0 0 0 0 .708l.707.707a.5.5 0 0 0 .708 0l.707-.707a.5.5 0 0 0-.708-.708l-.707.707a.5.5 0 0 0-.708 0zm6.292 0a.5.5 0 0 1 0 .708l-.707.707a.5.5 0 0 1-.708 0l-.707-.707a.5.5 0 0 1 .708-.708l.707.707a.5.5 0 0 1 .708 0zM1 8a1 1 0 0 1 1-1h1a1 1 0 0 1 0 2H2a1 1 0 0 1-1-1zm12 0a1 1 0 0 1 1-1h1a1 1 0 0 1 0 2h-1a1 1 0 0 1-1-1z"/>
+                    <path d="M8 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/>
+                </svg>
+                Secure Access
+            </div>
+            <h1 class="main-title">Choose Your Access Level</h1>
+            <p class="subtitle">
+                Select how you'd like to access the AI4ORG platform. Each option provides different features and capabilities.
+            </p>
+        </div>
+
+        <!-- Account Selection -->
+        <div class="account-selection">
+            <!-- Admin Access -->
+            <button class="account-btn admin-btn" onclick="loginAsAdmin()" style="background-color: #000000bb !important;">
+                <div class="account-icon">
+                    <svg class="icon" viewBox="0 0 24 24" fill="white">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <h3 class="account-title">Administrator</h3>
+                <p class="account-description">
+                    Full system access with advanced management capabilities and user analytics.
+                </p>
+                <ul class="account-features">
+                    <li>View user login history</li>
+                    <li>System analytics dashboard</li>
+                    <li>User management tools</li>
+                    <li>Advanced AI model controls</li>
+                </ul>
+            </button>
+
+            <!-- User Access -->
+            <button class="account-btn user-btn" onclick="loginAsUser()" style="background-color: #000000bb !important;">
+                <div class="account-icon">
+                    <svg class="icon" viewBox="0 0 24 24" fill="white">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                </div>
+                <h3 class="account-title">Standard User</h3>
+                <p class="account-description">
+                    Access the AI chat interface with personalized experience and conversation history.
+                </p>
+                <ul class="account-features">
+                    <li>AI chat interface</li>
+                    <li>Personal conversation history</li>
+                    <li>File upload capabilities</li>
+                    <li>Custom AI responses</li>
+                </ul>
+            </button>
+        </div>
+    </div>
+
+    <!-- PIN Modal -->
+    <div class="pin-modal" id="pinModal">
+        <div class="pin-content">
+            <h2 class="pin-title">Enter Your PIN</h2>
+            <p class="pin-subtitle">
+                Please enter your 4-digit PIN to access your account securely.
+            </p>
+            <input type="password" class="pin-input" id="pinInput" placeholder="••••" maxlength="4" autocomplete="off">
+            <div class="pin-buttons">
+                <button class="btn btn-primary" onclick="validatePin()">
+                    <svg class="icon icon-small" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                    </svg>
+                    Login
+                </button>
+                <button class="btn btn-secondary" onclick="closePinDialog()">
+                    <svg class="icon icon-small" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                    Cancel
+                </button>
+            </div>
+            <div class="pin-error" id="pinError">
+                <svg class="icon icon-small" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                </svg>
+                Invalid PIN. Please try again.
+            </div>
+            <div class="pin-success" id="pinSuccess">
+                <svg class="icon icon-small" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                </svg>
+                Login successful! Redirecting...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Login as Admin - redirect to login page
+        function loginAsAdmin() {
+            // Add loading animation
+            const btn = event.target.closest('.admin-btn');
+            btn.style.transform = 'scale(0.95)';
+            btn.style.opacity = '0.8';
+            
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 200);
+        }
+
+        // Login as User - show PIN dialog
+        function loginAsUser() {
+            showPinDialog();
+        }
+
+        // Show PIN dialog
+        function showPinDialog() {
+            const pinModal = document.getElementById('pinModal');
+            const pinInput = document.getElementById('pinInput');
+            
+            pinModal.classList.add('show');
+            setTimeout(() => {
+                pinInput.focus();
+            }, 300);
+
+            // Handle Enter key
+            pinInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    validatePin();
+                }
+            });
+        }
+
+        // Close PIN dialog
+        function closePinDialog() {
+            const pinModal = document.getElementById('pinModal');
+            const pinInput = document.getElementById('pinInput');
+            const pinError = document.getElementById('pinError');
+            const pinSuccess = document.getElementById('pinSuccess');
+            
+            pinModal.classList.remove('show');
+            pinInput.value = '';
+            pinError.classList.remove('show');
+            pinSuccess.classList.remove('show');
+        }
+
+        // Validate PIN
+        function validatePin() {
+            const pinInput = document.getElementById('pinInput');
+            const pin = pinInput.value;
+            const pinError = document.getElementById('pinError');
+            const pinSuccess = document.getElementById('pinSuccess');
+            
+            // Hide any previous messages
+            pinError.classList.remove('show');
+            pinSuccess.classList.remove('show');
+            
+            // Simple validation
+            if (pin === '1111') {
+                // User 1
+                localStorage.setItem('userPin', '1111');
+                localStorage.setItem('userSession', 'active');
+                localStorage.setItem('userType', 'user1');
+                localStorage.setItem('userLoginTime', new Date().toISOString());
+                
+                // Log user login if API is available
+                if (typeof pywebview !== 'undefined' && pywebview.api) {
+                    try {
+                        pywebview.api.log_user_login('User 1', 'user1@example.com');
+                    } catch (error) {
+                        console.log('Could not log user login:', error);
+                    }
+                }
+                
+                // Show success and redirect
+                pinSuccess.classList.add('show');
+                setTimeout(() => {
+                    window.location.href = 'chat.html';
+                }, 1000);
+                
+            } else if (pin === '2222') {
+                // User 2
+                localStorage.setItem('userPin', '2222');
+                localStorage.setItem('userSession', 'active');
+                localStorage.setItem('userType', 'user2');
+                localStorage.setItem('userLoginTime', new Date().toISOString());
+                
+                // Log user login if API is available
+                if (typeof pywebview !== 'undefined' && pywebview.api) {
+                    try {
+                        pywebview.api.log_user_login('User 2', 'user2@example.com');
+                    } catch (error) {
+                        console.log('Could not log user login:', error);
+                    }
+                }
+                
+                // Show success and redirect
+                pinSuccess.classList.add('show');
+                setTimeout(() => {
+                    window.location.href = 'chat.html';
+                }, 1000);
+                
+            } else {
+                // Invalid PIN
+                pinError.classList.add('show');
+                pinInput.value = '';
+                pinInput.focus();
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('pinModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePinDialog();
+            }
+        });
+
+        // Handle ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePinDialog();
+            }
+        });
+    </script>
+</body>
+</html>

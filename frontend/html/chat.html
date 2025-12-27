@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI4ORG Chat - Your Personal Intelligence Platform</title>
+    <link rel="stylesheet" href="../css/chat.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+ 
+
+</head>
+<body>
+<div class="sidebar">
+<div class="logo">
+<svg class="logo-icon" viewBox="0 0 24 24">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+</svg>
+<span class="logo-text">AI4ORG</span>
+</div>
+
+<!-- Chat -->
+<div class="nav-section">
+<div class="nav-item active">
+    <svg class="nav-icon" viewBox="0 0 24 24">
+        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+    </svg>
+    <span class="nav-text">Chat</span>
+</div>
+</div>
+
+<div class="nav-section">
+<div class="nav-item" onclick="showChatHistory()">
+    <svg class="nav-icon" viewBox="0 0 24 24">
+        <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
+    </svg>
+    <span class="nav-text">History</span>
+</div>
+</div>
+
+<!-- Settings -->
+<div class="nav-section">
+<div class="nav-item" onclick="showSettings()">
+    <svg class="nav-icon" viewBox="0 0 24 24">
+        <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+    </svg>
+    <span class="nav-text">Settings</span>
+</div>
+</div>
+
+<!-- Help Center -->
+<div class="nav-section">
+<div class="nav-item" onclick="showHelpCenter()">
+    <svg class="nav-icon" viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+    </svg>
+    <span class="nav-text">Help Center</span>
+</div>
+</div>
+
+<!-- Logout -->
+<div class="nav-section">
+<div class="nav-item" onclick="logout()" style="cursor: pointer; color: #ff6b6b;">
+    <svg class="nav-icon" viewBox="0 0 24 24">
+        <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+    </svg>
+    <span class="nav-text">Logout</span>
+</div>
+</div>
+
+<!-- User Profile -->
+<div class="user-profile">
+<div class="user-avatar">
+    <svg viewBox="0 0 24 24">
+        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+    </svg>
+</div>
+<div class="user-info">
+    <div class="user-name">Maha Rehan</div>
+    <div class="user-email">maha@example.com</div>
+</div>
+</div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+<div class="chat-container" id="chatContainer">
+<div class="message ai-message">
+    <p>Hello! I'm your personal AI assistant. How can I help you today?</p>
+    <div class="feedback-buttons">
+        <button class="feedback-button" title="Like">👍</button>
+        <button class="feedback-button" title="Dislike">👎</button>
+    </div>
+</div>
+</div>
+
+<div class="typing-indicator" id="typingIndicator">
+<div class="typing-dots">
+    <div class="typing-dot"></div>
+    <div class="typing-dot"></div>
+    <div class="typing-dot"></div>
+</div>
+</div>
+
+<div class="input-area">
+<div class="input-container">
+    <textarea class="input-field" id="userInput" placeholder="Type your message here..." rows="1"></textarea>
+    <button class="send-button" id="sendButton">
+        <svg viewBox="0 0 24 24">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+        </svg>
+    </button>
+</div>
+</div>
+</div>
+
+<!-- History Modal -->
+<div id="historyModal" class="modal" style="display: none;">
+<div class="modal-content">
+<div class="modal-header">
+    <h2>Chat History</h2>
+    <div class="header-actions">
+        <button class="clear-history-btn" onclick="clearChatHistory()" title="Clear All History">
+            <svg viewBox="0 0 24 24">
+                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+            </svg>
+            Clear History
+        </button>
+        <span class="close" onclick="closeHistoryModal()">&times;</span>
+    </div>
+</div>
+<div class="modal-body" id="historyContent">
+    <!-- History content will be loaded here -->
+</div>
+</div>
+</div>
+
+<!-- Settings Modal -->
+<div id="settingsModal" class="modal" style="display: none;">
+<div class="modal-content">
+<div class="modal-header">
+    <h2>Settings</h2>
+    <span class="close" onclick="closeSettingsModal()">&times;</span>
+</div>
+<div class="modal-body">
+    <div class="settings-section">
+        <h3>🎨 Theme</h3>
+        <div class="theme-options">
+            <label class="theme-option">
+                <input type="radio" name="theme" value="dark" checked>
+                <span class="theme-preview dark-theme">Dark</span>
+            </label>
+            <label class="theme-option">
+                <input type="radio" name="theme" value="light">
+                <span class="theme-preview light-theme">Light</span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="settings-section">
+        <h3>📝 Font Size</h3>
+        <div class="font-size-controls">
+            <label for="fontSizeSlider">Size: <span id="fontSizeValue">16</span>px</label>
+            <input type="range" id="fontSizeSlider" min="12" max="24" value="16" oninput="updateFontSize(this.value)">
+        </div>
+    </div>
+    
+    <div class="settings-section">
+        <h3>💾 Save Settings</h3>
+        <button onclick="saveSettings()" class="save-btn">Save Settings</button>
+        <button onclick="resetSettings()" class="reset-btn">Reset to Default</button>
+    </div>
+</div>
+</div>
+</div>
+
+<!-- Help Center Modal -->
+<div id="helpModal" class="modal" style="display: none;">
+<div class="modal-content">
+<div class="modal-header">
+    <h2>Help Center</h2>
+    <span class="close" onclick="closeHelpModal()">&times;</span>
+</div>
+<div class="modal-body">
+    <div class="help-section">
+        <h3>📚 Quick Help</h3>
+        <div class="help-items">
+            <div class="help-item">
+                <svg viewBox="0 0 24 24">
+                    <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+                </svg>
+                <div>
+                    <strong>Chat with AI</strong>
+                    <p>Type your questions and get intelligent responses from our AI assistant.</p>
+                </div>
+            </div>
+            <div class="help-item">
+                <svg viewBox="0 0 24 24">
+                    <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
+                </svg>
+                <div>
+                    <strong>View History</strong>
+                    <p>Access your previous conversations anytime from the History section.</p>
+                </div>
+            </div>
+            <div class="help-item">
+                <svg viewBox="0 0 24 24">
+                    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                </svg>
+                <div>
+                    <strong>Customize Settings</strong>
+                    <p>Change themes and font sizes to personalize your experience.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="help-section">
+        <h3>💬 Send Feedback</h3>
+        <div class="feedback-form">
+            <textarea id="feedbackText" placeholder="Tell us how we can improve your experience..." rows="4"></textarea>
+            <div class="feedback-actions">
+                <button onclick="submitFeedback()" class="submit-feedback-btn">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                    </svg>
+                    Send Feedback
+                </button>
+                <span class="feedback-note">Your feedback helps us improve!</span>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<!-- Notification System -->
+<div id="notification" class="notification" style="display: none;">
+<div class="notification-content">
+<svg class="notification-icon" viewBox="0 0 24 24">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+</svg>
+<span class="notification-message"></span>
+</div>
+</div>
+
+    <script src="../script/chat.js"></script>
+</body>
+</html>
