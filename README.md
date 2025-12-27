@@ -1,141 +1,76 @@
-# 🧠 ai4org – GAN-based Hallucination Mitigation for Local Private LLMs
+# AI4Org: Hallucination Reduction & Data Pipeline
 
-**ai4org** is a locally run, privacy-first framework that uses a **Generative Adversarial Network (GAN)** approach to **detect and reduce hallucinations** in custom Large Language Models (LLMs). Designed for organizations deploying their own LLMs on-premises, **ai4org** improves factual reliability while ensuring **zero data leakage**.
+This project implements a comprehensive system for reducing hallucinations in Large Language Models (LLMs) using Retrieval-Augmented Generation (RAG), Discriminator-Guided Reinforcement Learning, and a robust data cleaning pipeline. It also includes a desktop frontend for interacting with the system.
 
-> ⚡ Your data. Your model. **No cloud involved.**
-> 🤖 Powered by GANs: Generator = LLM, Discriminator = Truth Checker.
+## Project Structure
 
----
+The project is organized into the following main components:
 
-## 🌟 Key Features
+*   **`hallucination_reduction/`**: The core machine learning pipeline. It includes:
+    *   **RAG**: Retrieval-Augmented Generation using TF-IDF/Embeddings.
+    *   **Discriminators**: Classifiers for Factuality, Style, and Safety.
+    *   **RL Loop**: A REINFORCE-based loop to fine-tune the generator based on discriminator feedback.
+    *   [Read more](./hallucination_reduction/README.md)
 
-* 🛡️ **Privacy-Preserving**: Everything runs locally — no API calls or external data sharing.
-* 🧠 **GAN Architecture**: A discriminator challenges the LLM's outputs to reduce hallucinations over time.
-* 🔁 **Feedback Loop**: The system fine-tunes itself based on discriminator rejection or optional human feedback.
-* 🎯 **Domain-Specific**: Train on your organization’s internal data for maximum relevance and accuracy.
-* 🧩 **Modular Design**: Works with most Hugging Face-compatible LLMs (Mistral, LLaMA, etc.).
+*   **`frontend/`**: A desktop application built with Python (`pywebview`) and HTML/CSS/JS to interact with the model.
+    *   [Read more](./frontend/README.md)
 
----
+*   **`data_cleaning_pipeline/`**: Scripts and tools for processing and cleaning the raw data used for training.
 
-## 🔬 How It Works
+*   **`tests/`**: Unit and integration tests for the project.
 
-At its core, **ai4org** functions like a GAN:
+## Prerequisites
 
-* **Generator**: A fine-tuned LLM that produces text based on organizational inputs.
-* **Discriminator**: A binary classifier that detects hallucinations or factually incorrect content.
-* **Training Loop**: If the discriminator flags the output, the generator is refined with new feedback (auto or manual).
+*   Python 3.10 or higher
+*   CUDA-capable GPU (recommended for training)
 
-```text
-               ┌────────────────────┐
-               │    User Input      │
-               └────────┬───────────┘
-                        ▼
-               ┌────────────────────┐
-               │  Fine-tuned LLM    │  ◄──┐
-               └────────┬───────────┘     │
-                        ▼                 │ Feedback
-               ┌────────────────────┐     │ (Reward / Penalty)
-               │   Discriminator     │ ◄──┘
-               └────────┬───────────┘
-                        ▼
-               ┌────────────────────┐
-               │   Final Output     │
-               └────────────────────┘
-```
+## Installation
 
----
+1.  Clone the repository:
+    ```bash
+    git clone <repository-url>
+    cd ai4org
+    ```
 
-## 📂 Project Structure
+2.  Create a virtual environment:
+    ```bash
+    python3 -m venv .venv
+    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+    ```
 
-```
-ai4org/
-├── data/                 # Your internal datasets
-├── llm_finetune/         # Generator (LLM fine-tuning)
-├── discriminator/        # Discriminator to detect hallucinations
-├── feedback_loop/        # Adversarial training and reinforcement
-├── webapp/               # Optional local interface
-├── utils/                # Shared tools and helpers
-├── main.py               # Launch everything locally
-└── README.md
-```
+3.  Install dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
----
+## Quick Start
 
-## 🛠️ Local Setup
+### Training the Model
 
-1. **Clone the repository:**
+To train the hallucination reduction pipeline (Discriminators -> SFT -> RL):
 
 ```bash
-git clone https://github.com/your-org/ai4org.git
-cd ai4org
+python -m hallucination_reduction.main
 ```
 
-2. **Create a virtual environment and activate it:**
+### Running Inference
+
+To chat with the trained model via the command line:
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
+python -m hallucination_reduction.inference
 ```
 
-3. **Install dependencies:**
+### Running the Frontend
+
+To launch the desktop application:
 
 ```bash
+cd frontend
 pip install -r requirements.txt
-```
-
-4. **Run the system:**
-
-```bash
 python main.py
 ```
 
-> ✅ *Make sure your local LLM weights are available. No external API required.*
+## Contributing
 
----
-
-## 📈 Roadmap
-
-* [x] Local fine-tuning with organization-specific data
-* [x] GAN-based feedback architecture
-* [x] Discriminator training loop
-* [ ] Plug-and-play human-in-the-loop support
-* [ ] UI for real-time review and validation
-* [ ] Metrics dashboard for hallucination reduction tracking
-
----
-
-## 🧪 Example Use Case
-
-> A private healthcare organization fine-tunes an LLM on its medical documentation.
-> The LLM outputs a treatment suggestion.
-> The **discriminator flags the suggestion as inconsistent** with training data.
-> The LLM is penalized and retrained — improving future outputs.
-
----
-
-## 👨‍💻 Contributing
-
-We welcome open-source contributions, especially in the areas of:
-
-* Discriminator model improvement
-* GAN training stability
-* Dataset preparation and augmentation
-* Dashboard and visualization
-
-[CONTRIBUTING.md](CONTRIBUTING.md) coming soon.
-
----
-
-## 📜 License
-
-Licensed under the MIT License. See [LICENSE](LICENSE).
-
----
-
-## 🙏 Acknowledgments
-
-Inspired by:
-
-* GAN architectures applied to NLP
-* Ongoing research in hallucination mitigation
-* Open-source LLM communities and tools
+Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
