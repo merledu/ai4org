@@ -156,7 +156,7 @@ graph TB
    python -c "import transformers; print(f'Transformers: {transformers.__version__}')"
    ```
    
- #  Note (Windows / CPU users):
+##  Note (Windows / CPU users):
 This project requires `sentence-transformers` and `accelerate`.
 If inference fails, ensure they are installed:
 
