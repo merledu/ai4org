@@ -6,3 +6,6 @@ tqdm
 numpy
 pyyaml
 sentencepiece
+sentence-transformers
+accelerate
+
