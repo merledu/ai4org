@@ -5,14 +5,46 @@ from torch.utils.data import DataLoader
 from typing import List
 import numpy as np
 
-from .config import MAX_GEN_TOKENS, MIN_GEN_TOKENS, SFT_EPOCHS, SFT_BATCH, SFT_LR,GEN_MODEL
+from .config import MAX_GEN_TOKENS, MIN_GEN_TOKENS, SFT_EPOCHS, SFT_BATCH, SFT_LR, GEN_MODEL, DEVICE
 
-DEVICE="cuda"
 def load_generator(model_name=GEN_MODEL, device=DEVICE):
+    print(f"Loading generator: {model_name} on {device}")
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
-    model = AutoModelForCausalLM.from_pretrained(model_name,device_map="auto",dtype=torch.bfloat16,load_in_4bit=True)
+    
+    # Check if we can use 4-bit quantization
+    use_4bit = False
+    try:
+        import bitsandbytes
+        if device == "cuda":
+            use_4bit = True
+            print("Bitsandbytes available, using 4-bit quantization")
+    except ImportError:
+        print("Bitsandbytes not found, disabling 4-bit quantization")
+    
+    try:
+        if use_4bit:
+            model = AutoModelForCausalLM.from_pretrained(
+                model_name,
+                device_map="auto",
+                load_in_4bit=True,
+                torch_dtype=torch.float16
+            )
+        else:
+            # Fallback to standard loading
+            model = AutoModelForCausalLM.from_pretrained(
+                model_name,
+                torch_dtype=torch.float16 if device == "cuda" else torch.float32
+            )
+            model.to(device)
+            
+    except Exception as e:
+        print(f"Error loading model with default settings: {e}")
+        print("Falling back to CPU/FP32...")
+        model = AutoModelForCausalLM.from_pretrained(model_name)
+        model.to("cpu")
+        
     model.eval()
     return tokenizer, model
 

@@ -8,10 +8,14 @@ import sys, time
 from threading import Thread
 
 
-CORPUS_PATH = "data/processed/corpus.txt"
+# Get the absolute path of the current file's directory
+HERE = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.join(HERE, ".."))
+
+CORPUS_PATH = os.path.join(PROJECT_ROOT, "data", "processed", "corpus.txt")
 EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 BASE_MODEL = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
-WEIGHTS_DIR = "./saved_models_improved"
+WEIGHTS_DIR = os.path.join(PROJECT_ROOT, "saved_models_improved")
 
 
 def load_corpus(corpus_path=CORPUS_PATH):
