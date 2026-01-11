@@ -1,22 +1,12 @@
 import json
-import time
-from pathlib import Path
-from loguru import logger
 from collections import defaultdict
+from typing import Any
 
-from file_loader import extract_text, discover_files
-from cleaner import clean_text
-from chunker import chunk_text
-from prompts import build_prompt
-from model_loader import load_model_tokenizer
-from generator import generate_with_retry
-from qa_parser import parse_qa_block
-from validators import valid_question
-from evidence import extract_evidence_sentences
+from config_reader import load_config
 from dedupe import semantic_dedupe
 from document_reader import process_document
-from config_reader import load_config  
-
+from file_loader import discover_files
+from model_loader import load_model_tokenizer
 
 cfg1 = load_config("config/pipeline_config.yaml")
 cfg2 = load_config("config/model_config.yaml")
@@ -24,19 +14,22 @@ cfg = cfg1 | cfg2
 DEFAULT_MODEL = cfg.get("default_model", "meta-llama/Llama-3.2-1B")
 SEMANTIC_DEDUPE_THRESHOLD = cfg.get("semantic_dedupe_threshold", 0.88)
 
+
 def run_pipeline(input_path: str, out_file: str):
     files = discover_files(input_path)
     print(f"[INFO] Found {len(files)} files")
 
-    print("[INFO] Loading model and tokenizer (device_map='auto') — this may take a minute...")
+    print(
+        "[INFO] Loading model and tokenizer (device_map='auto') — this may take a minute..."
+    )
 
     tokenizer, model = load_model_tokenizer(DEFAULT_MODEL)
     all_results = []
-    report = {
+    report: dict[str, Any] = {
         "files_found": len(files),
         "files_processed": 0,
         "files_failed": 0,
-        "qas_per_document": {}
+        "qas_per_document": {},
     }
 
     for f in files:
@@ -60,7 +53,6 @@ def run_pipeline(input_path: str, out_file: str):
     # results = semantic_dedupe(all_results, threshold=SEMANTIC_DEDUPE_THRESHOLD)
     # print(f"[INFO] Q/A count after semantic dedupe: {len(all_results)}")
 
-
     print("[INFO] Running semantic dedupe per document...")
 
     docs = defaultdict(list)
@@ -68,11 +60,13 @@ def run_pipeline(input_path: str, out_file: str):
         docs[qa["doc_id"]].append(qa)
 
     deduped_results = []
-    for doc_id, qas in docs.items():
+    for _, qas in docs.items():
         deduped = semantic_dedupe(qas, threshold=SEMANTIC_DEDUPE_THRESHOLD)
         deduped_results.extend(deduped)
 
-    print(f"[INFO] Q/A count after per-document semantic dedupe: {len(deduped_results)}")
+    print(
+        f"[INFO] Q/A count after per-document semantic dedupe: {len(deduped_results)}"
+    )
 
     # Optional global exact dedupe
     final_results = []
@@ -87,8 +81,6 @@ def run_pipeline(input_path: str, out_file: str):
     print(f"[INFO] Final Q/A count after global exact dedupe: {len(final_results)}")
 
     all_results = final_results
-
-
 
     with open(out_file, "w", encoding="utf-8") as f:
         json.dump(all_results, f, indent=2, ensure_ascii=False)

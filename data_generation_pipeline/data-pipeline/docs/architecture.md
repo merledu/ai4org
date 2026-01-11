@@ -12,4 +12,3 @@
 - dedupe: exact + semantic dedupe
 
 The implementation mirrors the earlier single-file pipeline and is modularized for maintainability. :contentReference[oaicite:2]{index=2}
-

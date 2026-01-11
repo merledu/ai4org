@@ -1,6 +1,6 @@
 # data-pipeline
 ```
-A modular, production-ready Question & Answer (Q/A) generation pipeline designed for bank policy documents.  
+A modular, production-ready Question & Answer (Q/A) generation pipeline designed for bank policy documents.
 The project transforms large policy PDFs into validated Q/A pairs using LLMs (Qwen 7B), evidence extraction, and semantic deduplication.
 
 ---
@@ -9,17 +9,17 @@ The project transforms large policy PDFs into validated Q/A pairs using LLMs (Qw
 ## 🚀 Features
 
 ```
-- PDF/TXT text extraction  
-- Advanced cleaning for policy documents  
-- Configurable chunking with overlap  
-- Qwen 7B (4-bit) model support via `bitsandbytes`  
-- Deterministic + sampling generation retries  
-- Strict question validation (section numbers, policy names, acronyms)  
-- Q/A parsing with numbering pattern matching  
-- Sentence-level evidence extraction using `sentence-transformers`  
-- Exact + semantic deduplication (FAISS cosine similarity)  
-- Fully modular source code  
-- CLI interface for terminal execution  
+- PDF/TXT text extraction
+- Advanced cleaning for policy documents
+- Configurable chunking with overlap
+- Qwen 7B (4-bit) model support via `bitsandbytes`
+- Deterministic + sampling generation retries
+- Strict question validation (section numbers, policy names, acronyms)
+- Q/A parsing with numbering pattern matching
+- Sentence-level evidence extraction using `sentence-transformers`
+- Exact + semantic deduplication (FAISS cosine similarity)
+- Fully modular source code
+- CLI interface for terminal execution
 
 ---
 ```
@@ -170,6 +170,3 @@ Follow standard Git branching with PR review.
 ## 📜 License
 
 Open-source — free to use and modify.
-
-
-

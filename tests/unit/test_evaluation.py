@@ -1,13 +1,13 @@
-import pytest
-import numpy as np
 from unittest.mock import MagicMock, patch
-from collections import Counter
+
+import pytest
+
 from hallucination_reduction.evaluation import (
+    evaluate_classifier,
+    evaluate_old_vs_new_generator,
     exact_match,
     f1_score,
     overlap_fact_check,
-    evaluate_old_vs_new_generator,
-    evaluate_classifier
 )
 
 
@@ -32,7 +32,7 @@ class TestExactMatch:
         """Test that matching is case insensitive."""
         result = exact_match("Hello", "hello")
         assert result == 1
-        
+
         result = exact_match("HELLO", "hello")
         assert result == 1
 
@@ -40,7 +40,7 @@ class TestExactMatch:
         """Test that whitespace is stripped before comparison."""
         result = exact_match("  hello  ", "hello")
         assert result == 1
-        
+
         result = exact_match("hello", "  hello  ")
         assert result == 1
 
@@ -58,7 +58,7 @@ class TestExactMatch:
         """Test that empty and non-empty strings don't match."""
         result = exact_match("", "hello")
         assert result == 0
-        
+
         result = exact_match("hello", "")
         assert result == 0
 
@@ -263,88 +263,140 @@ class TestEvaluateOldVsNewGenerator:
         """Test that evaluate_old_vs_new_generator can be imported."""
         assert callable(evaluate_old_vs_new_generator)
 
-    def test_returns_three_items(self, mock_generators, mock_tokenizer, mock_retriever, 
-                                 mock_fact_disc_and_tok, mock_qa_pair):
+    def test_returns_three_items(
+        self,
+        mock_generators,
+        mock_tokenizer,
+        mock_retriever,
+        mock_fact_disc_and_tok,
+        mock_qa_pair,
+    ):
         """Test that function returns three items."""
         old_gen, new_gen = mock_generators
         fact_disc, fact_tok = mock_fact_disc_and_tok
-        
-        with patch('hallucination_reduction.evaluation.generate_answer') as mock_gen:
+
+        with patch("hallucination_reduction.evaluation.generate_answer") as mock_gen:
             mock_gen.return_value = ["Generated answer"]
-            
-            with patch('hallucination_reduction.evaluation.discriminator_predict_text') as mock_pred:
+
+            with patch(
+                "hallucination_reduction.evaluation.discriminator_predict_text"
+            ) as mock_pred:
                 mock_pred.return_value = [{"probs": [0.3, 0.7]}]
-                
+
                 result = evaluate_old_vs_new_generator(
-                    old_gen, new_gen, mock_tokenizer, mock_retriever,
-                    [mock_qa_pair], fact_disc, fact_tok
+                    old_gen,
+                    new_gen,
+                    mock_tokenizer,
+                    mock_retriever,
+                    [mock_qa_pair],
+                    fact_disc,
+                    fact_tok,
                 )
-                
+
                 assert len(result) == 3
 
-    def test_returns_rows_old_summary_new_summary(self, mock_generators, mock_tokenizer, 
-                                                   mock_retriever, mock_fact_disc_and_tok, mock_qa_pair):
+    def test_returns_rows_old_summary_new_summary(
+        self,
+        mock_generators,
+        mock_tokenizer,
+        mock_retriever,
+        mock_fact_disc_and_tok,
+        mock_qa_pair,
+    ):
         """Test that function returns rows, old_summary, new_summary."""
         old_gen, new_gen = mock_generators
         fact_disc, fact_tok = mock_fact_disc_and_tok
-        
-        with patch('hallucination_reduction.evaluation.generate_answer') as mock_gen:
+
+        with patch("hallucination_reduction.evaluation.generate_answer") as mock_gen:
             mock_gen.return_value = ["Generated answer"]
-            
-            with patch('hallucination_reduction.evaluation.discriminator_predict_text') as mock_pred:
+
+            with patch(
+                "hallucination_reduction.evaluation.discriminator_predict_text"
+            ) as mock_pred:
                 mock_pred.return_value = [{"probs": [0.3, 0.7]}]
-                
+
                 rows, old_summary, new_summary = evaluate_old_vs_new_generator(
-                    old_gen, new_gen, mock_tokenizer, mock_retriever,
-                    [mock_qa_pair], fact_disc, fact_tok
+                    old_gen,
+                    new_gen,
+                    mock_tokenizer,
+                    mock_retriever,
+                    [mock_qa_pair],
+                    fact_disc,
+                    fact_tok,
                 )
-                
+
                 assert isinstance(rows, list)
                 assert isinstance(old_summary, dict)
                 assert isinstance(new_summary, dict)
 
-    def test_summaries_contain_required_keys(self, mock_generators, mock_tokenizer, 
-                                             mock_retriever, mock_fact_disc_and_tok, mock_qa_pair):
+    def test_summaries_contain_required_keys(
+        self,
+        mock_generators,
+        mock_tokenizer,
+        mock_retriever,
+        mock_fact_disc_and_tok,
+        mock_qa_pair,
+    ):
         """Test that summaries contain required metric keys."""
         old_gen, new_gen = mock_generators
         fact_disc, fact_tok = mock_fact_disc_and_tok
-        
-        with patch('hallucination_reduction.evaluation.generate_answer') as mock_gen:
+
+        with patch("hallucination_reduction.evaluation.generate_answer") as mock_gen:
             mock_gen.return_value = ["Generated answer"]
-            
-            with patch('hallucination_reduction.evaluation.discriminator_predict_text') as mock_pred:
+
+            with patch(
+                "hallucination_reduction.evaluation.discriminator_predict_text"
+            ) as mock_pred:
                 mock_pred.return_value = [{"probs": [0.3, 0.7]}]
-                
+
                 _, old_summary, new_summary = evaluate_old_vs_new_generator(
-                    old_gen, new_gen, mock_tokenizer, mock_retriever,
-                    [mock_qa_pair], fact_disc, fact_tok
+                    old_gen,
+                    new_gen,
+                    mock_tokenizer,
+                    mock_retriever,
+                    [mock_qa_pair],
+                    fact_disc,
+                    fact_tok,
                 )
-                
+
                 assert "exact_match_rate" in old_summary
                 assert "avg_f1" in old_summary
                 assert "hallucination_rate" in old_summary
-                
+
                 assert "exact_match_rate" in new_summary
                 assert "avg_f1" in new_summary
                 assert "hallucination_rate" in new_summary
 
-    def test_rows_contain_question_gold_old_new(self, mock_generators, mock_tokenizer, 
-                                                 mock_retriever, mock_fact_disc_and_tok, mock_qa_pair):
+    def test_rows_contain_question_gold_old_new(
+        self,
+        mock_generators,
+        mock_tokenizer,
+        mock_retriever,
+        mock_fact_disc_and_tok,
+        mock_qa_pair,
+    ):
         """Test that rows contain question, gold, old, new keys."""
         old_gen, new_gen = mock_generators
         fact_disc, fact_tok = mock_fact_disc_and_tok
-        
-        with patch('hallucination_reduction.evaluation.generate_answer') as mock_gen:
+
+        with patch("hallucination_reduction.evaluation.generate_answer") as mock_gen:
             mock_gen.return_value = ["Generated answer"]
-            
-            with patch('hallucination_reduction.evaluation.discriminator_predict_text') as mock_pred:
+
+            with patch(
+                "hallucination_reduction.evaluation.discriminator_predict_text"
+            ) as mock_pred:
                 mock_pred.return_value = [{"probs": [0.3, 0.7]}]
-                
+
                 rows, _, _ = evaluate_old_vs_new_generator(
-                    old_gen, new_gen, mock_tokenizer, mock_retriever,
-                    [mock_qa_pair], fact_disc, fact_tok
+                    old_gen,
+                    new_gen,
+                    mock_tokenizer,
+                    mock_retriever,
+                    [mock_qa_pair],
+                    fact_disc,
+                    fact_tok,
                 )
-                
+
                 assert len(rows) > 0
                 row = rows[0]
                 assert "question" in row
@@ -352,64 +404,103 @@ class TestEvaluateOldVsNewGenerator:
                 assert "old" in row
                 assert "new" in row
 
-    def test_retriever_called_for_each_qa(self, mock_generators, mock_tokenizer, 
-                                          mock_retriever, mock_fact_disc_and_tok, mock_qa_pair):
+    def test_retriever_called_for_each_qa(
+        self,
+        mock_generators,
+        mock_tokenizer,
+        mock_retriever,
+        mock_fact_disc_and_tok,
+        mock_qa_pair,
+    ):
         """Test that retriever is called for each QA pair."""
         old_gen, new_gen = mock_generators
         fact_disc, fact_tok = mock_fact_disc_and_tok
-        
+
         qa_pairs = [mock_qa_pair, mock_qa_pair, mock_qa_pair]
-        
-        with patch('hallucination_reduction.evaluation.generate_answer') as mock_gen:
+
+        with patch("hallucination_reduction.evaluation.generate_answer") as mock_gen:
             mock_gen.return_value = ["Generated answer"]
-            
-            with patch('hallucination_reduction.evaluation.discriminator_predict_text') as mock_pred:
+
+            with patch(
+                "hallucination_reduction.evaluation.discriminator_predict_text"
+            ) as mock_pred:
                 mock_pred.return_value = [{"probs": [0.3, 0.7]}]
-                
+
                 evaluate_old_vs_new_generator(
-                    old_gen, new_gen, mock_tokenizer, mock_retriever,
-                    qa_pairs, fact_disc, fact_tok
+                    old_gen,
+                    new_gen,
+                    mock_tokenizer,
+                    mock_retriever,
+                    qa_pairs,
+                    fact_disc,
+                    fact_tok,
                 )
-                
+
                 assert mock_retriever.retrieve.call_count == len(qa_pairs)
 
-    def test_generate_answer_called_twice_per_qa(self, mock_generators, mock_tokenizer, 
-                                                  mock_retriever, mock_fact_disc_and_tok, mock_qa_pair):
+    def test_generate_answer_called_twice_per_qa(
+        self,
+        mock_generators,
+        mock_tokenizer,
+        mock_retriever,
+        mock_fact_disc_and_tok,
+        mock_qa_pair,
+    ):
         """Test that generate_answer is called twice per QA (old and new)."""
         old_gen, new_gen = mock_generators
         fact_disc, fact_tok = mock_fact_disc_and_tok
-        
-        with patch('hallucination_reduction.evaluation.generate_answer') as mock_gen:
+
+        with patch("hallucination_reduction.evaluation.generate_answer") as mock_gen:
             mock_gen.return_value = ["Generated answer"]
-            
-            with patch('hallucination_reduction.evaluation.discriminator_predict_text') as mock_pred:
+
+            with patch(
+                "hallucination_reduction.evaluation.discriminator_predict_text"
+            ) as mock_pred:
                 mock_pred.return_value = [{"probs": [0.3, 0.7]}]
-                
+
                 evaluate_old_vs_new_generator(
-                    old_gen, new_gen, mock_tokenizer, mock_retriever,
-                    [mock_qa_pair], fact_disc, fact_tok
+                    old_gen,
+                    new_gen,
+                    mock_tokenizer,
+                    mock_retriever,
+                    [mock_qa_pair],
+                    fact_disc,
+                    fact_tok,
                 )
-                
+
                 # Should be called twice: once for old_gen, once for new_gen
                 assert mock_gen.call_count == 2
 
-    def test_metrics_rates_between_zero_and_one(self, mock_generators, mock_tokenizer, 
-                                                 mock_retriever, mock_fact_disc_and_tok, mock_qa_pair):
+    def test_metrics_rates_between_zero_and_one(
+        self,
+        mock_generators,
+        mock_tokenizer,
+        mock_retriever,
+        mock_fact_disc_and_tok,
+        mock_qa_pair,
+    ):
         """Test that all metric rates are between 0 and 1."""
         old_gen, new_gen = mock_generators
         fact_disc, fact_tok = mock_fact_disc_and_tok
-        
-        with patch('hallucination_reduction.evaluation.generate_answer') as mock_gen:
+
+        with patch("hallucination_reduction.evaluation.generate_answer") as mock_gen:
             mock_gen.return_value = ["Generated answer"]
-            
-            with patch('hallucination_reduction.evaluation.discriminator_predict_text') as mock_pred:
+
+            with patch(
+                "hallucination_reduction.evaluation.discriminator_predict_text"
+            ) as mock_pred:
                 mock_pred.return_value = [{"probs": [0.3, 0.7]}]
-                
+
                 _, old_summary, new_summary = evaluate_old_vs_new_generator(
-                    old_gen, new_gen, mock_tokenizer, mock_retriever,
-                    [mock_qa_pair], fact_disc, fact_tok
+                    old_gen,
+                    new_gen,
+                    mock_tokenizer,
+                    mock_retriever,
+                    [mock_qa_pair],
+                    fact_disc,
+                    fact_tok,
                 )
-                
+
                 for summary in [old_summary, new_summary]:
                     assert 0.0 <= summary["exact_match_rate"] <= 1.0
                     assert 0.0 <= summary["avg_f1"] <= 1.0
@@ -432,4 +523,3 @@ class TestEvaluateClassifier:
     def test_function_exists(self):
         """Test that evaluate_classifier can be imported."""
         assert callable(evaluate_classifier)
-        

@@ -229,7 +229,7 @@ def train_discriminator(
 ) -> nn.Module:
     """
     Train a discriminator model on text classification task.
-    
+
     Args:
         model: The discriminator model to train
         tokenizer: Tokenizer for text encoding
@@ -239,7 +239,7 @@ def train_discriminator(
         epochs: Number of training epochs
         batch_size: Batch size for training
         lr: Learning rate
-        
+
     Returns:
         Trained model
     """
@@ -283,20 +283,20 @@ def retrieve_relevant_chunks(
 ) -> List[str]:
     """
     Retrieve the most relevant document chunks for a query.
-    
+
     Uses cosine similarity between query and corpus embeddings to find
     the top-k most relevant documents.
-    
+
     Args:
         query: The user's question or search query
         embedder: Sentence transformer model for encoding
         corpus_embeddings: Pre-computed embeddings for all documents
         docs: List of document strings
         top_k: Number of documents to retrieve
-        
+
     Returns:
         List of the top-k most relevant document strings
-        
+
     Example:
         >>> embedder = SentenceTransformer("all-MiniLM-L6-v2")
         >>> docs = ["Policy document 1", "Policy document 2"]
@@ -456,25 +456,25 @@ def test_full_training_pipeline():
    ```markdown
    ## Description
    Brief description of what this PR does.
-   
+
    ## Type of Change
    - [ ] Bug fix (non-breaking change fixing an issue)
    - [ ] New feature (non-breaking change adding functionality)
    - [ ] Breaking change (fix or feature causing existing functionality to break)
    - [ ] Documentation update
-   
+
    ## Changes Made
    - Change 1
    - Change 2
    - Change 3
-   
+
    ## Testing
    - [ ] Unit tests added/updated
    - [ ] Integration tests added/updated
    - [ ] Manual testing performed
-   
+
    ## Screenshots (if applicable)
-   
+
    ## Related Issues
    Fixes #(issue number)
    ```

@@ -1,8 +1,8 @@
 import os
-import torch
 import random
-import numpy as np
 
+import numpy as np
+import torch
 
 SEED = 42
 random.seed(SEED)
@@ -27,7 +27,6 @@ else:
     MULTI_GPU = False
     N_GPUS = 0
     print(" No GPU detected. Using CPU.")
-
 
 
 GEN_MODEL = os.environ.get("GEN_MODEL", "TinyLlama/TinyLlama-1.1B-Chat-v1.0")
@@ -58,7 +57,7 @@ RL_EPOCHS = 4
 FACT_WEIGHT = 0.8
 STYLE_WEIGHT = 0.15
 SAFETY_WEIGHT = 0.05
-HARD_PENALTY_IF_FACT_LT = 0.4  
+HARD_PENALTY_IF_FACT_LT = 0.4
 
 
 try:

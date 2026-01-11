@@ -8,5 +8,4 @@ pyyaml
 sentencepiece
 sentence-transformers
 accelerate
-
-
+pre-commit
