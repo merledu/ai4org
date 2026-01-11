@@ -155,6 +155,13 @@ graph TB
    python -c "import torch; print(f'PyTorch: {torch.__version__}')"
    python -c "import transformers; print(f'Transformers: {transformers.__version__}')"
    ```
+   
+##  Note (Windows / CPU users):
+This project requires `sentence-transformers` and `accelerate`.
+If inference fails, ensure they are installed:
+
+pip install sentence-transformers accelerate
+
 
 ---
 
