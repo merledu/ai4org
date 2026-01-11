@@ -228,9 +228,9 @@
     <div class="security-badge">
       <i class="fas fa-lock"></i> Secure Password Reset
     </div>
-    
+
     <form id="resetForm">
-      
+
       <!-- Admin Key -->
       <div class="input-group">
         <label for="admin-key">
@@ -259,7 +259,7 @@
           <div class="bar" id="bar"></div>
         </div>
         <div class="error" id="pass-error">Password must be 8+ chars with number & special char</div>
-        
+
         <div class="requirements">
           <strong>Password Requirements:</strong>
           <ul>
@@ -283,7 +283,7 @@
         <i class="fas fa-sync-alt"></i> Update Password
       </button>
     </form>
-    
+
     <div class="back">
       <a href="login.html">
         <i class="fas fa-arrow-left"></i> Back to Login
@@ -336,11 +336,11 @@
     newPass.addEventListener("input", () => {
       const val = newPass.value;
       let strength = 0;
-      
+
       if (val.length >= 8) strength += 30;
       if (/[0-9]/.test(val)) strength += 30;
       if (/[^A-Za-z0-9]/.test(val)) strength += 40;
-      
+
       bar.style.width = Math.min(strength, 100) + "%";
 
       const isValid = val.length >= 8 && /[0-9]/.test(val) && /[^A-Za-z0-9]/.test(val);
@@ -381,8 +381,8 @@
       }
 
       // Validate new password strength
-      const isStrongPassword = newPass.value.length >= 8 && 
-                              /[0-9]/.test(newPass.value) && 
+      const isStrongPassword = newPass.value.length >= 8 &&
+                              /[0-9]/.test(newPass.value) &&
                               /[^A-Za-z0-9]/.test(newPass.value);
       if (!isStrongPassword) {
         passError.style.display = "block";
@@ -400,7 +400,7 @@
       if (valid) {
         // Add success animation
         document.querySelector('.reset-box').classList.add('success');
-        
+
         // Simulate API call
         setTimeout(() => {
           alert("✅ Password updated successfully!");

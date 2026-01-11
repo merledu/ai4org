@@ -4,10 +4,20 @@
 
 # !pip install -q -U transformers accelerate bitsandbytes sentencepiece tqdm
 
-import re, json, hashlib, random, time
-from tqdm import tqdm
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, pipeline
+import hashlib
+import json
+import random
+import re
+import time
+
 import torch
+from tqdm import tqdm
+from transformers import (
+    AutoModelForCausalLM,
+    AutoTokenizer,
+    BitsAndBytesConfig,
+    pipeline,
+)
 
 # ------------------- 1. Load quantized model -------------------
 MODEL_NAME = "TinyLLaMA/TinyLLaMA-1.1B-intermediate-step-1431k-3T"
@@ -20,7 +30,9 @@ bnb_config = BitsAndBytesConfig(
 )
 
 print("Loading model & tokenizer...")
-model = AutoModelForCausalLM.from_pretrained(MODEL_NAME, quantization_config=bnb_config, device_map="auto")
+model = AutoModelForCausalLM.from_pretrained(
+    MODEL_NAME, quantization_config=bnb_config, device_map="auto"
+)
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, device_map="auto")
 
@@ -261,13 +273,13 @@ will be forwarded to CGO.
 h) PFIs shall arrange regular training and skill development programs for its officials
 working in this area particularly under this Scheme to ensure smooth processing and
 management of CGSMF
-"""   # ← keep the triple-quoted block exactly as you gave it
+"""  # ← keep the triple-quoted block exactly as you gave it
 
 # ------------------- 3. Settings ------------------------------
 OUTPUT_FILE = "cgsmf_qas.jsonl"
-TARGET_QA   = 120               # we aim for >100, script stops when reached
-BATCH_SIZE  = 5                 # questions per LLM call
-SLEEP       = 0.5               # polite pause
+TARGET_QA = 120  # we aim for >100, script stops when reached
+BATCH_SIZE = 5  # questions per LLM call
+SLEEP = 0.5  # polite pause
 
 # ------------------- 4. Prompt templates ----------------------
 PROMPT_TEMPLATES = [
@@ -275,8 +287,9 @@ PROMPT_TEMPLATES = [
     "Create {n} **explanatory** Q&A pairs (why/how). Quote the exact rule that justifies the answer.",
     "Formulate {n} **scenario-based** Q&A pairs that a branch manager might face. Answer must be provable.",
     "Produce {n} **definition / eligibility** Q&A pairs. Use only the wording in the passage.",
-    "Make {n} **provisioning / claim** Q&A pairs with exact percentages and timelines."
+    "Make {n} **provisioning / claim** Q&A pairs with exact percentages and timelines.",
 ]
+
 
 def build_prompt(text: str, n: int) -> str:
     tmpl = random.choice(PROMPT_TEMPLATES)
@@ -299,13 +312,17 @@ Rules:
 {text}
 """
 
+
 # ------------------- 5. LLM generation -----------------------
 def generate_batch(text: str, n: int = BATCH_SIZE):
     prompt = build_prompt(text, n)
-    out = pipe(prompt, max_new_tokens=4096, temperature=0.7, do_sample=True, top_p=0.92)[0]["generated_text"]
+    out = pipe(
+        prompt, max_new_tokens=4096, temperature=0.7, do_sample=True, top_p=0.92
+    )[0]["generated_text"]
     # extract Q: … A: … blocks
     pairs = re.findall(r"Q:\s*(.+?)\s*A:\s*(.+?)(?=Q:|$)", out, re.DOTALL)
     return [(q.strip(), a.strip()) for q, a in pairs]
+
 
 # ------------------- 6. Deduplication & saving ---------------
 seen_hashes = set()
@@ -326,7 +343,7 @@ with open(OUTPUT_FILE, "a", encoding="utf-8") as f:
                 "id": q_hash,
                 "question": q,
                 "answer": a,
-                "source_passage": passage.strip()[:500] + "…"   # short preview
+                "source_passage": passage.strip()[:500] + "…",  # short preview
             }
             f.write(json.dumps(record, ensure_ascii=False) + "\n")
             generated += 1

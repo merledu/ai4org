@@ -906,13 +906,13 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
-    body { 
-        flex-direction: column; 
+    body {
+        flex-direction: column;
         height: auto;
     }
-    .sidebar { 
-        width: 100%; 
-        padding: 15px; 
+    .sidebar {
+        width: 100%;
+        padding: 15px;
         height: auto;
     }
     .logo { margin-bottom: 20px; }
@@ -929,17 +929,17 @@ body {
 }
 
 /* Scrollbar */
-::-webkit-scrollbar { 
-    width: 8px; 
+::-webkit-scrollbar {
+    width: 8px;
 }
-::-webkit-scrollbar-track { 
-    background: rgba(255, 255, 255, 0.05); 
-    border-radius: 10px; 
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
 }
-::-webkit-scrollbar-thumb { 
-    background: rgba(155, 89, 182, 0.3); 
-    border-radius: 10px; 
+::-webkit-scrollbar-thumb {
+    background: rgba(155, 89, 182, 0.3);
+    border-radius: 10px;
 }
-::-webkit-scrollbar-thumb:hover { 
-    background: rgba(155, 89, 182, 0.5); 
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(155, 89, 182, 0.5);
 }

@@ -1,23 +1,26 @@
-import webview
-import os
 import base64
-import sys
-import subprocess
-import torch
 import json
-import datetime
+import os
+import subprocess
+import sys
 from datetime import datetime
+
+import webview
 
 # === Import your inference logic ===
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-from hallucination_reduction.inference import (
-    load_model, load_corpus, build_embeddings, retrieve_relevant_chunks, generate_answer
+from hallucination_reduction.inference import (  # noqa: E402
+    build_embeddings,
+    generate_answer,
+    load_corpus,
+    load_model,
+    retrieve_relevant_chunks,
 )
 
 here = os.path.dirname(os.path.abspath(__file__))
 
 # User login history file
-USER_HISTORY_FILE = os.path.join(here, 'user_history.json')
+USER_HISTORY_FILE = os.path.join(here, "user_history.json")
 
 
 class Api:
@@ -25,8 +28,10 @@ class Api:
         # Load once on startup to save time
         self.model, self.tokenizer, self.device = load_model()
         self.docs = load_corpus()
-        self.embedder, self.corpus_embeddings = build_embeddings(self.docs, device=self.device)
-        
+        self.embedder, self.corpus_embeddings = build_embeddings(
+            self.docs, device=self.device
+        )
+
         # Initialize user history
         self.user_history = self.load_user_history()
 
@@ -46,7 +51,7 @@ class Api:
         """Load user login history from file"""
         try:
             if os.path.exists(USER_HISTORY_FILE):
-                with open(USER_HISTORY_FILE, 'r', encoding='utf-8') as f:
+                with open(USER_HISTORY_FILE, "r", encoding="utf-8") as f:
                     return json.load(f)
             return {}
         except Exception as e:
@@ -56,7 +61,7 @@ class Api:
     def save_user_history(self):
         """Save user login history to file"""
         try:
-            with open(USER_HISTORY_FILE, 'w', encoding='utf-8') as f:
+            with open(USER_HISTORY_FILE, "w", encoding="utf-8") as f:
                 json.dump(self.user_history, f, indent=2, ensure_ascii=False)
         except Exception as e:
             print(f"Error saving user history: {e}")
@@ -64,23 +69,24 @@ class Api:
     def log_user_login(self, user_name, user_email):
         """Log user login with timestamp"""
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        
+
         if user_name not in self.user_history:
-            self.user_history[user_name] = {
-                "email": user_email,
-                "login_history": []
+            self.user_history[user_name] = {"email": user_email, "login_history": []}
+
+        self.user_history[user_name]["login_history"].append(
+            {
+                "timestamp": current_time,
+                "date": current_time.split()[0],
+                "time": current_time.split()[1],
             }
-        
-        self.user_history[user_name]["login_history"].append({
-            "timestamp": current_time,
-            "date": current_time.split()[0],
-            "time": current_time.split()[1]
-        })
-        
+        )
+
         # Keep only last 50 logins per user
         if len(self.user_history[user_name]["login_history"]) > 50:
-            self.user_history[user_name]["login_history"] = self.user_history[user_name]["login_history"][-50:]
-        
+            self.user_history[user_name]["login_history"] = self.user_history[
+                user_name
+            ]["login_history"][-50:]
+
         self.save_user_history()
         return {"status": "success", "message": "Login logged successfully"}
 
@@ -89,33 +95,39 @@ class Api:
         # Admin PIN: 9999
         if admin_pin != "9999":
             return {"status": "error", "message": "Unauthorized access"}
-        
+
         return {
-            "status": "success", 
+            "status": "success",
             "data": self.user_history,
-            "total_users": len(self.user_history)
+            "total_users": len(self.user_history),
         }
 
     def get_user_stats(self, admin_pin):
         """Get user statistics (admin only)"""
         if admin_pin != "9999":
             return {"status": "error", "message": "Unauthorized access"}
-        
+
         stats = {
             "total_users": len(self.user_history),
-            "total_logins": sum(len(user["login_history"]) for user in self.user_history.values()),
-            "users": []
+            "total_logins": sum(
+                len(user["login_history"]) for user in self.user_history.values()
+            ),
+            "users": [],
         }
-        
+
         for user_name, user_data in self.user_history.items():
             user_stats = {
                 "name": user_name,
                 "email": user_data["email"],
                 "login_count": len(user_data["login_history"]),
-                "last_login": user_data["login_history"][-1]["timestamp"] if user_data["login_history"] else "Never"
+                "last_login": (
+                    user_data["login_history"][-1]["timestamp"]
+                    if user_data["login_history"]
+                    else "Never"
+                ),
             }
             stats["users"].append(user_stats)
-        
+
         return {"status": "success", "data": stats}
 
     def save_file(self, filename, file_data_base64):
@@ -124,7 +136,7 @@ class Api:
             folder = os.path.join(here, "../data/raw")
             os.makedirs(folder, exist_ok=True)
             filepath = os.path.join(folder, filename)
-            with open(filepath, 'wb') as f:
+            with open(filepath, "wb") as f:
                 f.write(file_data)
 
             project_root = os.path.abspath(os.path.join(here, ".."))
@@ -133,11 +145,17 @@ class Api:
             env["CUDA_VISIBLE_DEVICES"] = ""
             env["TOKENIZERS_PARALLELISM"] = "false"
             env.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:true")
-            subprocess.run(["python", "-m", "hallucination_reduction.main"], cwd=project_root, check=True, env=env)
+            subprocess.run(
+                ["python", "-m", "hallucination_reduction.main"],
+                cwd=project_root,
+                check=True,
+                env=env,
+            )
 
             return "success"
         except Exception as e:
             return f"error: {str(e)}"
+
 
 def try_backends():
     # Suppress tokenizers parallelism warning
@@ -145,23 +163,23 @@ def try_backends():
 
     # Start a custom HTTP server to serve the frontend directory
     import http.server
+    import socket
     import socketserver
     import threading
-    import socket
 
     def get_free_port():
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.bind(('', 0))
+            s.bind(("", 0))
             return s.getsockname()[1]
 
     PORT = get_free_port()
-    
+
     def start_server():
         class Handler(http.server.SimpleHTTPRequestHandler):
             def __init__(self, *args, **kwargs):
                 # Serve files from the current directory (frontend/)
                 super().__init__(*args, directory=here, **kwargs)
-            
+
             def log_message(self, format, *args):
                 # Suppress logging to keep console clean
                 pass
@@ -178,24 +196,24 @@ def try_backends():
     server_thread.start()
 
     # Prioritize Qt to avoid GTK errors if Qt is available
-    backends = ['qt', 'gtk', 'edgechromium', 'cef']
+    backends = ["qt", "gtk", "edgechromium", "cef"]
     for backend in backends:
         try:
             print(f"\nAttempting {backend} backend...")
             api = Api()
-            
+
             # Point to the local server
             url = f"http://127.0.0.1:{PORT}/html/index.html"
             print(f"Loading URL: {url}")
-            
-            window = webview.create_window(
+
+            webview.create_window(
                 title="AI4ORG - AI For Organization",
                 url=url,
                 width=1400,
                 height=900,
                 resizable=True,
                 js_api=api,
-                min_size=(800, 600)
+                min_size=(800, 600),
             )
             # Disable built-in http_server since we are using our own
             # Disable debug to avoid "Port in use" warnings
@@ -211,5 +229,5 @@ if __name__ == "__main__":
     success = try_backends()
     if not success:
         print("All GUI backends failed.")
-# /home/shehroz/Desktop/New Folder/ai4org/data_cleaning_pipeline/dataset_corpus_generation.py
+        # /home/shehroz/Desktop/New Folder/ai4org/data_cleaning_pipeline/dataset_corpus_generation.py
         sys.exit(1)
