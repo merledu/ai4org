@@ -140,25 +140,66 @@ class Api:
             return f"error: {str(e)}"
 
 def try_backends():
-    backends = ['edgechromium', 'qt', 'gtk', 'cef']
+    # Suppress tokenizers parallelism warning
+    os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
+    # Start a custom HTTP server to serve the frontend directory
+    import http.server
+    import socketserver
+    import threading
+    import socket
+
+    def get_free_port():
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.bind(('', 0))
+            return s.getsockname()[1]
+
+    PORT = get_free_port()
+    
+    def start_server():
+        class Handler(http.server.SimpleHTTPRequestHandler):
+            def __init__(self, *args, **kwargs):
+                # Serve files from the current directory (frontend/)
+                super().__init__(*args, directory=here, **kwargs)
+            
+            def log_message(self, format, *args):
+                # Suppress logging to keep console clean
+                pass
+
+        try:
+            with socketserver.TCPServer(("127.0.0.1", PORT), Handler) as httpd:
+                # print(f"Serving frontend at http://127.0.0.1:{PORT}")
+                httpd.serve_forever()
+        except OSError as e:
+            print(f"Port {PORT} is in use or could not be bound: {e}")
+
+    # Start server in a daemon thread
+    server_thread = threading.Thread(target=start_server, daemon=True)
+    server_thread.start()
+
+    # Prioritize Qt to avoid GTK errors if Qt is available
+    backends = ['qt', 'gtk', 'edgechromium', 'cef']
     for backend in backends:
         try:
             print(f"\nAttempting {backend} backend...")
             api = Api()
-            # Create window with proper HTML file path
-            html_path = os.path.abspath(os.path.join(here, 'html', 'index.html'))
-            print(f"Loading HTML from: {html_path}")
+            
+            # Point to the local server
+            url = f"http://127.0.0.1:{PORT}/html/index.html"
+            print(f"Loading URL: {url}")
             
             window = webview.create_window(
                 title="AI4ORG - AI For Organization",
-                url=f"file://{html_path}",
+                url=url,
                 width=1400,
                 height=900,
                 resizable=True,
                 js_api=api,
                 min_size=(800, 600)
             )
-            webview.start(http_server=True, gui=backend)
+            # Disable built-in http_server since we are using our own
+            # Disable debug to avoid "Port in use" warnings
+            webview.start(gui=backend, debug=False)
             return True
         except Exception as e:
             print(f"{backend} backend failed: {e}")
