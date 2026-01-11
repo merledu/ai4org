@@ -1,6 +1,8 @@
-import pytest
+from unittest.mock import patch
+
 import numpy as np
-from unittest.mock import MagicMock, patch
+import pytest
+
 from hallucination_reduction.retriever import SimpleRetriever
 
 
@@ -15,7 +17,7 @@ class TestSimpleRetriever:
             "Java is used for enterprise applications",
             "JavaScript runs in web browsers",
             "Machine learning uses algorithms",
-            "Deep learning is a subset of machine learning"
+            "Deep learning is a subset of machine learning",
         ]
 
     def test_class_exists(self):
@@ -66,7 +68,7 @@ class TestSimpleRetriever:
         retriever = SimpleRetriever(sample_passages)
         query = "What is Python?"
         result = retriever.retrieve(query)
-        
+
         for idx, passage in result:
             assert isinstance(idx, int)
             assert isinstance(passage, str)
@@ -106,7 +108,7 @@ class TestSimpleRetriever:
         retriever = SimpleRetriever(sample_passages)
         query = "programming"
         result = retriever.retrieve(query)
-        
+
         for idx, _ in result:
             assert 0 <= idx < len(sample_passages)
 
@@ -115,7 +117,7 @@ class TestSimpleRetriever:
         retriever = SimpleRetriever(sample_passages)
         query = "programming"
         result = retriever.retrieve(query)
-        
+
         for idx, passage in result:
             assert passage == sample_passages[idx]
 
@@ -124,7 +126,7 @@ class TestSimpleRetriever:
         retriever = SimpleRetriever(sample_passages)
         query = "Python programming language"
         result = retriever.retrieve(query, k=1)
-        
+
         idx, passage = result[0]
         assert "Python" in passage
 
@@ -133,7 +135,7 @@ class TestSimpleRetriever:
         retriever = SimpleRetriever(sample_passages)
         query = "machine learning algorithms"
         result = retriever.retrieve(query, k=1)
-        
+
         idx, passage = result[0]
         assert "machine learning" in passage.lower()
 
@@ -142,7 +144,7 @@ class TestSimpleRetriever:
         retriever = SimpleRetriever(sample_passages)
         query = ""
         result = retriever.retrieve(query)
-        
+
         # Should still return k results
         assert len(result) == 3
 
@@ -151,20 +153,20 @@ class TestSimpleRetriever:
         retriever = SimpleRetriever(sample_passages)
         query = "quantum physics relativity"
         result = retriever.retrieve(query)
-        
+
         # Should still return k results (lowest scores)
         assert len(result) == 3
 
     def test_retrieve_case_insensitive(self, sample_passages):
         """Test that retrieval works regardless of case."""
         retriever = SimpleRetriever(sample_passages)
-        
+
         query_lower = "python programming"
         query_upper = "PYTHON PROGRAMMING"
-        
+
         result_lower = retriever.retrieve(query_lower, k=1)
         result_upper = retriever.retrieve(query_upper, k=1)
-        
+
         # Should retrieve same passage (case-insensitive)
         assert result_lower[0][1] == result_upper[0][1]
 
@@ -173,7 +175,7 @@ class TestSimpleRetriever:
         retriever = SimpleRetriever(sample_passages)
         query = "machine learning deep learning"
         result = retriever.retrieve(query, k=3)
-        
+
         # First result should be most relevant
         # Check that machine learning passages come first
         top_passage = result[0][1]
@@ -183,10 +185,10 @@ class TestSimpleRetriever:
         """Test retriever with single passage."""
         passages = ["Single passage about Python"]
         retriever = SimpleRetriever(passages)
-        
+
         query = "Python"
         result = retriever.retrieve(query, k=1)
-        
+
         assert len(result) == 1
         assert result[0][1] == passages[0]
 
@@ -194,20 +196,20 @@ class TestSimpleRetriever:
         """Test retriever with two passages."""
         passages = ["Python programming", "Java development"]
         retriever = SimpleRetriever(passages)
-        
+
         query = "Python"
         result = retriever.retrieve(query, k=2)
-        
+
         assert len(result) == 2
 
     def test_identical_passages(self):
         """Test retriever with identical passages."""
         passages = ["Same text", "Same text", "Same text"]
         retriever = SimpleRetriever(passages)
-        
+
         query = "Same text"
         result = retriever.retrieve(query, k=3)
-        
+
         assert len(result) == 3
         # All should have same text
         assert all(passage == "Same text" for _, passage in result)
@@ -217,7 +219,7 @@ class TestSimpleRetriever:
         retriever = SimpleRetriever(sample_passages)
         query = "What is Python? Can you explain!"
         result = retriever.retrieve(query)
-        
+
         assert len(result) > 0
         assert all(isinstance(idx, int) for idx, _ in result)
 
@@ -226,13 +228,13 @@ class TestSimpleRetriever:
         passages = [
             "Python 3.9 is the latest version",
             "Java version 11 is stable",
-            "JavaScript ES6 features"
+            "JavaScript ES6 features",
         ]
         retriever = SimpleRetriever(passages)
-        
+
         query = "Python 3.9"
         result = retriever.retrieve(query, k=1)
-        
+
         assert "Python" in result[0][1]
 
     def test_retrieve_preserves_index_order_information(self, sample_passages):
@@ -240,7 +242,7 @@ class TestSimpleRetriever:
         retriever = SimpleRetriever(sample_passages)
         query = "programming"
         result = retriever.retrieve(query, k=len(sample_passages))
-        
+
         # Verify all indices are valid positions
         retrieved_indices = [idx for idx, _ in result]
         assert all(idx in range(len(sample_passages)) for idx in retrieved_indices)
@@ -248,7 +250,7 @@ class TestSimpleRetriever:
     def test_vectorizer_fitted_on_passages(self, sample_passages):
         """Test that vectorizer is fitted on all passages."""
         retriever = SimpleRetriever(sample_passages)
-        
+
         # Vectorizer should have vocabulary from passages
         vocab = retriever.vectorizer.get_feature_names_out()
         assert len(vocab) > 0
@@ -256,14 +258,16 @@ class TestSimpleRetriever:
     def test_cosine_similarity_used(self, sample_passages):
         """Test that cosine similarity is computed."""
         retriever = SimpleRetriever(sample_passages)
-        
-        with patch('hallucination_reduction.retriever.cosine_similarity') as mock_cosine:
+
+        with patch(
+            "hallucination_reduction.retriever.cosine_similarity"
+        ) as mock_cosine:
             # Return dummy similarities
             mock_cosine.return_value = np.array([[0.5, 0.3, 0.8, 0.1, 0.2]])
-            
+
             query = "test query"
             retriever.retrieve(query, k=2)
-            
+
             # Cosine similarity should be called
             mock_cosine.assert_called_once()
 
@@ -272,7 +276,7 @@ class TestSimpleRetriever:
         retriever = SimpleRetriever(sample_passages)
         query = "Python"
         result = retriever.retrieve(query, k=0)
-        
+
         assert result == []
 
     def test_retrieve_negative_k_returns_empty(self, sample_passages):
@@ -280,22 +284,22 @@ class TestSimpleRetriever:
         retriever = SimpleRetriever(sample_passages)
         query = "Python"
         result = retriever.retrieve(query, k=-1)
-        
+
         # argsort with negative slice returns empty
         assert result == []
 
     def test_multiple_queries_same_retriever(self, sample_passages):
         """Test that same retriever can handle multiple queries."""
         retriever = SimpleRetriever(sample_passages)
-        
+
         query1 = "Python"
         query2 = "Java"
         query3 = "machine learning"
-        
+
         result1 = retriever.retrieve(query1, k=1)
         result2 = retriever.retrieve(query2, k=1)
         result3 = retriever.retrieve(query3, k=1)
-        
+
         assert len(result1) == 1
         assert len(result2) == 1
         assert len(result3) == 1
@@ -304,10 +308,10 @@ class TestSimpleRetriever:
         """Test that original passages are not modified."""
         original_passages = sample_passages.copy()
         retriever = SimpleRetriever(sample_passages)
-        
+
         query = "Python"
         retriever.retrieve(query)
-        
+
         assert retriever.passages == original_passages
 
     def test_long_query(self, sample_passages):
@@ -315,7 +319,7 @@ class TestSimpleRetriever:
         retriever = SimpleRetriever(sample_passages)
         query = " ".join(["Python programming language"] * 100)
         result = retriever.retrieve(query, k=2)
-        
+
         assert len(result) == 2
 
     def test_passages_with_unicode(self):
@@ -323,23 +327,23 @@ class TestSimpleRetriever:
         passages = [
             "Python es un lenguaje de programación",
             "Java est un langage de programmation",
-            "JavaScript 是一种编程语言"
+            "JavaScript 是一种编程语言",
         ]
         retriever = SimpleRetriever(passages)
-        
+
         query = "programming"
         result = retriever.retrieve(query)
-        
+
         assert len(result) > 0
 
     def test_retrieve_consistent_results(self, sample_passages):
         """Test that same query returns consistent results."""
         retriever = SimpleRetriever(sample_passages)
         query = "Python programming"
-        
+
         result1 = retriever.retrieve(query, k=3)
         result2 = retriever.retrieve(query, k=3)
-        
+
         # Should return same results
         assert result1 == result2
 
@@ -348,6 +352,6 @@ class TestSimpleRetriever:
         retriever = SimpleRetriever(sample_passages)
         query = "Python"
         result = retriever.retrieve(query)
-        
+
         for idx, _ in result:
-            assert type(idx) == int  # Not np.int64 or other numpy types
+            assert isinstance(idx, int)  # Not np.int64 or other numpy types

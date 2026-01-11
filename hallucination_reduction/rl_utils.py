@@ -1,21 +1,29 @@
-import torch
-from torch import optim, nn
-import numpy as np
-from typing import List
-import random
 import os
-import math
+import random
 from collections import Counter
+from typing import List
 
+import numpy as np
+import torch
+from torch import nn, optim
+
+from .config import (
+    FACT_WEIGHT,
+    GEN_BATCH_SIZE,
+    GEN_LR,
+    HARD_PENALTY_IF_FACT_LT,
+    MAX_GEN_TOKENS,
+    MC_ROLLOUTS,
+    MIN_GEN_TOKENS,
+    RL_EPOCHS,
+    SAFETY_WEIGHT,
+    SAVE_DIR,
+    STYLE_WEIGHT,
+    TOP_K,
+)
 from .discriminator import discriminator_predict_text
 from .evaluation import overlap_fact_check
 from .generator import build_rag_prompt, generate_answer
-from .config import (
-    FACT_WEIGHT, STYLE_WEIGHT, SAFETY_WEIGHT,
-    HARD_PENALTY_IF_FACT_LT, MC_ROLLOUTS, GEN_LR, GEN_BATCH_SIZE,
-    RL_EPOCHS, TOP_K, MAX_GEN_TOKENS, MIN_GEN_TOKENS, SAVE_DIR
-)
-
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -37,63 +45,108 @@ def safe_save_state(model, path):
         print("Warning: failed to save checkpoint:", e)
 
 
-
-def compute_reward(generated_answer: str, retrieved_docs: List[str], supporting_passages: List[str],
-                   fact_disc, style_disc, safety_disc,
-                   fact_tok, style_tok, safety_tok,
-                   fact_weight=FACT_WEIGHT, style_weight=STYLE_WEIGHT, safety_weight=SAFETY_WEIGHT,
-                   device=DEVICE):
+def compute_reward(
+    generated_answer: str,
+    retrieved_docs: List[str],
+    supporting_passages: List[str],
+    fact_disc,
+    style_disc,
+    safety_disc,
+    fact_tok,
+    style_tok,
+    safety_tok,
+    fact_weight=FACT_WEIGHT,
+    style_weight=STYLE_WEIGHT,
+    safety_weight=SAFETY_WEIGHT,
+    device=DEVICE,
+):
     """Compute scalar reward combining factuality, style, safety, and overlap."""
-    fact_res = discriminator_predict_text(fact_disc, fact_tok, [generated_answer], device=device)[0]
-    style_res = discriminator_predict_text(style_disc, style_tok, [generated_answer], device=device)[0]
-    safe_res = discriminator_predict_text(safety_disc, safety_tok, [generated_answer], device=device)[0]
+    fact_res = discriminator_predict_text(
+        fact_disc, fact_tok, [generated_answer], device=device
+    )[0]
+    style_res = discriminator_predict_text(
+        style_disc, style_tok, [generated_answer], device=device
+    )[0]
+    safe_res = discriminator_predict_text(
+        safety_disc, safety_tok, [generated_answer], device=device
+    )[0]
 
-    p_fact = fact_res["probs"][1] if len(fact_res["probs"]) > 1 else fact_res["probs"][0]
-    p_style = style_res["probs"][1] if len(style_res["probs"]) > 1 else style_res["probs"][0]
-    p_safe = safe_res["probs"][1] if len(safe_res["probs"]) > 1 else safe_res["probs"][0]
+    p_fact = (
+        fact_res["probs"][1] if len(fact_res["probs"]) > 1 else fact_res["probs"][0]
+    )
+    p_style = (
+        style_res["probs"][1] if len(style_res["probs"]) > 1 else style_res["probs"][0]
+    )
+    p_safe = (
+        safe_res["probs"][1] if len(safe_res["probs"]) > 1 else safe_res["probs"][0]
+    )
 
     overlap_score = overlap_fact_check(generated_answer, supporting_passages)
-
 
     combined = fact_weight * p_fact + style_weight * p_style + safety_weight * p_safe
     total_w = fact_weight + style_weight + safety_weight
     combined /= total_w
 
-
     combined = combined * 0.7 + overlap_score * 0.3
     if p_fact < 0.5:
         combined = max(0.0, combined - HARD_PENALTY_IF_FACT_LT)
-
 
     if is_repetitive(generated_answer):
         combined *= 0.2
 
     combined = float(max(0.0, min(1.0, combined)))
-    debug = {"p_fact": p_fact, "p_style": p_style, "p_safe": p_safe,
-             "overlap": overlap_score, "combined": combined}
+    debug = {
+        "p_fact": p_fact,
+        "p_style": p_style,
+        "p_safe": p_safe,
+        "overlap": overlap_score,
+        "combined": combined,
+    }
     return combined, debug
 
 
-def monte_carlo_rewards(prompt: str, generator, tokenizer, retrieved_docs, supporting_passages,
-                        fact_disc, style_disc, safety_disc,
-                        fact_tok, style_tok, safety_tok,
-                        n_rollouts=MC_ROLLOUTS, device=DEVICE):
+def monte_carlo_rewards(
+    prompt: str,
+    generator,
+    tokenizer,
+    retrieved_docs,
+    supporting_passages,
+    fact_disc,
+    style_disc,
+    safety_disc,
+    fact_tok,
+    style_tok,
+    safety_tok,
+    n_rollouts=MC_ROLLOUTS,
+    device=DEVICE,
+):
     """Sample multiple generations and compute their average reward."""
     generator.eval()
     with torch.no_grad():
         samples = generate_answer(
-            generator, tokenizer, prompt,
+            generator,
+            tokenizer,
+            prompt,
             max_new_tokens=MAX_GEN_TOKENS,
             min_new_tokens=MIN_GEN_TOKENS,
             num_return_sequences=n_rollouts,
-            device=device
+            device=device,
         )
 
     rewards, debug_list = [], []
     for s in samples:
-        r, dbg = compute_reward(s, retrieved_docs, supporting_passages,
-                                fact_disc, style_disc, safety_disc,
-                                fact_tok, style_tok, safety_tok, device=device)
+        r, dbg = compute_reward(
+            s,
+            retrieved_docs,
+            supporting_passages,
+            fact_disc,
+            style_disc,
+            safety_disc,
+            fact_tok,
+            style_tok,
+            safety_tok,
+            device=device,
+        )
         rewards.append(r)
         debug_list.append({"sample": s, "debug": dbg})
 
@@ -101,9 +154,19 @@ def monte_carlo_rewards(prompt: str, generator, tokenizer, retrieved_docs, suppo
     return avg_reward, debug_list, samples
 
 
-def reinforce_update(generator, tokenizer, prompts: List[str], sampled_texts: List[str], rewards: List[float],
-                     gen_optimizer, baseline=0.0, device=DEVICE,
-                     max_adv=5.0, min_adv=-5.0, clip_grad_norm=1.0):
+def reinforce_update(
+    generator,
+    tokenizer,
+    prompts: List[str],
+    sampled_texts: List[str],
+    rewards: List[float],
+    gen_optimizer,
+    baseline=0.0,
+    device=DEVICE,
+    max_adv=5.0,
+    min_adv=-5.0,
+    clip_grad_norm=1.0,
+):
     """
     REINFORCE update with label masking and clipped advantages.
     Safer against tokenizer shifts and truncation.
@@ -115,28 +178,31 @@ def reinforce_update(generator, tokenizer, prompts: List[str], sampled_texts: Li
     losses = []
 
     for prompt, sample, reward in zip(prompts, sampled_texts, rewards):
-        
+
         sep = "\n\n"
         full_text = prompt + sep + sample
 
         enc_full = tokenizer(full_text, return_tensors="pt", truncation=True).to(device)
-        enc_prompt = tokenizer(prompt + sep, return_tensors="pt", truncation=True).to(device)
+        enc_prompt = tokenizer(prompt + sep, return_tensors="pt", truncation=True).to(
+            device
+        )
 
         input_ids = enc_full.input_ids
         attention_mask = enc_full.attention_mask
         labels = input_ids.clone()
         prompt_len = enc_prompt.input_ids.shape[1]
 
-        
         labels[:, :prompt_len] = -100
 
         try:
-            outputs = generator(input_ids=input_ids, attention_mask=attention_mask, labels=labels)
+            outputs = generator(
+                input_ids=input_ids, attention_mask=attention_mask, labels=labels
+            )
         except RuntimeError as e:
             print("Generator forward error, skipping sample:", e)
             continue
 
-        logits = outputs.logits  
+        logits = outputs.logits
         shift_logits = logits[..., :-1, :].contiguous()
         shift_labels = labels[..., 1:].contiguous()
 
@@ -176,11 +242,19 @@ def reinforce_update(generator, tokenizer, prompts: List[str], sampled_texts: Li
     return float(loss_tensor.detach().cpu().item())
 
 
-
-def reinforcement_learning_loop(generator, gen_tokenizer,
-                                fact_disc, style_disc, safety_disc,
-                                fact_tok, style_tok, safety_tok,
-                                retriever, qa_pairs, device=DEVICE):
+def reinforcement_learning_loop(
+    generator,
+    gen_tokenizer,
+    fact_disc,
+    style_disc,
+    safety_disc,
+    fact_tok,
+    style_tok,
+    safety_tok,
+    retriever,
+    qa_pairs,
+    device=DEVICE,
+):
     """Main reinforcement learning loop for generator fine-tuning."""
     generator.to(device)
     fact_disc.to(device)
@@ -203,23 +277,35 @@ def reinforcement_learning_loop(generator, gen_tokenizer,
         batch_index = 0
 
         for i in range(0, len(qa_pairs), GEN_BATCH_SIZE):
-            batch = qa_pairs[i:i+GEN_BATCH_SIZE]
+            batch = qa_pairs[i : i + GEN_BATCH_SIZE]
             batch_prompts, batch_samples, batch_rewards, batch_debugs = [], [], [], []
 
             for qa in batch:
                 retrieved_pairs = retriever.retrieve(qa.question, k=TOP_K)
-                retrieved_docs = [p if isinstance(p, str) else p[0] for p in (retrieved_pairs or [])]
+                retrieved_docs = [
+                    p if isinstance(p, str) else p[0] for p in (retrieved_pairs or [])
+                ]
                 prompt = build_rag_prompt(qa.question, retrieved_docs)
 
                 avg_reward, debug_list, samples = monte_carlo_rewards(
-                    prompt, generator, gen_tokenizer, retrieved_docs,
+                    prompt,
+                    generator,
+                    gen_tokenizer,
+                    retrieved_docs,
                     getattr(qa, "supporting_passages", retrieved_docs),
-                    fact_disc, style_disc, safety_disc,
-                    fact_tok, style_tok, safety_tok,
-                    n_rollouts=MC_ROLLOUTS, device=device
+                    fact_disc,
+                    style_disc,
+                    safety_disc,
+                    fact_tok,
+                    style_tok,
+                    safety_tok,
+                    n_rollouts=MC_ROLLOUTS,
+                    device=device,
                 )
 
-                repetitive_count = sum(1 for d in debug_list if is_repetitive(d["sample"]))
+                repetitive_count = sum(
+                    1 for d in debug_list if is_repetitive(d["sample"])
+                )
                 if repetitive_count == len(debug_list) and len(debug_list) > 0:
                     avg_reward *= 0.1
 
@@ -242,20 +328,37 @@ def reinforcement_learning_loop(generator, gen_tokenizer,
             else:
                 used_rewards = rewards_arr.tolist()
 
-            loss_val = reinforce_update(generator, gen_tokenizer,
-                                        batch_prompts, batch_samples, used_rewards,
-                                        gen_optimizer, baseline=baseline, device=device,
-                                        max_adv=5.0, min_adv=-5.0, clip_grad_norm=1.0)
+            loss_val = reinforce_update(
+                generator,
+                gen_tokenizer,
+                batch_prompts,
+                batch_samples,
+                used_rewards,
+                gen_optimizer,
+                baseline=baseline,
+                device=device,
+                max_adv=5.0,
+                min_adv=-5.0,
+                clip_grad_norm=1.0,
+            )
 
-            history.append({
-                "epoch": epoch, "batch_idx": batch_index,
-                "loss": loss_val, "baseline": baseline,
-                "mean_reward": float(np.mean(batch_rewards) if batch_rewards else 0.0)
-            })
+            history.append(
+                {
+                    "epoch": epoch,
+                    "batch_idx": batch_index,
+                    "loss": loss_val,
+                    "baseline": baseline,
+                    "mean_reward": float(
+                        np.mean(batch_rewards) if batch_rewards else 0.0
+                    ),
+                }
+            )
             epoch_rewards.extend(batch_rewards)
 
-            print(f"Epoch {epoch} batch {batch_index} | loss {loss_val:.4f} | baseline {baseline:.4f} | "
-                  f"mean_reward {(np.mean(batch_rewards) if batch_rewards else 0.0):.4f}")
+            print(
+                f"Epoch {epoch} batch {batch_index} | loss {loss_val:.4f} | baseline {baseline:.4f} | "
+                f"mean_reward {(np.mean(batch_rewards) if batch_rewards else 0.0):.4f}"
+            )
             if batch_debugs:
                 print("Sample debug:", batch_debugs[0])
 
@@ -285,7 +388,9 @@ def reinforcement_learning_loop(generator, gen_tokenizer,
             print("Mean reward collapsed — reverting to best checkpoint (if any).")
             if best_ckpt and os.path.exists(best_ckpt):
                 try:
-                    generator.load_state_dict(torch.load(best_ckpt, map_location=device))
+                    generator.load_state_dict(
+                        torch.load(best_ckpt, map_location=device)
+                    )
                     print("Restored best checkpoint:", best_ckpt)
                 except Exception as e:
                     print("Failed to restore best checkpoint:", e)

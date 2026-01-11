@@ -1,5 +1,5 @@
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
-import yaml
+from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+
 
 def load_model_tokenizer(model_name: str, quant_config: dict):
     bnb_config = BitsAndBytesConfig(
@@ -17,8 +17,7 @@ def load_model_tokenizer(model_name: str, quant_config: dict):
         model_name,
         quantization_config=bnb_config,
         device_map="auto",
-        trust_remote_code=True
+        trust_remote_code=True,
     )
     model.config.pad_token_id = tok.eos_token_id
     return tok, model
-

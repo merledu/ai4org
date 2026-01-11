@@ -80,7 +80,7 @@ graph TB
         E --> F[Deduplication]
         F --> G[Validated Q&A Pairs]
     end
-    
+
     subgraph "Training Pipeline"
         G --> H[Corpus Building]
         H --> I[Discriminator Training]
@@ -88,7 +88,7 @@ graph TB
         J --> K[RL Loop<br/>REINFORCE]
         K --> L[Fine-tuned Generator]
     end
-    
+
     subgraph "Inference"
         M[User Query] --> N[RAG Retrieval]
         N --> O[Context + Query]
@@ -96,12 +96,12 @@ graph TB
         O --> P
         P --> Q[Response]
     end
-    
+
     subgraph "Frontend"
         R[Desktop App] --> M
         Q --> R
     end
-    
+
     style A fill:#e1f5ff
     style G fill:#e1f5ff
     style L fill:#c8e6c9
@@ -155,7 +155,7 @@ graph TB
    python -c "import torch; print(f'PyTorch: {torch.__version__}')"
    python -c "import transformers; print(f'Transformers: {transformers.__version__}')"
    ```
-   
+
 ##  Note (Windows / CPU users):
 This project requires `sentence-transformers` and `accelerate`.
 If inference fails, ensure they are installed:
@@ -210,8 +210,8 @@ python -m hallucination_reduction.inference
    [2] Personal information is stored for a maximum of...
    [3] Upon user request, all data will be deleted within...
 
-🤖 Generator: Based on the organization's data retention policy, 
-customer records are maintained for the duration required by 
+🤖 Generator: Based on the organization's data retention policy,
+customer records are maintained for the duration required by
 regulatory compliance, typically 7 years for financial records...
 ```
 
@@ -485,7 +485,6 @@ This project is open-source and available under the MIT License. See [LICENSE](L
 - **Sentence-Transformers** for semantic search capabilities
 - **TinyLlama** project for the efficient language model
 - **Qwen** team for the Q&A generation model
-- **Google Summer of Code (GSoC)** for supporting this project
 
 ---
 

@@ -1,12 +1,16 @@
 from pathlib import Path
-import PyPDF2
 from typing import List
+
+import PyPDF2
+
 
 def is_pdf(path: str) -> bool:
     return str(path).lower().endswith(".pdf")
 
+
 def is_txt(path: str) -> bool:
     return str(path).lower().endswith(".txt")
+
 
 def extract_text_from_pdf(path: str) -> str:
     pages = []
@@ -15,6 +19,7 @@ def extract_text_from_pdf(path: str) -> str:
         for p in reader.pages:
             pages.append(p.extract_text() or "")
     return "\n".join(pages)
+
 
 def extract_text(file_path: str) -> str:
     p = Path(file_path)
@@ -27,6 +32,7 @@ def extract_text(file_path: str) -> str:
     else:
         raise ValueError("Unsupported file type. Provide .pdf or .txt")
 
+
 def discover_files(input_path: str) -> List[Path]:
     p = Path(input_path)
     if not p.exists():
@@ -35,12 +41,11 @@ def discover_files(input_path: str) -> List[Path]:
     if p.is_file():
         return [p]
 
-    files = []
+    files: List[Path] = []
     for ext in ("*.pdf", "*.txt"):
         files.extend(p.rglob(ext))
 
     return sorted(files)
-
 
 
 def get_file_name_from_dir(input_path: str):

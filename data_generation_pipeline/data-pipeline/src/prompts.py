@@ -3,8 +3,9 @@ from config_reader import load_config
 cfg = load_config("config/pipeline_config.yaml")
 MAX_Q_PER_CHUNK = cfg.get("max_q_per_chunk", 3)
 
-def build_prompt(passage: str, max_q: int=MAX_Q_PER_CHUNK) -> str:
-  PROMPT_TEMPLATE = f"""
+
+def build_prompt(passage: str, max_q: int = MAX_Q_PER_CHUNK) -> str:
+    PROMPT_TEMPLATE = f"""
   You are generating high-quality question–answer pairs for fine-tuning a language model to reduce hallucinations.
 
   Follow these strict rules:
@@ -60,4 +61,4 @@ def build_prompt(passage: str, max_q: int=MAX_Q_PER_CHUNK) -> str:
     Passage:
     {passage}
   """
-  return PROMPT_TEMPLATE.format(max_q=max_q, passage=passage)
+    return PROMPT_TEMPLATE.format(max_q=max_q, passage=passage)

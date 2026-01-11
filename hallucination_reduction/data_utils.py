@@ -1,7 +1,7 @@
-from dataclasses import dataclass
-from typing import List
 import json
 import os
+from dataclasses import dataclass
+from typing import List
 
 
 @dataclass
@@ -27,9 +27,11 @@ class QAPair:
         >>> print(qa.question)
         What is the refund policy?
     """
+
     question: str
     answer: str
     supporting_passages: List[str]
+
 
 def build_corpus_and_qa():
     """Build corpus and augmented QA pairs from data files.

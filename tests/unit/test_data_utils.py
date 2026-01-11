@@ -1,8 +1,7 @@
-import pytest
-import os
 import json
-from unittest.mock import mock_open, patch, MagicMock
-from hallucination_reduction.data_utils import build_corpus_and_qa, QAPair  
+from unittest.mock import mock_open, patch
+
+from hallucination_reduction.data_utils import QAPair, build_corpus_and_qa
 
 
 class TestBuildCorpusAndQA:
@@ -21,8 +20,8 @@ class TestBuildCorpusAndQA:
         with patch("builtins.open", mock_open(read_data="test passage\n")):
             with patch("os.path.exists", return_value=False):
                 passages, qa_pairs = build_corpus_and_qa()
-                assert type(passages) == list
-                assert type(qa_pairs) == list
+                assert isinstance(passages, list)
+                assert isinstance(qa_pairs, list)
 
     def test_passages_loaded_correctly(self):
         """Test that passages are read and stripped properly."""
@@ -56,20 +55,22 @@ class TestBuildCorpusAndQA:
     def test_qa_json_exists_and_valid(self):
         """Test loading valid QA pairs from JSON file."""
         corpus_data = "passage1\n"
-        qa_json_data = json.dumps([
-            {
-                "question": "What is X?",
-                "answer": "X is Y",
-                "supporting_passages": ["passage1"]
-            }
-        ])
-        
+        qa_json_data = json.dumps(
+            [
+                {
+                    "question": "What is X?",
+                    "answer": "X is Y",
+                    "supporting_passages": ["passage1"],
+                }
+            ]
+        )
+
         def mock_open_handler(filename, *args, **kwargs):
             if "corpus.txt" in filename:
                 return mock_open(read_data=corpus_data)()
             elif "qa.json" in filename:
                 return mock_open(read_data=qa_json_data)()
-        
+
         with patch("builtins.open", side_effect=mock_open_handler):
             with patch("os.path.exists", return_value=True):
                 _, qa_pairs = build_corpus_and_qa()
@@ -82,13 +83,13 @@ class TestBuildCorpusAndQA:
         """When qa.json is malformed, fall back to default generation."""
         corpus_data = "passage1\n"
         qa_json_data = "not valid json{{"
-        
+
         def mock_open_handler(filename, *args, **kwargs):
             if "corpus.txt" in filename:
                 return mock_open(read_data=corpus_data)()
             elif "qa.json" in filename:
                 return mock_open(read_data=qa_json_data)()
-        
+
         with patch("builtins.open", side_effect=mock_open_handler):
             with patch("os.path.exists", return_value=True):
                 _, qa_pairs = build_corpus_and_qa()
@@ -99,13 +100,13 @@ class TestBuildCorpusAndQA:
         """When qa.json contains non-list data, fall back to default."""
         corpus_data = "passage1\n"
         qa_json_data = json.dumps({"not": "a list"})
-        
+
         def mock_open_handler(filename, *args, **kwargs):
             if "corpus.txt" in filename:
                 return mock_open(read_data=corpus_data)()
             elif "qa.json" in filename:
                 return mock_open(read_data=qa_json_data)()
-        
+
         with patch("builtins.open", side_effect=mock_open_handler):
             with patch("os.path.exists", return_value=True):
                 _, qa_pairs = build_corpus_and_qa()
@@ -114,19 +115,21 @@ class TestBuildCorpusAndQA:
     def test_qa_missing_required_fields_skipped(self):
         """QA pairs without question or answer should be skipped."""
         corpus_data = "passage1\n"
-        qa_json_data = json.dumps([
-            {"question": "Valid?", "answer": "Yes"},
-            {"question": "No answer?"},  # Missing answer
-            {"answer": "No question"},   # Missing question
-            {}                            # Empty
-        ])
-        
+        qa_json_data = json.dumps(
+            [
+                {"question": "Valid?", "answer": "Yes"},
+                {"question": "No answer?"},  # Missing answer
+                {"answer": "No question"},  # Missing question
+                {},  # Empty
+            ]
+        )
+
         def mock_open_handler(filename, *args, **kwargs):
             if "corpus.txt" in filename:
                 return mock_open(read_data=corpus_data)()
             elif "qa.json" in filename:
                 return mock_open(read_data=qa_json_data)()
-        
+
         with patch("builtins.open", side_effect=mock_open_handler):
             with patch("os.path.exists", return_value=True):
                 _, qa_pairs = build_corpus_and_qa()
@@ -136,20 +139,16 @@ class TestBuildCorpusAndQA:
     def test_supporting_passages_string_converted_to_list(self):
         """When supporting_passages is a string, convert to list."""
         corpus_data = "passage1\n"
-        qa_json_data = json.dumps([
-            {
-                "question": "Q?",
-                "answer": "A",
-                "supporting_passages": "single_passage"
-            }
-        ])
-        
+        qa_json_data = json.dumps(
+            [{"question": "Q?", "answer": "A", "supporting_passages": "single_passage"}]
+        )
+
         def mock_open_handler(filename, *args, **kwargs):
             if "corpus.txt" in filename:
                 return mock_open(read_data=corpus_data)()
             elif "qa.json" in filename:
                 return mock_open(read_data=qa_json_data)()
-        
+
         with patch("builtins.open", side_effect=mock_open_handler):
             with patch("os.path.exists", return_value=True):
                 _, qa_pairs = build_corpus_and_qa()
@@ -159,20 +158,16 @@ class TestBuildCorpusAndQA:
     def test_supporting_passages_none_becomes_empty_list(self):
         """When supporting_passages is None, use empty list."""
         corpus_data = "passage1\n"
-        qa_json_data = json.dumps([
-            {
-                "question": "Q?",
-                "answer": "A",
-                "supporting_passages": None
-            }
-        ])
-        
+        qa_json_data = json.dumps(
+            [{"question": "Q?", "answer": "A", "supporting_passages": None}]
+        )
+
         def mock_open_handler(filename, *args, **kwargs):
             if "corpus.txt" in filename:
                 return mock_open(read_data=corpus_data)()
             elif "qa.json" in filename:
                 return mock_open(read_data=qa_json_data)()
-        
+
         with patch("builtins.open", side_effect=mock_open_handler):
             with patch("os.path.exists", return_value=True):
                 _, qa_pairs = build_corpus_and_qa()
@@ -201,20 +196,22 @@ class TestBuildCorpusAndQA:
     def test_augmentation_creates_three_variants(self):
         """Each base QA should produce 3 augmented variants."""
         corpus_data = "passage1\n"
-        qa_json_data = json.dumps([
-            {
-                "question": "Can a customer do X?",
-                "answer": "Yes",
-                "supporting_passages": ["passage1"]
-            }
-        ])
-        
+        qa_json_data = json.dumps(
+            [
+                {
+                    "question": "Can a customer do X?",
+                    "answer": "Yes",
+                    "supporting_passages": ["passage1"],
+                }
+            ]
+        )
+
         def mock_open_handler(filename, *args, **kwargs):
             if "corpus.txt" in filename:
                 return mock_open(read_data=corpus_data)()
             elif "qa.json" in filename:
                 return mock_open(read_data=qa_json_data)()
-        
+
         with patch("builtins.open", side_effect=mock_open_handler):
             with patch("os.path.exists", return_value=True):
                 _, qa_pairs = build_corpus_and_qa()
@@ -226,20 +223,22 @@ class TestBuildCorpusAndQA:
     def test_augmentation_preserves_answer_and_passages(self):
         """Augmented QA pairs should keep the same answer and supporting passages."""
         corpus_data = "passage1\n"
-        qa_json_data = json.dumps([
-            {
-                "question": "Original?",
-                "answer": "Original answer",
-                "supporting_passages": ["p1", "p2"]
-            }
-        ])
-        
+        qa_json_data = json.dumps(
+            [
+                {
+                    "question": "Original?",
+                    "answer": "Original answer",
+                    "supporting_passages": ["p1", "p2"],
+                }
+            ]
+        )
+
         def mock_open_handler(filename, *args, **kwargs):
             if "corpus.txt" in filename:
                 return mock_open(read_data=corpus_data)()
             elif "qa.json" in filename:
                 return mock_open(read_data=qa_json_data)()
-        
+
         with patch("builtins.open", side_effect=mock_open_handler):
             with patch("os.path.exists", return_value=True):
                 _, qa_pairs = build_corpus_and_qa()
@@ -276,17 +275,16 @@ class TestBuildCorpusAndQA:
     def test_multiple_base_qa_all_augmented(self):
         """Multiple base QA pairs should all be augmented."""
         corpus_data = "passage1\n"
-        qa_json_data = json.dumps([
-            {"question": "Q1?", "answer": "A1"},
-            {"question": "Q2?", "answer": "A2"}
-        ])
-        
+        qa_json_data = json.dumps(
+            [{"question": "Q1?", "answer": "A1"}, {"question": "Q2?", "answer": "A2"}]
+        )
+
         def mock_open_handler(filename, *args, **kwargs):
             if "corpus.txt" in filename:
                 return mock_open(read_data=corpus_data)()
             elif "qa.json" in filename:
                 return mock_open(read_data=qa_json_data)()
-        
+
         with patch("builtins.open", side_effect=mock_open_handler):
             with patch("os.path.exists", return_value=True):
                 _, qa_pairs = build_corpus_and_qa()
