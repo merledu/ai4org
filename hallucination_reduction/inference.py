@@ -1,12 +1,11 @@
 import os
-import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM, TextIteratorStreamer
-from sentence_transformers import SentenceTransformer
-from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
-import sys, time
+import time
 from threading import Thread
 
+import torch
+from sentence_transformers import SentenceTransformer
+from sklearn.metrics.pairwise import cosine_similarity
+from transformers import AutoModelForCausalLM, AutoTokenizer, TextIteratorStreamer
 
 # Get the absolute path of the current file's directory
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -31,7 +30,9 @@ def load_corpus(corpus_path=CORPUS_PATH):
 def build_embeddings(docs, embed_model_name=EMBED_MODEL, device="cpu"):
     embedder = SentenceTransformer(embed_model_name, device=device)
     print("Encoding corpus embeddings...")
-    corpus_embeddings = embedder.encode(docs, convert_to_numpy=True, show_progress_bar=True)
+    corpus_embeddings = embedder.encode(
+        docs, convert_to_numpy=True, show_progress_bar=True
+    )
     return embedder, corpus_embeddings
 
 
@@ -54,15 +55,18 @@ def find_best_model(weights_dir=WEIGHTS_DIR):
         print("No generator checkpoints found.")
         return None
 
-
     if "generator_final.pt" in candidates:
         return os.path.join(weights_dir, "generator_final.pt")
     if any("best" in f for f in candidates):
-        return os.path.join(weights_dir, sorted([f for f in candidates if "best" in f])[0])
+        return os.path.join(
+            weights_dir, sorted([f for f in candidates if "best" in f])[0]
+        )
 
     epoch_files = [f for f in candidates if "epoch" in f]
     if epoch_files:
-        latest = sorted(epoch_files, key=lambda x: int(x.split("_")[-1].split(".")[0]))[-1]
+        latest = sorted(epoch_files, key=lambda x: int(x.split("_")[-1].split(".")[0]))[
+            -1
+        ]
         return os.path.join(weights_dir, latest)
 
     return os.path.join(weights_dir, candidates[0])
@@ -74,7 +78,7 @@ def load_model(model_name=BASE_MODEL, weights_dir=WEIGHTS_DIR):
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
         torch_dtype=torch.bfloat16 if torch.cuda.is_available() else torch.float32,
-        device_map="auto"
+        device_map="auto",
     )
 
     weights_path = find_best_model(weights_dir)
@@ -82,9 +86,12 @@ def load_model(model_name=BASE_MODEL, weights_dir=WEIGHTS_DIR):
         print(f"Attempting to load fine-tuned weights from: {weights_path}")
         state_dict = torch.load(weights_path, map_location="cpu")
 
-        
         model_state = model.state_dict()
-        filtered_dict = {k: v for k, v in state_dict.items() if k in model_state and model_state[k].shape == v.shape}
+        filtered_dict = {
+            k: v
+            for k, v in state_dict.items()
+            if k in model_state and model_state[k].shape == v.shape
+        }
 
         missing = len(model_state) - len(filtered_dict)
         if missing > 0:
@@ -95,15 +102,14 @@ def load_model(model_name=BASE_MODEL, weights_dir=WEIGHTS_DIR):
         print("No fine-tuned weights found. Using base model only.")
 
     model.eval()
-    print("Model ready. Type: CAUSAL CHAT, Device:", next(model.parameters()).device)
-    return model, tokenizer, next(model.parameters()).device
+    device = next(model.parameters()).device
+    print("Model ready. Type: CAUSAL CHAT, Device:", device)
+    return model, tokenizer, device
 
 
-import sys, time
-from threading import Thread
-from transformers import TextIteratorStreamer
-
-def generate_answer(model, tokenizer, device, question, retrieved_docs, max_new_tokens=1024):
+def generate_answer(
+    model, tokenizer, device, question, retrieved_docs, max_new_tokens=1024
+):
     context = "\n".join(retrieved_docs)
     prompt = f"""
 ### Context:
@@ -113,30 +119,29 @@ def generate_answer(model, tokenizer, device, question, retrieved_docs, max_new_
 {question}
 
 ### Instructions:
-Provide a long, thoughtful, and well-structured answer based only on the given context. 
+Provide a long, thoughtful, and well-structured answer based only on the given context.
 Include reasoning, relevant details, and explanations, but avoid speculation or hallucination.
 
 ### Answer:
 """
 
-    
     inputs = tokenizer(prompt, return_tensors="pt", truncation=True).to(device)
 
-    
-    streamer = TextIteratorStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True)
+    streamer = TextIteratorStreamer(
+        tokenizer, skip_prompt=True, skip_special_tokens=True
+    )
 
     print("\n Generator ", end="", flush=True)
 
-    
     generation_thread = Thread(
         target=model.generate,
         kwargs=dict(
             **inputs,
             max_new_tokens=max_new_tokens,
-            temperature=0.6,           
-            top_p=0.9,                 
+            temperature=0.6,
+            top_p=0.9,
             do_sample=True,
-            repetition_penalty=1.05,   
+            repetition_penalty=1.05,
             pad_token_id=tokenizer.eos_token_id,
             eos_token_id=tokenizer.eos_token_id,
             streamer=streamer,
@@ -159,7 +164,6 @@ def main():
     model, tokenizer, device = load_model()
     docs = load_corpus()
     embedder, corpus_embeddings = build_embeddings(docs, device=device)
-    
 
     print("\n RAG-Enhanced Chat Mode Started — type 'exit' to quit.\n")
 
@@ -169,7 +173,9 @@ def main():
             print(" Exiting chat. Goodbye!")
             break
 
-        retrieved_docs = retrieve_relevant_chunks(question, embedder, corpus_embeddings, docs)
+        retrieved_docs = retrieve_relevant_chunks(
+            question, embedder, corpus_embeddings, docs
+        )
         print(f"\n Retrieved {len(retrieved_docs)} relevant context chunks.")
         for i, doc in enumerate(retrieved_docs, 1):
             print(f"   [{i}] {doc[:100]}...")
