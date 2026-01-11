@@ -661,7 +661,7 @@
             const btn = event.target.closest('.admin-btn');
             btn.style.transform = 'scale(0.95)';
             btn.style.opacity = '0.8';
-            
+
             setTimeout(() => {
                 window.location.href = 'login.html';
             }, 200);
@@ -676,7 +676,7 @@
         function showPinDialog() {
             const pinModal = document.getElementById('pinModal');
             const pinInput = document.getElementById('pinInput');
-            
+
             pinModal.classList.add('show');
             setTimeout(() => {
                 pinInput.focus();
@@ -696,7 +696,7 @@
             const pinInput = document.getElementById('pinInput');
             const pinError = document.getElementById('pinError');
             const pinSuccess = document.getElementById('pinSuccess');
-            
+
             pinModal.classList.remove('show');
             pinInput.value = '';
             pinError.classList.remove('show');
@@ -709,11 +709,11 @@
             const pin = pinInput.value;
             const pinError = document.getElementById('pinError');
             const pinSuccess = document.getElementById('pinSuccess');
-            
+
             // Hide any previous messages
             pinError.classList.remove('show');
             pinSuccess.classList.remove('show');
-            
+
             // Simple validation
             if (pin === '1111') {
                 // User 1
@@ -721,7 +721,7 @@
                 localStorage.setItem('userSession', 'active');
                 localStorage.setItem('userType', 'user1');
                 localStorage.setItem('userLoginTime', new Date().toISOString());
-                
+
                 // Log user login if API is available
                 if (typeof pywebview !== 'undefined' && pywebview.api) {
                     try {
@@ -730,20 +730,20 @@
                         console.log('Could not log user login:', error);
                     }
                 }
-                
+
                 // Show success and redirect
                 pinSuccess.classList.add('show');
                 setTimeout(() => {
                     window.location.href = 'chat.html';
                 }, 1000);
-                
+
             } else if (pin === '2222') {
                 // User 2
                 localStorage.setItem('userPin', '2222');
                 localStorage.setItem('userSession', 'active');
                 localStorage.setItem('userType', 'user2');
                 localStorage.setItem('userLoginTime', new Date().toISOString());
-                
+
                 // Log user login if API is available
                 if (typeof pywebview !== 'undefined' && pywebview.api) {
                     try {
@@ -752,13 +752,13 @@
                         console.log('Could not log user login:', error);
                     }
                 }
-                
+
                 // Show success and redirect
                 pinSuccess.classList.add('show');
                 setTimeout(() => {
                     window.location.href = 'chat.html';
                 }, 1000);
-                
+
             } else {
                 // Invalid PIN
                 pinError.classList.add('show');
