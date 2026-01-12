@@ -1,6 +1,6 @@
 <div align="center">
 
-![AI4Org Logo](frontend/assets/images/logo.png)
+![AI4Org Logo](frontend/assets/images/logo.jpeg)
 
 # AI4Org: Hallucination Reduction & Data Pipeline
 
