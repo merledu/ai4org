@@ -11,7 +11,7 @@
 [![Transformers](https://img.shields.io/badge/🤗-Transformers-yellow)](https://huggingface.co/transformers/)
 [![License](https://img.shields.io/badge/license-Open%20Source-green.svg)](LICENSE)
 
-[Features](#-features) • [Architecture](#-architecture) • [Installation](#-installation) • [Quick Start](#-quick-start) • [Documentation](#-project-structure) • [Contributing](#-contributing)
+[Features](#-features) • [Architecture](#-architecture) • [Installation](#-installation) • [Quick Start](#-quick-start) • [Documentation](#-documentation) • [Contributing](#-contributing)
 
 </div>
 
@@ -151,10 +151,11 @@ graph TB
    ```
 
 4. **Verify installation**
+   Run the included validation script to check your environment:
    ```bash
-   python -c "import torch; print(f'PyTorch: {torch.__version__}')"
-   python -c "import transformers; print(f'Transformers: {transformers.__version__}')"
+   python scripts/validate_setup.py
    ```
+   This script will check your Python version, installed packages, data files, and environment variables.
 
 ##  Note (Windows / CPU users):
 This project requires `sentence-transformers` and `accelerate`.
@@ -256,68 +257,27 @@ python -m cli run \
 
 ---
 
-## 📁 Project Structure
+## 📚 Documentation
+
+We have detailed documentation for each component of the system:
+
+*   **[System Architecture](docs/architecture.md)**: High-level design, component interaction, and data flow diagrams.
+*   **[Hallucination Reduction](docs/hallucination_reduction.md)**: Deep dive into the generator, discriminators, and RL training pipeline.
+*   **[Data Generation Pipeline](docs/data_generation_pipeline.md)**: How to generate training data from your own policy documents.
+*   **[Frontend Application](docs/frontend.md)**: User guide and setup instructions for the desktop app.
+*   **[API Reference](docs/api_reference.md)**: Technical reference for key classes and functions.
+
+### Project Structure
 
 ```
 ai4org/
+├── 📂 docs/                         # 📚 Project documentation
 ├── 📂 hallucination_reduction/      # Core ML pipeline
-│   ├── main.py                      # Training orchestration
-│   ├── config.py                    # Hyperparameters & settings
-│   ├── generator.py                 # Generator model (TinyLlama)
-│   ├── discriminator.py             # Discriminator models
-│   ├── retriever.py                 # RAG retrieval logic
-│   ├── rl_utils.py                  # REINFORCE implementation
-│   ├── inference.py                 # Chat inference engine
-│   ├── evaluation.py                # Model evaluation metrics
-│   └── data_utils.py                # Data loading utilities
-│
 ├── 📂 data_generation_pipeline/     # Q&A generation system
-│   └── data-pipeline/
-│       ├── src/
-│       │   ├── pipeline_runner.py   # Main pipeline orchestrator
-│       │   ├── generator.py         # Qwen 7B Q&A generation
-│       │   ├── cleaner.py           # Document cleaning
-│       │   ├── chunker.py           # Text chunking
-│       │   ├── evidence.py          # Evidence extraction
-│       │   ├── dedupe.py            # Deduplication logic
-│       │   └── validators.py        # Quality validation
-│       ├── config/
-│       │   ├── pipeline_config.yaml # Pipeline settings
-│       │   └── model_config.yaml    # Model configuration
-│       └── README.md                # Pipeline documentation
-│
 ├── 📂 frontend/                     # Desktop application
-│   ├── main.py                      # pywebview app entry
-│   ├── html/
-│   │   ├── index.html               # Landing page
-│   │   ├── login.html               # Login interface
-│   │   ├── chat.html                # Chat interface
-│   │   ├── admin.html               # Admin dashboard
-│   │   └── upload.html              # File upload
-│   ├── css/                         # Stylesheets
-│   ├── script/                      # JavaScript files
-│   └── assets/images/               # Images & logo
-│
 ├── 📂 data/                         # Data storage
-│   ├── raw/                         # Raw input documents
-│   ├── processed/                   # Processed corpus
-│   │   └── corpus.txt               # Training corpus
-│   └── qa/                          # Q&A pairs
-│
 ├── 📂 tests/                        # Test suite
-│   ├── unit/                        # Unit tests
-│   ├── integration/                 # Integration tests
-│   └── e2e/                         # End-to-end tests
-│
-├── 📂 saved_models_improved/        # Trained model checkpoints
-│   ├── generator_final.pt           # Fine-tuned generator
-│   ├── fact_disc_final.pt           # Factuality discriminator
-│   ├── style_disc_final.pt          # Style discriminator
-│   └── safety_disc_final.pt         # Safety discriminator
-│
-├── requirements.txt                 # Python dependencies
-├── CONTRIBUTING.md                  # Contribution guidelines
-└── README.md                        # This file
+└── ...
 ```
 
 ---
