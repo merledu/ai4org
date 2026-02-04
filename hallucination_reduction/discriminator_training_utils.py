@@ -68,8 +68,8 @@ def evaluate_classifier(cls, tokenizer, texts, labels, device=DEVICE):
     if not texts or not labels:
         return {
             "acc": 0.0,
-            "precision": 0.0,
-            "recall": 0.0,
+            "prec": 0.0,
+            "rec": 0.0,
             "f1": 0.0,
         }
     cls.eval()
