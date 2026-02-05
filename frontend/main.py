@@ -157,7 +157,7 @@ class Api:
         except Exception as e:
             return f"error: {str(e)}"
 
-    def save_file_chunk(self, filename, chunk_data, chunk_index, is_last) :
+    def save_file_chunk(self, filename, chunk_data, chunk_index, is_last):
         try:
             folder = os.path.join(here, "../data/raw")
             os.makedirs(folder, exist_ok=True)
@@ -180,7 +180,7 @@ class Api:
                     check=True,
                     env=env,
                 )
-            
+
             return "success"
         except Exception as e:
             return f"error: {str(e)}"
