@@ -157,6 +157,34 @@ class Api:
         except Exception as e:
             return f"error: {str(e)}"
 
+    def save_file_chunk(self, filename, chunk_data, chunk_index, is_last) :
+        try:
+            folder = os.path.join(here, "../data/raw")
+            os.makedirs(folder, exist_ok=True)
+            filepath = os.path.join(folder, filename)
+
+            mode = "ab" if chunk_index > 0 else "wb"
+
+            with open(filepath, mode) as f:
+                f.write(base64.b64decode(chunk_data))
+
+            if is_last:
+                project_root = os.path.abspath(os.path.join(here, ".."))
+                env = os.environ.copy()
+                env["CUDA_VISIBLE_DEVICES"] = ""
+                env["TOKENIZERS_PARALLELISM"] = "false"
+                env.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:true")
+                subprocess.run(
+                    ["python", "-m", "hallucination_reduction.main"],
+                    cwd=project_root,
+                    check=True,
+                    env=env,
+                )
+            
+            return "success"
+        except Exception as e:
+            return f"error: {str(e)}"
+
 
 def try_backends():
     # Suppress tokenizers parallelism warning
