@@ -158,6 +158,42 @@ class Api:
             return f"error: {str(e)}"
 
     def save_file_chunk(self, filename, chunk_data, chunk_index, is_last):
+        """
+        Persist a single chunk of an uploaded file to disk and trigger
+        post-processing once the final chunk is received.
+
+        This method is invoked repeatedly during a chunked file upload
+        initiated from the frontend. Each call writes base64-decoded
+        binary data to a target file, either creating it on the first
+        chunk or appending to it for subsequent chunks.
+
+        Parameters
+        ----------
+        filename : str
+            Name of the file being uploaded.
+        chunk_data : str
+            Base64-encoded string representing the current file chunk.
+        chunk_index : int
+            Zero-based index of the current chunk. Used to determine
+            whether to open the file in write or append mode.
+        is_last : bool
+            Indicates whether this is the final chunk of the upload.
+            When True, a post-upload processing pipeline is executed.
+
+        Side Effects
+        ------------
+        - Creates the upload directory if it does not exist.
+        - Writes binary data to disk.
+        - Executes a subprocess for hallucination reduction when the
+        final chunk is received.
+
+        Returns
+        -------
+        str
+            "success" if the chunk is saved successfully and any required
+            post-processing completes, otherwise an error message
+            prefixed with "error:".
+        """
         try:
             folder = os.path.join(here, "../data/raw")
             os.makedirs(folder, exist_ok=True)
