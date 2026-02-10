@@ -3,6 +3,7 @@ from unittest.mock import MagicMock, Mock, patch
 
 import torch
 
+from hallucination_reduction.config import DEVICE
 from hallucination_reduction.generator import (
     build_rag_prompt,
     generate_answer,
@@ -19,22 +20,30 @@ class TestLoadGenerator(unittest.TestCase):
         self, mock_tokenizer_class, mock_model_class
     ):
         """Test loading generator when tokenizer has pad_token"""
+        # Mock tokenizer
         mock_tokenizer = Mock()
         mock_tokenizer.pad_token = "[PAD]"
         mock_tokenizer.eos_token = "[EOS]"
         mock_tokenizer_class.from_pretrained.return_value = mock_tokenizer
 
+        # Mock model
         mock_model = Mock()
+        # Make parameters() return a real torch Parameter so next() works
+        mock_model.parameters.return_value = iter(
+            [torch.nn.Parameter(torch.tensor([1.0]))]
+        )
         mock_model_class.from_pretrained.return_value = mock_model
 
-        tokenizer, model = load_generator("test-model", "cuda")
+        # Call the function
+        tokenizer, model = load_generator("test-model", DEVICE)
 
+        # Assertions
         mock_tokenizer_class.from_pretrained.assert_called_once_with("test-model")
         mock_model_class.from_pretrained.assert_called_once_with(
             "test-model",
             device_map="auto",
             load_in_4bit=True,
-            torch_dtype=torch.float16,
+            dtype=torch.bfloat16,  # matches implementation
         )
         self.assertEqual(tokenizer.pad_token, "[PAD]")
         model.eval.assert_called_once()
@@ -45,16 +54,23 @@ class TestLoadGenerator(unittest.TestCase):
         self, mock_tokenizer_class, mock_model_class
     ):
         """Test loading generator when tokenizer lacks pad_token"""
+        # Mock tokenizer
         mock_tokenizer = Mock()
         mock_tokenizer.pad_token = None
         mock_tokenizer.eos_token = "[EOS]"
         mock_tokenizer_class.from_pretrained.return_value = mock_tokenizer
 
+        # Mock model
         mock_model = Mock()
+        mock_model.parameters.return_value = iter(
+            [torch.nn.Parameter(torch.tensor([1.0]))]
+        )
         mock_model_class.from_pretrained.return_value = mock_model
 
+        # Call the function
         tokenizer, model = load_generator("test-model", "cpu")
 
+        # The function should set pad_token to eos_token if missing
         self.assertEqual(tokenizer.pad_token, "[EOS]")
         model.eval.assert_called_once()
 

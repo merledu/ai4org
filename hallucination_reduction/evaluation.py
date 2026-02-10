@@ -2,7 +2,6 @@ from collections import Counter
 from typing import List
 
 import numpy as np
-from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 
 from .config import DEVICE, MAX_GEN_TOKENS, MIN_GEN_TOKENS, TOP_K
 from .discriminator import discriminator_predict_text
@@ -11,6 +10,40 @@ from .generator import build_rag_prompt, generate_answer
 
 def exact_match(a: str, b: str) -> int:
     return int(a.strip().lower() == b.strip().lower())
+
+
+def accuracy_score(y_true, y_pred):
+    """
+    Compute the fraction of correct predictions.
+    """
+    if not y_true:
+        return 0.0
+    correct = sum(1 for t, p in zip(y_true, y_pred) if t == p)
+    return correct / len(y_true)
+
+
+def precision_recall_fscore_support(y_true, y_pred, average="binary", zero_division=0):
+    """
+    Compute precision, recall, F1 score for binary classification.
+    Returns (precision, recall, f1, support)
+    """
+    if not y_true:
+        return 0.0, 0.0, 0.0, 0
+
+    tp = sum(1 for t, p in zip(y_true, y_pred) if t == 1 and p == 1)
+    fp = sum(1 for t, p in zip(y_true, y_pred) if t == 0 and p == 1)
+    fn = sum(1 for t, p in zip(y_true, y_pred) if t == 1 and p == 0)
+    support = sum(1 for t in y_true if t == 1)
+
+    precision = tp / (tp + fp) if (tp + fp) > 0 else zero_division
+    recall = tp / (tp + fn) if (tp + fn) > 0 else zero_division
+    f1 = (
+        2 * precision * recall / (precision + recall)
+        if (precision + recall) > 0
+        else zero_division
+    )
+
+    return precision, recall, f1, support
 
 
 def f1_score(pred: str, gold: str) -> float:
@@ -72,7 +105,7 @@ def evaluate_old_vs_new_generator(
             num_return_sequences=1,
         )[0]
 
-        for _, out, metrics in [
+        for _label, out, metrics in [
             ("old", old_out, old_metrics),
             ("new", new_out, new_metrics),
         ]:
@@ -120,5 +153,5 @@ def evaluate_classifier(cls, tokenizer, texts, labels, device=DEVICE):
     acc = accuracy_score(labels, preds) if len(labels) > 0 else 0.0
     prec, rec, f1, _ = precision_recall_fscore_support(
         labels, preds, average="binary", zero_division=0
-    )
+    )  # noqa: F821
     return {"acc": acc, "prec": prec, "rec": rec, "f1": f1}

@@ -47,14 +47,12 @@ def main():
     retriever = SimpleRetriever(passages)
 
     print("Loading generator and discriminators...")
-    # Load generator to CPU first to save memory
-    gen_tok, generator = load_generator(GEN_MODEL, "cpu")
-    baseline_generator = copy.deepcopy(generator)  # Keep on CPU
+    gen_tok, generator = load_generator(GEN_MODEL, DEVICE)
+    baseline_generator = copy.deepcopy(generator)
 
-    # Load discriminators to CPU first
-    fact_tok, fact_disc = load_discriminator(DISC_MODEL, "cpu")
-    style_tok, style_disc = load_discriminator(DISC_MODEL, "cpu")
-    safety_tok, safety_disc = load_discriminator(DISC_MODEL, "cpu")
+    fact_tok, fact_disc = load_discriminator(DISC_MODEL, DEVICE)
+    style_tok, style_disc = load_discriminator(DISC_MODEL, DEVICE)
+    safety_tok, safety_disc = load_discriminator(DISC_MODEL, DEVICE)
 
     try:
         if hasattr(generator, "gradient_checkpointing_enable"):
@@ -63,17 +61,17 @@ def main():
     except Exception as e:
         print("Could not enable gradient checkpointing:", e)
 
-    # We will move models to DEVICE only when needed
-    print(f"Main computation device: {DEVICE}")
-
-    # DataParallel wrapping for generator (if applicable)
     n_gpus = torch.cuda.device_count() if torch.cuda.is_available() else 0
     if n_gpus > 1:
         print(f" Using {n_gpus} GPUs with DataParallel (generator only).")
-        # DataParallel moves the model to GPU automatically
         generator = nn.DataParallel(generator)
     else:
         print("Using single GPU or CPU.")
+
+    generator = generator.to(DEVICE)
+    fact_disc = fact_disc.to(DEVICE)
+    style_disc = style_disc.to(DEVICE)
+    safety_disc = safety_disc.to(DEVICE)
 
     fact_texts, fact_labels = [], []
     style_texts, style_labels = [], []
@@ -137,8 +135,6 @@ def main():
         safety_labels.append(0)
 
     print("Training fact discriminator...")
-    # Move to GPU for training, then back to CPU
-    fact_disc = fact_disc.to(DEVICE)
     fact_disc = train_discriminator_minibatch(
         fact_disc,
         fact_tok,
@@ -149,11 +145,7 @@ def main():
         batch_size=DISC_BATCH,
         lr=DISC_LR,
     )
-    fact_disc = fact_disc.to("cpu")
-    torch.cuda.empty_cache()
-
     print("Training style discriminator...")
-    style_disc = style_disc.to(DEVICE)
     style_disc = train_discriminator_minibatch(
         style_disc,
         style_tok,
@@ -164,11 +156,7 @@ def main():
         batch_size=DISC_BATCH,
         lr=DISC_LR,
     )
-    style_disc = style_disc.to("cpu")
-    torch.cuda.empty_cache()
-
     print("Training safety discriminator...")
-    safety_disc = safety_disc.to(DEVICE)
     safety_disc = train_discriminator_minibatch(
         safety_disc,
         safety_tok,
@@ -179,14 +167,8 @@ def main():
         batch_size=DISC_BATCH,
         lr=DISC_LR,
     )
-    safety_disc = safety_disc.to("cpu")
-    torch.cuda.empty_cache()
 
     print("\nSanity-check discriminator metrics:")
-    # Move discriminators to DEVICE for evaluation
-    fact_disc = fact_disc.to(DEVICE)
-    style_disc = style_disc.to(DEVICE)
-    safety_disc = safety_disc.to(DEVICE)
     print(
         "Fact disc:",
         evaluate_classifier(
@@ -207,12 +189,6 @@ def main():
     )
 
     print("\nEvaluation before SFT/RL (baseline):")
-    # Move generator to GPU for evaluation
-    generator = generator.to(DEVICE)
-    # Move discriminators to CPU to save space if not needed, but here we need them for metrics?
-    # evaluate_old_vs_new_generator uses fact_disc for hallucination check
-    # fact_disc is already on DEVICE from previous block
-
     _, old_before, _ = evaluate_old_vs_new_generator(
         baseline_generator,
         generator,
@@ -226,13 +202,6 @@ def main():
     print("Baseline summary:", old_before)
 
     print("\nRunning supervised fine-tuning (SFT) on QA pairs...")
-    # Generator is already on DEVICE
-    # We can move discriminators to CPU to save space during SFT
-    fact_disc = fact_disc.to("cpu")
-    style_disc = style_disc.to("cpu")
-    safety_disc = safety_disc.to("cpu")
-    torch.cuda.empty_cache()
-
     generator = sft_finetune_generator(
         generator,
         gen_tok,
@@ -244,9 +213,6 @@ def main():
     )
 
     print("\nEvaluation after SFT (before RL):")
-    # Need fact_disc on DEVICE for evaluation
-    fact_disc = fact_disc.to(DEVICE)
-
     rows_sft, old_sft, new_sft = evaluate_old_vs_new_generator(
         baseline_generator,
         generator,
@@ -266,11 +232,6 @@ def main():
         print("New:", r["new"])
 
     print("\nStarting Reinforcement Learning (REINFORCE)...")
-    # Move all discriminators to DEVICE for RL
-    fact_disc = fact_disc.to(DEVICE)
-    style_disc = style_disc.to(DEVICE)
-    safety_disc = safety_disc.to(DEVICE)
-
     reinforcement_learning_loop(
         generator,
         gen_tok,

@@ -7,8 +7,12 @@ from datetime import datetime
 
 import webview
 
+# === Add project root to sys.path ===
+here = os.path.dirname(os.path.abspath(__file__))  # frontend/
+project_root = os.path.abspath(os.path.join(here, ".."))  # ai4org/
+sys.path.append(project_root)
+
 # === Import your inference logic ===
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from hallucination_reduction.inference import (  # noqa: E402
     build_embeddings,
     generate_answer,
@@ -17,17 +21,16 @@ from hallucination_reduction.inference import (  # noqa: E402
     retrieve_relevant_chunks,
 )
 
-here = os.path.dirname(os.path.abspath(__file__))
-
 # User login history file
 USER_HISTORY_FILE = os.path.join(here, "user_history.json")
+CORPUS_FILE = os.path.join(project_root, "data", "processed", "corpus.txt")
 
 
 class Api:
     def __init__(self):
         # Load once on startup to save time
         self.model, self.tokenizer, self.device = load_model()
-        self.docs = load_corpus()
+        self.docs = load_corpus(CORPUS_FILE)
         self.embedder, self.corpus_embeddings = build_embeddings(
             self.docs, device=self.device
         )
@@ -92,7 +95,6 @@ class Api:
 
     def get_user_history(self, admin_pin):
         """Get user login history (admin only)"""
-        # Admin PIN: 9999
         if admin_pin != "9999":
             return {"status": "error", "message": "Unauthorized access"}
 
@@ -133,13 +135,12 @@ class Api:
     def save_file(self, filename, file_data_base64):
         try:
             file_data = base64.b64decode(file_data_base64)
-            folder = os.path.join(here, "../data/raw")
+            folder = os.path.join(project_root, "data", "raw")
             os.makedirs(folder, exist_ok=True)
             filepath = os.path.join(folder, filename)
             with open(filepath, "wb") as f:
                 f.write(file_data)
 
-            project_root = os.path.abspath(os.path.join(here, ".."))
             # Force CPU to avoid CUDA OOM during training
             env = os.environ.copy()
             env["CUDA_VISIBLE_DEVICES"] = ""
@@ -161,7 +162,6 @@ def try_backends():
     # Suppress tokenizers parallelism warning
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
-    # Start a custom HTTP server to serve the frontend directory
     import http.server
     import socket
     import socketserver
@@ -177,32 +177,25 @@ def try_backends():
     def start_server():
         class Handler(http.server.SimpleHTTPRequestHandler):
             def __init__(self, *args, **kwargs):
-                # Serve files from the current directory (frontend/)
                 super().__init__(*args, directory=here, **kwargs)
 
             def log_message(self, format, *args):
-                # Suppress logging to keep console clean
                 pass
 
         try:
             with socketserver.TCPServer(("127.0.0.1", PORT), Handler) as httpd:
-                # print(f"Serving frontend at http://127.0.0.1:{PORT}")
                 httpd.serve_forever()
         except OSError as e:
             print(f"Port {PORT} is in use or could not be bound: {e}")
 
-    # Start server in a daemon thread
     server_thread = threading.Thread(target=start_server, daemon=True)
     server_thread.start()
 
-    # Prioritize Qt to avoid GTK errors if Qt is available
     backends = ["qt", "gtk", "edgechromium", "cef"]
     for backend in backends:
         try:
             print(f"\nAttempting {backend} backend...")
             api = Api()
-
-            # Point to the local server
             url = f"http://127.0.0.1:{PORT}/html/index.html"
             print(f"Loading URL: {url}")
 
@@ -215,8 +208,6 @@ def try_backends():
                 js_api=api,
                 min_size=(800, 600),
             )
-            # Disable built-in http_server since we are using our own
-            # Disable debug to avoid "Port in use" warnings
             webview.start(gui=backend, debug=False)
             return True
         except Exception as e:
@@ -229,5 +220,4 @@ if __name__ == "__main__":
     success = try_backends()
     if not success:
         print("All GUI backends failed.")
-        # /home/shehroz/Desktop/New Folder/ai4org/data_cleaning_pipeline/dataset_corpus_generation.py
         sys.exit(1)
