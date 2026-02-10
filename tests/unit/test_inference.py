@@ -244,10 +244,11 @@ class TestLoadModel(unittest.TestCase):
 
         # Mock model
         mock_model = MagicMock()
-        mock_param = torch.tensor([1.0])
-        mock_model.parameters.return_value = iter([mock_param])
-        mock_model_state = {"layer.weight": torch.randn(10, 10)}
-        mock_model.state_dict.return_value = mock_model_state
+        # Use lambda to return a new iterator each time
+        mock_model.parameters.side_effect = lambda: iter(
+            [torch.nn.Parameter(torch.tensor([1.0]))]
+        )
+        mock_model.state_dict.return_value = {"layer.weight": torch.randn(10, 10)}
         mock_model_class.from_pretrained.return_value = mock_model
 
         # Mock loaded weights
@@ -279,8 +280,9 @@ class TestLoadModel(unittest.TestCase):
 
         # Mock model
         mock_model = MagicMock()
-        mock_param = torch.tensor([1.0])
-        mock_model.parameters.return_value = iter([mock_param])
+        mock_model.parameters.side_effect = lambda: iter(
+            [torch.nn.Parameter(torch.tensor([1.0]))]
+        )
         mock_model_class.from_pretrained.return_value = mock_model
 
         model, tokenizer, device = load_model("test-model", "test_dir")
@@ -304,8 +306,9 @@ class TestLoadModel(unittest.TestCase):
         mock_tokenizer_class.from_pretrained.return_value = mock_tokenizer
 
         mock_model = MagicMock()
-        mock_param = torch.tensor([1.0])
-        mock_model.parameters.return_value = iter([mock_param])
+        mock_model.parameters.side_effect = lambda: iter(
+            [torch.nn.Parameter(torch.tensor([1.0]))]
+        )
         mock_model_class.from_pretrained.return_value = mock_model
 
         load_model("test-model", "test_dir")
