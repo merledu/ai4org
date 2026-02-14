@@ -143,55 +143,7 @@
 
   <div class="done-message" id="doneMessage">✅ Upload Complete!</div>
 
-  <script>
-    async function uploadFile() {
-      const fileInput = document.getElementById("fileInput");
-      const file = fileInput.files[0];
-      if (!file) {
-        alert("Please select a file first.");
-        return;
-      }
+  <script src="../script/upload.js""></script>
 
-      const reader = new FileReader();
-      reader.onload = async function () {
-        const base64Data = reader.result.split(",")[1];
-        const progressContainer = document.querySelector(".progress-container");
-        const progressBar = document.getElementById("progressBar");
-        const progressText = document.getElementById("progressText");
-        const doneMessage = document.getElementById("doneMessage");
-
-        progressContainer.style.display = "block";
-        progressBar.style.width = "0%";
-        progressText.textContent = "0%";
-        doneMessage.style.display = "none";
-
-        let progress = 0;
-        const interval = setInterval(() => {
-          if (progress < 90) {
-            progress += 2;
-            progressBar.style.width = progress + "%";
-            progressText.textContent = progress + "%";
-          }
-        }, 100);
-
-        const result = await window.pywebview.api.save_file(file.name, base64Data);
-        clearInterval(interval);
-        progressBar.style.width = "100%";
-        progressText.textContent = "100%";
-
-        if (result === "success") {
-          doneMessage.style.display = "block";
-          setTimeout(() => { window.location.href = "chat.html"; }, 1000);
-        } else {
-          alert("Upload failed: " + result);
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function goToChat() {
-      window.location.href = "chat.html";
-    }
-  </script>
 </body>
 </html>
