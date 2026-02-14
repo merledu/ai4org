@@ -5,7 +5,10 @@ import subprocess
 import sys
 from datetime import datetime
 
-import webview
+try:
+    import webview
+except ImportError:
+    webview = None
 
 # === Add project root to sys.path ===
 here = os.path.dirname(os.path.abspath(__file__))  # frontend/
@@ -157,7 +160,7 @@ class Api:
         except Exception as e:
             return f"error: {str(e)}"
 
-    def save_file_chunk(self, filename, chunk_data, chunk_index, is_last):
+    def save_file_chunk(self, filename, chunk_data, chunk_index, is_last) :
         """
         Persist a single chunk of an uploaded file to disk and trigger
         post-processing once the final chunk is received.
@@ -216,13 +219,16 @@ class Api:
                     check=True,
                     env=env,
                 )
-
+            
             return "success"
         except Exception as e:
             return f"error: {str(e)}"
 
 
 def try_backends():
+    if webview is None:
+        print("pywebview is not available in this environment.")
+        return False
     # Suppress tokenizers parallelism warning
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
