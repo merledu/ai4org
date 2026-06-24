@@ -17,7 +17,7 @@ The pipeline runs as a separate module.
 
 1.  Navigate to the directory:
     ```bash
-    cd data_generation_pipeline/data-pipeline
+    cd data_generation_pipeline
     ```
 
 2.  Install dependencies:
@@ -43,7 +43,7 @@ python -m cli run \
 ```
 
 ### Input Data
-Place your raw documents in `data_generation_pipeline/data-pipeline/data/input/`.
+Place your raw documents in `data_generation_pipeline/data/input/`.
 
 ### Output Format
 The output is a JSON file containing a list of Q&A objects:

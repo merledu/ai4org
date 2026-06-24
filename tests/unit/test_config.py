@@ -18,9 +18,9 @@ class TestConfigConstants:
 
     def test_random_seed_set(self):
         """Verify random seed is set and reproducible."""
-        # Import triggers seed setting
-
-        # Generate random values
+        # Seed explicitly so the test does not depend on RNG state left behind
+        # by other tests that ran earlier in the suite.
+        random.seed(42)
         val1 = random.random()
 
         # Reset and regenerate
