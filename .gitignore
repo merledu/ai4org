@@ -1,3 +1,31 @@
+# Virtual environments
 venv
-saved_models_improved
+.venv
+env
+
+# Python
 __pycache__
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Trained models / checkpoints
+saved_models_improved
+*.pt
+
+# Secrets & local config
+.env
+
+# Test / coverage artifacts
+.coverage
+htmlcov/
+
+# Runtime data & logs
+logs/
+*.log
+inference_log.txt
+frontend/user_history.json
+
+# OS
+.DS_Store
+Thumbs.db

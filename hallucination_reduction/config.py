@@ -4,6 +4,15 @@ import random
 import numpy as np
 import torch
 
+# Load variables from a local .env file if present so the settings documented
+# in .env.example actually take effect (no-op if python-dotenv isn't installed).
+try:
+    from dotenv import load_dotenv
+
+    load_dotenv()
+except ImportError:
+    pass
+
 SEED = 42
 random.seed(SEED)
 np.random.seed(SEED)

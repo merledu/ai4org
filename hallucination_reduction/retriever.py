@@ -12,6 +12,8 @@ class SimpleRetriever:
         self.vectors = self.vectorizer.transform(passages)
 
     def retrieve(self, query: str, k: int = 3) -> List[Tuple[int, str]]:
+        if k <= 0:
+            return []
         qv = self.vectorizer.transform([query])
         sims = cosine_similarity(qv, self.vectors)[0]
         idxs = np.argsort(-sims)[:k]

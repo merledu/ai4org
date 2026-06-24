@@ -1,8 +1,0 @@
-# Core
-torch>=1.12
-transformers>=4.30
-scikit-learn
-tqdm
-numpy
-pyyaml
-sentencepiece

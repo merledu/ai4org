@@ -1,3 +1,40 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai4org"
+version = "0.1.0"
+description = "Hallucination reduction for LLMs via RAG, discriminator-guided RL, and an automated Q&A data pipeline."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "MeRL-EDU Team" }]
+dependencies = [
+    "torch>=2.1.0",
+    "transformers>=4.35.0",
+    "scikit-learn>=1.3.0",
+    "tqdm>=4.66.0",
+    "numpy",
+    "pyyaml>=6.0.1",
+    "sentencepiece",
+    "sentence-transformers>=2.2.2",
+    "accelerate>=0.26.0",
+    "PyPDF2>=3.0.0",
+    "faiss-cpu>=1.7.4",
+    "nltk>=3.8.1",
+    "loguru>=0.7.0",
+    "bitsandbytes>=0.42.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/merledu/ai4org"
+Issues = "https://github.com/merledu/ai4org/issues"
+
+[tool.setuptools]
+packages = ["hallucination_reduction"]
+
 [tool.black]
 line-length = 88
 target-version = ['py38']
@@ -22,9 +59,9 @@ multi_line_output = 3
 
 [tool.pytest.ini_options]
 pythonpath = [
-    "data_generation_pipeline/data-pipeline/src"
+    "data_generation_pipeline/src"
 ]
 testpaths = [
     "tests",
-    "data_generation_pipeline/data-pipeline/tests"
+    "data_generation_pipeline/tests"
 ]

@@ -66,6 +66,8 @@ def train_discriminator_minibatch(
 
 def evaluate_classifier(cls, tokenizer, texts, labels, device=DEVICE):
     cls.eval()
+    if len(labels) == 0:
+        return {"acc": 0.0, "prec": 0.0, "rec": 0.0, "f1": 0.0}
     preds = []
     for t in texts:
         res = discriminator_predict_text(cls, tokenizer, [t], device=device)[0]
