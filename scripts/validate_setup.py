@@ -12,7 +12,7 @@ from pathlib import Path
 
 # Ensure Unicode symbols (✓ / ✗ / ⚠) print on Windows consoles (cp1252).
 try:
-    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stdout.reconfigure(encoding="utf-8")  # type: ignore[union-attr]
 except (AttributeError, ValueError):
     pass
 
