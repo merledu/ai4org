@@ -40,6 +40,6 @@ repos:
     hooks:
     -   id: custom-hook
         name: Custom Hook
-        entry: python3 pre_commit_hooks/placeholder.py
+        entry: python pre_commit_hooks/placeholder.py
         language: system
         types: [python]

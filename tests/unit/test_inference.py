@@ -1,3 +1,4 @@
+import os
 import unittest
 from unittest.mock import MagicMock, Mock, mock_open, patch
 
@@ -152,7 +153,7 @@ class TestFindBestModel(unittest.TestCase):
 
         result = find_best_model("test_dir")
 
-        self.assertEqual(result, "test_dir/generator_final.pt")
+        self.assertEqual(result, os.path.join("test_dir", "generator_final.pt"))
 
     @patch("os.path.exists")
     @patch("os.listdir")
@@ -167,7 +168,7 @@ class TestFindBestModel(unittest.TestCase):
 
         result = find_best_model("test_dir")
 
-        self.assertEqual(result, "test_dir/generator_best.pt")
+        self.assertEqual(result, os.path.join("test_dir", "generator_best.pt"))
 
     @patch("os.path.exists")
     @patch("os.listdir")
@@ -182,7 +183,7 @@ class TestFindBestModel(unittest.TestCase):
 
         result = find_best_model("test_dir")
 
-        self.assertEqual(result, "test_dir/generator_epoch_5.pt")
+        self.assertEqual(result, os.path.join("test_dir", "generator_epoch_5.pt"))
 
     @patch("os.path.exists")
     @patch("os.listdir")
@@ -193,7 +194,7 @@ class TestFindBestModel(unittest.TestCase):
 
         result = find_best_model("test_dir")
 
-        self.assertEqual(result, "test_dir/generator_custom.pt")
+        self.assertEqual(result, os.path.join("test_dir", "generator_custom.pt"))
 
     @patch("os.path.exists")
     def test_find_best_model_no_directory(self, mock_exists):

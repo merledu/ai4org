@@ -62,9 +62,8 @@ This system is particularly designed for organizational policy documents, bankin
 
 ### 🧪 Testing Infrastructure
 - **Unit Tests**: Comprehensive coverage for core components
-- **Integration Tests**: End-to-end pipeline validation
-- **E2E Tests**: Full system testing
-- **Automated Testing**: pytest-based test suite
+- **Pipeline Tests**: Dedicated tests for the data-generation pipeline
+- **Automated Testing**: pytest-based test suite run in CI on every push/PR
 
 ---
 
@@ -238,7 +237,7 @@ python main.py
 Create training data from policy documents:
 
 ```bash
-cd data_generation_pipeline/data-pipeline
+cd data_generation_pipeline
 
 # Place your PDF/TXT files in data/input/
 python -m cli run \
@@ -293,10 +292,11 @@ pytest tests/
 # Run with coverage report
 pytest --cov=hallucination_reduction --cov-report=html tests/
 
-# Run specific test categories
-pytest tests/unit/              # Unit tests only
-pytest tests/integration/       # Integration tests only
-pytest tests/e2e/              # End-to-end tests only
+# Run only the core unit tests
+pytest tests/unit/
+
+# Run the data-generation pipeline tests
+pytest data_generation_pipeline/tests/
 ```
 
 ### Test Coverage
@@ -359,7 +359,7 @@ SAFETY_WEIGHT = 0.05
 
 ### Data Pipeline Configuration
 
-Edit `data_generation_pipeline/data-pipeline/config/pipeline_config.yaml`:
+Edit `data_generation_pipeline/config/pipeline_config.yaml`:
 
 ```yaml
 chunking:

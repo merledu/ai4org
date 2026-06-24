@@ -27,7 +27,7 @@ The project transforms large policy PDFs into validated Q/A pairs using LLMs (Qw
 ## 📁 Project Structure
 
 ```
-data-pipeline/
+data_generation_pipeline/
 ├── README.md
 ├── pyproject.toml
 ├── requirements.txt

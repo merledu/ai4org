@@ -14,3 +14,4 @@ faiss-cpu>=1.7.4
 nltk>=3.8.1
 loguru>=0.7.0
 bitsandbytes>=0.42.0
+python-dotenv>=1.0.0

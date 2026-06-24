@@ -10,6 +10,12 @@ import os
 import sys
 from pathlib import Path
 
+# Ensure Unicode symbols (✓ / ✗ / ⚠) print on Windows consoles (cp1252).
+try:
+    sys.stdout.reconfigure(encoding="utf-8")  # type: ignore[union-attr]
+except (AttributeError, ValueError):
+    pass
+
 
 def print_header(text):
     """Print a formatted header"""
@@ -73,7 +79,7 @@ def check_optional_packages():
 
     # Check PyWebView for frontend
     try:
-        pass
+        import webview  # noqa: F401
 
         print_check(True, "PyWebView installed (frontend will work)")
     except ImportError:
